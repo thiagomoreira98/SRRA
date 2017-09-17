@@ -1,0 +1,13 @@
+usuarioMongo
+
+srra_api/node_modules
+srra_web/node_modules
+
+srra_api/.vscode
+srra_web/.vscode
+
+srra_api/.idea
+srra_web/.idea
+
+srra_api/config/config.js
+
