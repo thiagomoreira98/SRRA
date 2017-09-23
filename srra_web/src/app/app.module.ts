@@ -6,15 +6,20 @@ import { SMNUIModule } from 'ng-smn-ui';
 
 import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { RecursoModule } from './recurso/recurso.module';
+import { NavComponent } from './nav/nav.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,
-    SMNUIModule
+    SMNUIModule,
+    RecursoModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],

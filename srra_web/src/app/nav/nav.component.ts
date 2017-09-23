@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate} from '@angular/animations';
 
-import { NavComponent } from '../nav/nav.component';
-
 @Component({
-  selector: 'app-toolbar',
-  templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.scss'],
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.scss'],
   animations: [
     trigger('slideInOut', [
       state('in', style({
@@ -20,15 +18,15 @@ import { NavComponent } from '../nav/nav.component';
     ]),
   ]
 })
-export class ToolbarComponent implements OnInit {
+export class NavComponent implements OnInit {
+
+  menuState: string = 'out';
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  menuState: string = 'out';
-  
   toogleSidenav() {
     // 1-line if statement that toggles the value:
     this.menuState = this.menuState === 'out' ? 'in' : 'out';

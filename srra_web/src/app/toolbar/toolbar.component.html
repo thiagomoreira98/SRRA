@@ -1,6 +1,6 @@
 <div>
     <ui-toolbar class="primary">
-        <button class="ui-button flat icon" uiRipple>
+        <button class="ui-button flat icon" uiRipple (click)="toogleSidenav()">
             <i class="material-icons">menu</i>
         </button>
         <img class="logo"
@@ -15,3 +15,5 @@
         </div>
     </ui-toolbar>
 </div>
+
+<app-nav [@slideInOut]="menuState"></app-nav>

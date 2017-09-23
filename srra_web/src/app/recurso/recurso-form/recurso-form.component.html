@@ -1,0 +1,67 @@
+<div class="ui-s960">
+	<ui-card>
+		<ui-toolbar class="flat">
+			<span class="title">Cadastro de Recurso</span>
+		</ui-toolbar>
+
+		<form (ngSubmit)="onSubmit()">
+			<ui-card-content>
+				<div class="ui-flex-container break-on-s960">
+					<ui-input-container>
+						<input type="number" [(ngModel)]="recurso.codigo" name="codigo" uiInput>
+						<label>Codigo</label>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input type="text" [(ngModel)]="recurso.nome" name="nome" uiInput>
+						<label>Nome</label>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input type="number" [(ngModel)]="recurso.quantidade" name="quantidade" uiInput>
+						<label>Quantidade</label>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s960">
+					<ui-input-container>
+						<input type="text" [(ngModel)]="recurso.descricao" name="descricao" uiInput>
+						<label>Descrição</label>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input type="text" [(ngModel)]="recurso.itens" name="itens" uiInput>
+						<label>itens</label>
+					</ui-input-container>
+
+					<button class="ui-button raised primary fab" uiRipple>
+						<i class="material-icons">add</i>
+					</button>
+				</div>
+
+				<div class="ui-flex-container break-on-s960">
+					<ui-option-container class="v-space-4 b-space-16">
+						<ui-option>
+							<input type="checkbox" name="inativo" [(ngModel)]="recurso.inativo" [checked]="inativo">
+							<span>Inativo </span>
+						</ui-option>
+					</ui-option-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s960">
+					<ui-option-container class="v-space-4 b-space-16">
+						<ui-option>
+							<input type="checkbox" name="manutencao" [(ngModel)]="recurso.manutencao" [checked]="manutencao">
+							<span>Em Manutenção </span>
+						</ui-option>
+					</ui-option-container>
+				</div>
+			</ui-card-content>
+
+			<div class="ui-button-container cover">
+				<button type="subimit" class="ui-button raised primary" uiRipple>Salvar</button>
+				<button class="ui-button raised error" uiRipple>Cancelar</button>
+			</div>
+		</form>
+	</ui-card>
+</div>
