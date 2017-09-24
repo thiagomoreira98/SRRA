@@ -3,34 +3,39 @@ const scope = require('./recursoScope');
 
 module.exports = {
     selecionar,
-    // inserir,
-    // alterar,
-    // deletar
+    buscar,
+    inserir,
+    alterar,
+    deletar
 }
 
-async function selecionar(req, res, next) {
+async function selecionar(req, res) {
     let response = await repository.selecionar();
-    // res.finish(new global.responseOk(200, response));
-    res.json(response);
+    res.finish(new global.responseOk(200, response))
 }
 
-async function inserir(req, res, next) {
+async function buscar(req, res) {
+    let response = await repository.buscar(req.params.id);
+    res.finish(new global.responseOk(200, response))
+}
+
+async function inserir(req, res) {
     // if(!scope.verificar)
     //     return res.finish(req.errors);
 
     await repository.inserir(req.body);
-    // res.finish(new global.responseOk(200))
+    res.finish(new global.responseOk(200))
 }
 
-// async function alterar(req, res, next) {
-//     if(!scope.verificar)
-//     return res.finish(req.errors);
+async function alterar(req, res) {
+    // if(!scope.verificar)
+    // return res.finish(req.errors);
 
-//     await repository.alterar(req.body);
-//     res.finish(new global.responseOk(200));
-// }
+    await repository.alterar(req.params.id, req.body);
+    res.finish(new global.responseOk(200));
+}
 
-// async function deletar(req, res, next) {
-//     await repository.deletar(req.params.id);
-//     res.finish(new global.responseOk(200));
-// }
+async function deletar(req, res) {
+    await repository.deletar(req.params.id);
+    res.finish(new global.responseOk(200));
+}

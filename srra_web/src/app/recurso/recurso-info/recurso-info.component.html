@@ -6,11 +6,11 @@
 
 		<pre>{{ recurso | json }}</pre>
 
-		<form (ngSubmit)="onSubmit()">
+		<form (ngSubmit)="alterarRecurso()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
-						<input type="number" [(ngModel)]="recurso.codigo" name="codigo" uiInput>
+						<input type="number" [(ngModel)]="recurso.codigo" name="codigo"uiInput>
 						<label>Codigo</label>
 					</ui-input-container>
 
@@ -32,8 +32,8 @@
 					</ui-input-container>
 
 					<button class="ui-button raised primary fab" uiRipple>
-							  <i class="material-icons">add</i>
-						</button>
+              			<i class="material-icons">add</i>
+					</button>
 				</div>
 
 				<div class="ui-flex-container break-on-s960">
@@ -42,7 +42,7 @@
 							Status
 						</div>
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="1">
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="1"> 
 							<span>Disponivel</span>
 						</ui-option>
 						<ui-option>
@@ -66,12 +66,12 @@
 				<ui-card-content>
 					<div class="ui-flex-container break-on-s960">
 						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivoManutencao" uiInput>
+							<input type="text" [(ngModel)]="recurso.manutencao" name="motivoManutencao" uiInput>
 							<label>motivo</label>
 						</ui-input-container>
-
+		
 						<ui-input-container>
-							<input type="date" [(ngModel)]="recurso.data" name="dataManutencao" uiInput>
+							<input type="date" [(ngModel)]="recurso.manutencao" name="dataManutencao" uiInput>
 							<label>data</label>
 						</ui-input-container>
 					</div>
@@ -86,13 +86,13 @@
 				<ui-card-content>
 					<div class="ui-flex-container break-on-s960">
 						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivoInativo" uiInput>
+							<input type="text" [(ngModel)]="recurso.inativo" name="motivoInativo" uiInput>
 							<label>Descrição</label>
 						</ui-input-container>
-
+		
 						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.data" name="dataInativo" uiInput>
-							<label>data</label>
+							<input type="text" [(ngModel)]="recurso.inativo" name="dataInativo" uiInput>
+							<label>itens</label>
 						</ui-input-container>
 					</div>
 				</ui-card-content>

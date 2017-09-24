@@ -21,7 +21,12 @@ export class RecursoGridComponent implements OnInit {
 
   getRecursos(): any {
     this.recursoService.getRecursos().subscribe( data => {
-      this.recursos = data;
+      this.recursos = data.content;
     });
+  }
+
+  deleteRecurso(id): any {
+    console.log(id);
+    this.recursoService.deleteRecurso(id);
   }
 }

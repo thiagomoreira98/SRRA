@@ -63,17 +63,16 @@
                     </td>
 
                     <td class="align-right">
-                        <button class="ui-button flat icon" uiRipple>
-                            <i class="material-icons">visibility</i>
-                        </button>
+                        <div *ngFor="let recurso of recursos">
+                            <button class="ui-button flat icon" uiRipple
+                                [routerLink] = "['/recurso-info', recurso._id]">
+                                <i class="material-icons">edit</i>
+                            </button>
 
-                        <button class="ui-button flat icon" uiRipple>
-                            <i class="material-icons">edit</i>
-                        </button>
-
-                        <button class="ui-button flat icon" uiRipple>
-                            <i class="material-icons">delete</i>
-                        </button>
+                            <button class="ui-button flat icon" uiRipple (click)="deleteRecurso(recurso._id)">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>

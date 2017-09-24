@@ -4,9 +4,9 @@ let recursoSchema = mongoose.Schema({
     "codigo": Number,
     "nome": String,
     "descricao": String,
-    "quantidade": Number,
-    "inativo": Boolean,
-    "manutencao": Boolean,
+    "status": Boolean,
+    "inativo": {},
+    "manutencao": {},
     "itens": []
 })
 

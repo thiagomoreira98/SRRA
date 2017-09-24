@@ -10,7 +10,7 @@ import { RecursoService } from '../recurso.service';
 })
 export class RecursoFormComponent implements OnInit {
 
-  recurso: any = {};
+  recurso: any = {}
 
   constructor(private recursoService : RecursoService) { }
 
@@ -18,6 +18,7 @@ export class RecursoFormComponent implements OnInit {
   }
 
   onSubmit(){
+    console.log(this.recurso);
     this.recursoService.postRecurso(this.recurso);
   }
 
