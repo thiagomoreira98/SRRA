@@ -45,6 +45,7 @@
                         
                     </th>
                 </tr>
+                
                 <tr *ngFor="let recurso of recursos">
                     <td>
                         {{recurso.codigo}}
@@ -63,16 +64,14 @@
                     </td>
 
                     <td class="align-right">
-                        <div *ngFor="let recurso of recursos">
-                            <button class="ui-button flat icon" uiRipple
-                                [routerLink] = "['/recurso-info', recurso._id]">
-                                <i class="material-icons">edit</i>
-                            </button>
+                        <button class="ui-button flat icon" uiRipple
+                            [routerLink] = "['/recurso-info', recurso._id]">
+                            <i class="material-icons">edit</i>
+                        </button>
 
-                            <button class="ui-button flat icon" uiRipple (click)="deleteRecurso(recurso._id)">
-                                <i class="material-icons">delete</i>
-                            </button>
-                        </div>
+                        <button class="ui-button flat icon" uiRipple (click)="deleteRecurso(recurso._id)">
+                            <i class="material-icons">delete</i>
+                        </button>
                     </td>
                 </tr>
             </tbody>

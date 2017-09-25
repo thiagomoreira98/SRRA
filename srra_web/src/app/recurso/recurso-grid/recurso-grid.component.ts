@@ -7,8 +7,9 @@ import { RecursoService } from '../recurso.service';
   selector: 'app-recurso-grid',
   templateUrl: './recurso-grid.component.html',
   styleUrls: ['./recurso-grid.component.scss'],
-  providers: [ RecursoService ]
+  //providers: [ RecursoService ]
 })
+
 export class RecursoGridComponent implements OnInit {
 
   recursos: any = [];

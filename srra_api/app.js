@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const app = express();
 const db = require('./config/database');
 
@@ -14,7 +15,7 @@ db(global.config.mongoDb.connectionString());
 })();
 
 (function loadMiddleware() {
-    app.use(require('./src/api/middleware/cors.js'));
+    app.use(cors());
 })();
 
 (function loadRoutes() {

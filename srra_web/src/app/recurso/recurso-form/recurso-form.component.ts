@@ -6,7 +6,7 @@ import { RecursoService } from '../recurso.service';
   selector: 'app-recurso-form',
   templateUrl: './recurso-form.component.html',
   styleUrls: ['./recurso-form.component.scss'],
-  providers: [ RecursoService ]
+  //providers: [ RecursoService ]
 })
 export class RecursoFormComponent implements OnInit {
 
