@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const schema = require('./laboratorioSchema');
+const schema = require('./ocorrenciaSchema');
 
 module.exports = {
     selecionar,
@@ -17,8 +17,8 @@ function selecionar(callback) {
     });
 }
 
-function inserir(laboratorio, callback) {
-    new schema(laboratorio).save( (err, data) => {
+function inserir(ocorrencia, callback) {
+    new schema(ocorrencia).save( (err, data) => {
         if(err)
             return res.status(500).json(err);
 
@@ -26,14 +26,14 @@ function inserir(laboratorio, callback) {
     });
 }
 
-function alterar(id, laboratorioNew, callback) {
+function alterar(id, ocorrenciaNew, callback) {
     schema.findById(id, (err, data) => {
         if(err)
             return callback(err);
         
         for(item in data) {
             if(item != "_id")
-                data[item] = laboratorioNew[item]
+                data[item] = ocorrenciaNew[item]
         }
 
         data.save( (err, data) => {

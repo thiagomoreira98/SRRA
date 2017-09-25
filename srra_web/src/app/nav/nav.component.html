@@ -1,5 +1,4 @@
 <nav>
-    
     <ui-toolbar class="flat"><header>
 
         <button class="ui-button flat icon" uiRipple (click)="toogleSidenav()">
@@ -13,12 +12,21 @@
 </ui-toolbar>
     <div class="ui-nav-drawer-overflow">
         <div class="ui-list">
+            <!-- home -->
             <a class="ui-list-item" routerlink="/home" href="/home" uiripple>Home</a>
-            <a class="ui-list-item" routerlink="/recurso-grid" href="/recurso-grid" uiripple>RecursoGrid</a>
-            <a class="ui-list-item" routerlink="/recurso-form" href="/recurso-form" uiripple>RecursoForm</a>
+            <!-- recursos -->
+            <a class="ui-list-item" routerlink="/recursos" href="/recursos" uiripple>Recursos</a>
+            <a class="ui-list-item" routerlink="/recursos/cadastrar" href="/recursos/cadastrar" uiripple>Cadastrar Recurso</a>
+            <!-- docentes -->
+            <a class="ui-list-item" routerlink="/docentes" href="/docentes" uiripple>Docentes</a>
+            <a class="ui-list-item" routerlink="/docentes/cadastrar" href="/docentes/cadastrar" uiripple>Cadastrar Docentes</a>
+            <!-- laboratorios -->
+            <a class="ui-list-item" routerlink="/laboratorios" href="/laboratorios" uiripple>Laboratorios</a>
+            <a class="ui-list-item" routerlink="/laboratorios/cadastrar" href="/laboratorios/cadastrar" uiripple>Cadastrar Laboratorio</a>
             
-            <!-- <a class="ui-list-item" routerlink="/" uiripple="" ng-reflect-router-link="/" ng-reflect-router-link-active-options="[object Object]" ng-reflect-router-link-active="active" href="/">Home<div class="ui-ripple-container" style="width: 305px; height: 48px; border-spacing: 1px;"></div></a> -->
+            <!-- ocorrencias -->
+            <a class="ui-list-item" routerlink="/ocorrencias" href="/ocorrencias" uiripple>Ocorrencias</a>
+            <a class="ui-list-item" routerlink="/ocorrencias/cadastrar" href="/ocorrencias/cadastrar" uiripple>Cadastrar Ocorrencia</a>
         </div>
     </div>
-
 </nav>

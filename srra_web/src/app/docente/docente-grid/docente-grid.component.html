@@ -1,9 +1,9 @@
 <div class="ui-s960">
     <ui-card>
-        <ui-toolbar class="flat">
-            <span class="title" [ngClass]="{'hide': searchOpen}">Recursos Disponiveis</span>
+        <!-- <ui-toolbar class="flat">
+            <span class="title" [ngClass]="{'hide': searchOpen}">Docentes Disponiveis</span>
             <div class="align-right">
-                <!-- <form #searchForm="ngForm" name="searchForm" class="ui-validate on-dirty" [ngClass]="{'open': searchOpen}">
+                <form #searchForm="ngForm" name="searchForm" class="ui-validate on-dirty" [ngClass]="{'open': searchOpen}">
                     <ui-input-container>
                         <input #searchFormText="ngModel" type="text" name="searchText" [(ngModel)]="searchText" uiMaxlength="200" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
                         <div class="ui-messages">
@@ -14,19 +14,18 @@
                             </div>
                         </div>
                     </ui-input-container>
-                </form> -->
+                </form>
                 <button class="ui-button flat icon" uiRipple (click)="toggleSearch()">
                     <i class="material-icons">search</i>
                 </button>
-
             </div>
-        </ui-toolbar>
+        </ui-toolbar> -->
 
         <ui-data-table>
             <tbody>
                 <tr>
                     <th>
-                        Código
+                        Matricula
                     </th>
 
                     <th>
@@ -34,42 +33,42 @@
                     </th>
 
                     <th class="align-right">
-                        Descrição
+                        CPF
                     </th>
 
                     <th class="align-right">
-                        Quantidade
+                        E-mail
                     </th>
 
                     <th class="align-right">
-                        
+                      
                     </th>
                 </tr>
                 
-                <tr *ngFor="let recurso of recursos">
+                <tr *ngFor="let docente of docentes">
                     <td>
-                        {{recurso.codigo}}
+                        {{docente.matricula}}
                     </td>
 
                     <td>
-                        {{recurso.nome}}
+                        {{docente.nome}}
                     </td>
 
                     <td class="align-right">
-                        {{recurso.descricao}}
+                        {{docente.cpf}}
                     </td>
 
                     <td class="align-right">
-                        {{recurso.quantidade}}
+                        {{docente.email}}
                     </td>
 
                     <td class="align-right">
                         <button class="ui-button flat icon" uiRipple
-                            [routerLink] = "['/recursos/info', recurso._id]">
+                            [routerLink] = "['/docentes/info', docente._id]">
                             <i class="material-icons">edit</i>
                         </button>
 
-                        <button class="ui-button flat icon" uiRipple (click)="deleteRecurso(recurso._id)">
+                        <button class="ui-button flat icon" uiRipple (click)="deleteDocente(docente._id)">
                             <i class="material-icons">delete</i>
                         </button>
                     </td>

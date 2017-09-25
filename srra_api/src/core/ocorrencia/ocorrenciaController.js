@@ -1,5 +1,5 @@
-const repository = require('./recursoRepository');
-const scope = require('./recursoScope');
+const repository = require('./ocorrenciaRepository');
+const scope = require('./ocorrenciaScope');
 
 module.exports = {
     selecionar,

@@ -33,7 +33,7 @@ function alterar(id, docenteNew, callback) {
         
         for(item in data) {
             if(item != "_id")
-                data[item] = recursoNew[item]
+                data[item] = docenteNew[item]
         }
 
         data.save( (err, data) => {

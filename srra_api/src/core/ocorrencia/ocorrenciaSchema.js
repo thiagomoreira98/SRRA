@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-let laboratorioSchema = mongoose.Schema({
+let ocorrenciaSchema = mongoose.Schema({
     // "matricula": Number,
     // "cpf": Number,
     // "nome": String,
@@ -8,4 +8,4 @@ let laboratorioSchema = mongoose.Schema({
     // "senha": Number
 })
 
-module.exports = mongoose.model('srra-laboratorio', laboratorioSchema);
+module.exports = mongoose.model('srra-docente', ocorrenciaSchema);

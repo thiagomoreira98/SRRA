@@ -3,34 +3,53 @@ const schema = require('./recursoSchema');
 
 module.exports = {
     selecionar,
-    buscar,
     inserir,
     alterar,
     deletar
 }
 
-async function selecionar() {
-    return schema.find();
+function selecionar(callback) {
+    schema.find( (err, data) => {
+        if(err)
+            return callback(err);
+
+        callback(data);
+    });
 }
 
-async function buscar(id) {
-    return schema.findById(id);
+function inserir(recurso, callback) {
+    new schema(recurso).save( (err, data) => {
+        if(err)
+            return res.status(500).json(err);
+
+        res.status(200).json({message: 'Inserido com Sucesso!'});
+    });
 }
 
-async function inserir(recurso) {
-    await new schema(recurso).save();
+function alterar(id, recursoNew, callback) {
+    schema.findById(id, (err, data) => {
+        if(err)
+            return callback(err);
+        
+        for(item in data) {
+            if(item != "_id")
+                data[item] = recursoNew[item]
+        }
+
+        data.save( (err, data) => {
+            if(err)
+                return callback(err)
+            
+            callback(data);
+        });
+    });    
 }
 
-async function alterar(id, recursoNew) {
-    let recursoOld = await schema.findById(id);
-    
-    for(item in recursoOld) {
-        recursoOld.item = recursoNew.item
-    }
-    
-    recursoOld.save();
-}
+function deletar(id, callback) {
+    schema.findByIdAndRemove(id, (err, data) => {
+        if(err)
+            return callback(err);
 
-async function deletar(id) {
-    return schema.findByIdAndRemove(id);
+        callback(data);
+    });
 }
