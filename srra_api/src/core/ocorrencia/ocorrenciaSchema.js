@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 
 let ocorrenciaSchema = mongoose.Schema({
-    // "matricula": Number,
-    // "cpf": Number,
-    // "nome": String,
-    // "email": String,
-    // "senha": Number
+    "recurso": {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'srra-recurso'
+    },
+    "ocorrencia": String,
+    "horario": Date,
+    "docente": {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'srra-docente'
+    }
 })
 
-module.exports = mongoose.model('srra-docente', ocorrenciaSchema);
+module.exports = mongoose.model('srra-ocorrencia', ocorrenciaSchema);

@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
-const schema = require('./recursoSchema');
+const Schema = require('./recursoSchema');
 
 module.exports = {
     selecionar,
+    buscar,
     inserir,
     alterar,
     deletar
 }
 
 function selecionar(callback) {
-    schema.find( (err, data) => {
+    Schema.find( (err, data) => {
         if(err)
             return callback(err);
 
@@ -17,8 +18,18 @@ function selecionar(callback) {
     });
 }
 
+function buscar(id, callback) {
+    Schema.findById(id, (err, data) => {
+        if(err)
+            return callback(err);
+
+        callback(data);
+    });
+}
+
+
 function inserir(recurso, callback) {
-    new schema(recurso).save( (err, data) => {
+    new Schema(recurso).save( (err, data) => {
         if(err)
             return res.status(500).json(err);
 
@@ -27,26 +38,16 @@ function inserir(recurso, callback) {
 }
 
 function alterar(id, recursoNew, callback) {
-    schema.findById(id, (err, data) => {
+    Schema.findByIdAndUpdate(id, recursoNew).then( (err, data) => {
         if(err)
             return callback(err);
-        
-        for(item in data) {
-            if(item != "_id")
-                data[item] = recursoNew[item]
-        }
 
-        data.save( (err, data) => {
-            if(err)
-                return callback(err)
-            
-            callback(data);
-        });
-    });    
+        callback(data);
+    }) 
 }
 
 function deletar(id, callback) {
-    schema.findByIdAndRemove(id, (err, data) => {
+    Schema.findByIdAndRemove(id, (err, data) => {
         if(err)
             return callback(err);
 

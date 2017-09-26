@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
 
 let laboratorioSchema = mongoose.Schema({
-    // "matricula": Number,
-    // "cpf": Number,
-    // "nome": String,
-    // "email": String,
+    "nome": String,
+    "descricao": String,
     // "senha": Number
 })
 

@@ -27,7 +27,21 @@ function buscar(req, res) {
     })
 }
 
+function inserir(req, res) {
+    //if(!scope.verificarDados)
+        //return res.status(406).json(req.errors)
+
+    repository.inserir(req.body, (err, data) => {
+        if(err)
+            return res.status(500).json(err)
+
+        res.status(200).json({message: 'Inserido com Sucesso!'});
+    })
+}
+
 function alterar(req, res) {
+    //if(!scope.verificarDados)
+        //return res.status(406).json(req.errors)
     repository.alterar(req.params.id, req.body, (err, data) => {
         if(err)
             return res.status(500).json(err);

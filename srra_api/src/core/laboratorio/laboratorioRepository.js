@@ -1,15 +1,34 @@
 const mongoose = require('mongoose');
-const schema = require('./laboratorioSchema');
+const Schema = require('./laboratorioSchema');
 
 module.exports = {
     selecionar,
+    buscar,
     inserir,
     alterar,
     deletar
 }
 
 function selecionar(callback) {
-    schema.find( (err, data) => {
+    Schema.find( (err, data) => {
+        if(err)
+            return callback(err);
+
+        callback(data);
+    });
+}
+
+function buscar(callback) {
+    Schema.findById(req.params.id, (err, data) => {
+        if(err)
+            return callback(err);
+
+        callback(data);
+    });
+}
+
+function selecionar(id, callback) {
+    Schema.findById(id, (err, data) => {
         if(err)
             return callback(err);
 
@@ -18,7 +37,7 @@ function selecionar(callback) {
 }
 
 function inserir(laboratorio, callback) {
-    new schema(laboratorio).save( (err, data) => {
+    new Schema(laboratorio).save( (err, data) => {
         if(err)
             return res.status(500).json(err);
 
@@ -27,7 +46,7 @@ function inserir(laboratorio, callback) {
 }
 
 function alterar(id, laboratorioNew, callback) {
-    schema.findById(id, (err, data) => {
+    Schema.findById(id, (err, data) => {
         if(err)
             return callback(err);
         
@@ -46,7 +65,7 @@ function alterar(id, laboratorioNew, callback) {
 }
 
 function deletar(id, callback) {
-    schema.findByIdAndRemove(id, (err, data) => {
+    Schema.findByIdAndRemove(id, (err, data) => {
         if(err)
             return callback(err);
 
