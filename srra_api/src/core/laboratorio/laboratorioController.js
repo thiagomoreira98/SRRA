@@ -15,7 +15,7 @@ function selecionar(req, res) {
             return res.status(500).json(err);
 
         res.status(200).json(data);
-    })
+    });
 }
 
 function buscar(req, res) {

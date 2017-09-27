@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { DocenteService } from '../docente.service';
 
 @Component({
   selector: 'app-docente-grid',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DocenteGridComponent implements OnInit {
 
-  constructor() { }
+  docentes: any = [];
+
+  constructor(private docenteService: DocenteService) { }
 
   ngOnInit() {
+    this.getDocentes();
+  }
+
+  getDocentes(): any {
+    this.docenteService.getDocentes().subscribe( data => {
+      this.docentes = data;
+    });
+  }
+
+  deleteDocente(id): any {
+    console.log(id);
+    this.docenteService.deleteDocente(id);
   }
 
 }

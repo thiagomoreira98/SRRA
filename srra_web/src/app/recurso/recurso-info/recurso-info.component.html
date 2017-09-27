@@ -1,6 +1,9 @@
 <div class="ui-s960">
 	<ui-card>
 		<ui-toolbar class="flat">
+			<button class="ui-button flat icon" routerLink="/recursos" href="/recursos" uiRipple>
+				<i class="material-icons">arrow_back</i>	
+			</button>
 			<span class="title">Cadastro de Recurso</span>
 		</ui-toolbar>
 
@@ -10,7 +13,7 @@
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
-						<input type="number" [(ngModel)]="recurso.codigo" name="codigo"uiInput>
+						<input type="number" [(ngModel)]="recurso.codigo" name="codigo" uiInput>
 						<label>Codigo</label>
 					</ui-input-container>
 
@@ -42,7 +45,7 @@
 							Status
 						</div>
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="1"> 
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="1">
 							<span>Disponivel</span>
 						</ui-option>
 						<ui-option>
@@ -69,7 +72,7 @@
 							<input type="text" [(ngModel)]="recurso.manutencao" name="motivoManutencao" uiInput>
 							<label>motivo</label>
 						</ui-input-container>
-		
+
 						<ui-input-container>
 							<input type="date" [(ngModel)]="recurso.manutencao" name="dataManutencao" uiInput>
 							<label>data</label>
@@ -89,7 +92,7 @@
 							<input type="text" [(ngModel)]="recurso.inativo" name="motivoInativo" uiInput>
 							<label>Descrição</label>
 						</ui-input-container>
-		
+
 						<ui-input-container>
 							<input type="text" [(ngModel)]="recurso.inativo" name="dataInativo" uiInput>
 							<label>itens</label>

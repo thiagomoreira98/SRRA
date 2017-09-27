@@ -1,5 +1,6 @@
 @import "~ng-smn-ui/core/core";
 @import "~ng-smn-ui/core/theme";
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 $primary: (color: 'indigo', hue: '500');
 $accent: (color: 'pink', hue: '400');

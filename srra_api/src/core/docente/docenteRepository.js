@@ -14,7 +14,7 @@ function selecionar(callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }
 
@@ -23,16 +23,16 @@ function buscar(id, callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }
 
 function inserir(docente, callback) {
     new Schema(docente).save( (err, data) => {
         if(err)
-            return res.status(500).json(err);
+            return callback(err);
 
-        res.status(200).json(data);
+        callback(null, data);
     });
 }
 
@@ -41,7 +41,7 @@ function alterar(id, docenteNew, callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     })  
 }
 
@@ -50,6 +50,6 @@ function deletar(id, callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }

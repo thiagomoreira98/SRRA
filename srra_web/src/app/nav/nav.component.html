@@ -1,32 +1,124 @@
-<nav>
-    <ui-toolbar class="flat"><header>
+<ui-toolbar class="primary">
+    <button class="ui-button flat icon" uiRipple (click)="sidenav.open()">
+                <i class="material-icons">menu</i>
+            </button>
+    <!-- <img class="logo" src="http://smn.com.br/content/img/logotipo/light-lying.svg" alt=""> -->
+    <span class="title">SRRA</span>
 
-        <button class="ui-button flat icon" uiRipple (click)="toogleSidenav()">
-                <i class="material-icons">arrow_back</i>
+    <div class="align-right">
+        <button class="ui-button flat icon" uiRipple>
+            <i class="material-icons">notifications</i>
+            <span class="badge">1</span>
         </button>
-        
-        <span class="title">Selection Control</span>
-    
-</header>
-<div class="ui-toolbar-space"></div>
-</ui-toolbar>
-    <div class="ui-nav-drawer-overflow">
-        <div class="ui-list">
-            <!-- home -->
-            <a class="ui-list-item" routerlink="/home" href="/home" uiripple>Home</a>
-            <!-- recursos -->
-            <a class="ui-list-item" routerlink="/recursos" href="/recursos" uiripple>Recursos</a>
-            <a class="ui-list-item" routerlink="/recursos/cadastrar" href="/recursos/cadastrar" uiripple>Cadastrar Recurso</a>
-            <!-- docentes -->
-            <a class="ui-list-item" routerlink="/docentes" href="/docentes" uiripple>Docentes</a>
-            <a class="ui-list-item" routerlink="/docentes/cadastrar" href="/docentes/cadastrar" uiripple>Cadastrar Docentes</a>
-            <!-- laboratorios -->
-            <a class="ui-list-item" routerlink="/laboratorios" href="/laboratorios" uiripple>Laboratorios</a>
-            <a class="ui-list-item" routerlink="/laboratorios/cadastrar" href="/laboratorios/cadastrar" uiripple>Cadastrar Laboratorio</a>
-            
-            <!-- ocorrencias -->
-            <a class="ui-list-item" routerlink="/ocorrencias" href="/ocorrencias" uiripple>Ocorrencias</a>
-            <a class="ui-list-item" routerlink="/ocorrencias/cadastrar" href="/ocorrencias/cadastrar" uiripple>Cadastrar Ocorrencia</a>
-        </div>
     </div>
-</nav>
+</ui-toolbar>
+
+<md-sidenav #sidenav class="sidenav">
+    <button class="ui-button flat icon" uiRipple (click)="sidenav.close()">
+        <i class="material-icons">arrow_back</i>
+    </button>
+    <div class="ui-list">
+        <md-list>
+            <md-list-item> SRRA </md-list-item>
+            <md-divider></md-divider>
+
+            <!-- Home -->
+            <md-list-item>
+                <a class="ui-list-item" routerlink="/home" href="/home">
+                    <i class="material-icons" style="margin-right: 10px">home</i>
+                    Home
+                </a>
+            </md-list-item>
+
+            <!-- Docentes -->
+            <md-expansion-panel>
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        <a class="ui-list-item">Docentes</a>
+                    </md-panel-title>
+                </md-expansion-panel-header>
+                <md-list-item>
+                    <a class="ui-list-item" routerlink="/docentes" href="/docentes">
+                        <i class="material-icons" style="margin-right: 10px">person</i>
+                        Mostrar Docentes
+                    </a>
+                </md-list-item>
+
+                <md-list-item>
+                    <a class="ui-list-item" routerlink="/docentes/cadastrar" href="/docentes/cadastrar">
+                        <i class="material-icons" style="margin-right: 10px">person_add</i>
+                        Cadastrar Docente
+                    </a>
+                </md-list-item>
+            </md-expansion-panel>
+
+            <!-- Recursos -->
+            <md-expansion-panel>
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        <a class="ui-list-item">Recursos</a>
+                    </md-panel-title>
+                </md-expansion-panel-header>
+                <md-list-item>
+                    <a class="ui-list-item" routerlink="/recursos" href="/recursos">
+                        <i class="material-icons" style="margin-right: 10px">computer</i>
+                        Mostrar Recursos
+                    </a>
+                </md-list-item>
+
+                <md-list-item>
+                    <a class="ui-list-item" routerlink="/recursos/cadastrar" href="/recursos/cadastrar">
+                        <i class="material-icons" style="margin-right: 10px">add_box</i>
+                        Cadastrar Recurso
+                    </a>
+                </md-list-item>
+            </md-expansion-panel>
+
+            <!-- Laboratorios -->
+            <md-expansion-panel>
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        <a class="ui-list-item">Laboratorios</a>
+                    </md-panel-title>
+                </md-expansion-panel-header>
+                <md-list-item>
+                    <a class="ui-list-item" routerlink="/laboratorios" href="/laboratorios">
+                            <i class="material-icons" style="margin-right: 10px">desktop_windows</i>
+                            Mostrar Laboratorios
+                        </a>
+                </md-list-item>
+
+                <md-list-item>
+                    <a class="ui-list-item" routerlink="/laboratorios/cadastrar" href="/laboratorios/cadastrar">
+                            <i class="material-icons" style="margin-right: 10px">add_box</i>
+                            Cadastrar Laboratorio
+                        </a>
+                </md-list-item>
+            </md-expansion-panel>
+
+            <!-- Ocorrencia de Uso -->
+            <md-expansion-panel>
+                <md-expansion-panel-header>
+                    <md-panel-title>
+                        <a class="ui-list-item">Ocorrências De Uso</a>
+                    </md-panel-title>
+                </md-expansion-panel-header>
+                <md-list-item>
+                    <a class="ui-list-item" routerlink="/ocorrencias" href="/ocorrencias">
+                            <i class="material-icons" style="margin-right: 10px">desktop_windows</i>
+                            Mostrar Ocorrências
+                        </a>
+                </md-list-item>
+
+                <md-list-item>
+                    <a class="ui-list-item" routerlink="/ocorrencias/cadastrar" href="/ocorrencias/cadastrar">
+                            <i class="material-icons" style="margin-right: 10px">add_box</i>
+                            Cadastrar Ocorrência
+                        </a>
+                </md-list-item>
+            </md-expansion-panel>
+        </md-list>
+    </div>
+</md-sidenav>
+
+<router-outlet></router-outlet>

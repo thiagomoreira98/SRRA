@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { LaboratorioService } from '../laboratorio.service';
 
 @Component({
   selector: 'app-laboratorio-grid',
@@ -7,9 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LaboratorioGridComponent implements OnInit {
 
-  constructor() { }
+  laboratorios: any = [];
+  
+  constructor(private laboratorioService: LaboratorioService) { }
 
   ngOnInit() {
+    this.getLaboratorios();
+  }
+
+  getLaboratorios(): any {
+    this.laboratorioService.getLaboratorios().subscribe( data => {
+      this.laboratorios = data;
+    });
+  }
+
+  deleteLaboratorio(id): any {
+    console.log(id);
+    this.laboratorioService.deleteLaboratorio(id);
   }
 
 }

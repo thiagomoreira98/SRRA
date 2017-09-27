@@ -8,7 +8,7 @@ export class OcorrenciaService {
 
   constructor(private http: HttpClient) { }
   
-    getOcorrencia(): any {
+    getOcorrencias(): any {
       return this.http.get(environment.urlApi + '/api/ocorrencia');
     }
   

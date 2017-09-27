@@ -1,21 +1,24 @@
-:host {
-  background: rgba(255, 255, 255, 0.24);
-  color: #fff;
-  position: fixed;
-  left: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 20%;
-  min-width: 250px;
-  z-index: 9999;
-  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-}
- 
-ul {
-  font-size: 18px;
-  line-height: 3;
-  font-weight: 400;
-  padding-top: 50px;
-  list-style: none;
-}
+
+  .sidenav {
+    padding: 20px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    max-width: 320px;
+    width: 100%;   
+    position: absolute;
+    z-index: 1000;
+  }
+  
+  a, i:hover {
+    cursor:pointer;
+   }
+
+// md-toolbar {
+//   background: #3f51b5;
+//   top: 0;
+// }
+
+// #spnTitulo {
+//   padding: 20px;
+// }

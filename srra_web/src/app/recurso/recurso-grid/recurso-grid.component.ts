@@ -6,8 +6,7 @@ import { RecursoService } from '../recurso.service';
 @Component({
   selector: 'app-recurso-grid',
   templateUrl: './recurso-grid.component.html',
-  styleUrls: ['./recurso-grid.component.scss'],
-  //providers: [ RecursoService ]
+  styleUrls: ['./recurso-grid.component.scss']
 })
 
 export class RecursoGridComponent implements OnInit {
@@ -22,7 +21,7 @@ export class RecursoGridComponent implements OnInit {
 
   getRecursos(): any {
     this.recursoService.getRecursos().subscribe( data => {
-      this.recursos = data.content;
+      this.recursos = data;
     });
   }
 

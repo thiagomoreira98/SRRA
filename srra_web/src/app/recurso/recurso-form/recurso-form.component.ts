@@ -5,8 +5,7 @@ import { RecursoService } from '../recurso.service';
 @Component({
   selector: 'app-recurso-form',
   templateUrl: './recurso-form.component.html',
-  styleUrls: ['./recurso-form.component.scss'],
-  //providers: [ RecursoService ]
+  styleUrls: ['./recurso-form.component.scss']
 })
 export class RecursoFormComponent implements OnInit {
 
@@ -18,7 +17,6 @@ export class RecursoFormComponent implements OnInit {
   }
 
   onSubmit(){
-    console.log(this.recurso);
     this.recursoService.postRecurso(this.recurso);
   }
 

@@ -14,53 +14,34 @@ function selecionar(callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }
 
-function buscar(callback) {
-    Schema.findById(req.params.id, (err, data) => {
-        if(err)
-            return callback(err);
-
-        callback(data);
-    });
-}
-
-function selecionar(id, callback) {
+function buscar(id, callback) {
     Schema.findById(id, (err, data) => {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }
 
 function inserir(laboratorio, callback) {
     new Schema(laboratorio).save( (err, data) => {
         if(err)
-            return res.status(500).json(err);
+            return callback(err);
 
-        res.status(200).json({message: 'Inserido com Sucesso!'});
+        callback(null, data);
     });
 }
 
 function alterar(id, laboratorioNew, callback) {
-    Schema.findById(id, (err, data) => {
+    Schema.findByIdAndUpdate(id, laboratorioNew, (err, data) => {
         if(err)
-            return callback(err);
-        
-        for(item in data) {
-            if(item != "_id")
-                data[item] = laboratorioNew[item]
-        }
+            return callback(err)
 
-        data.save( (err, data) => {
-            if(err)
-                return callback(err)
-            
-            callback(data);
-        });
+        callback(null, data);
     });    
 }
 
@@ -69,6 +50,6 @@ function deletar(id, callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }

@@ -1,3 +1,50 @@
-<p>
-  ocorrencia-form works!
-</p>
+<div class="ui-s960">
+	<ui-card>
+		<ui-toolbar class="flat">
+			<button class="ui-button flat icon" routerLink="/ocorrencias" href="/ocorrencias" uiRipple>
+							<i class="material-icons">arrow_back</i>	
+						</button>
+			<span class="title">{{ ocorrencia.nome }}</span>
+		</ui-toolbar>
+
+		<pre>{{ ocorrencia | json }}</pre>
+
+		<form (ngSubmit)="alterarOcorrencia()">
+			<ui-card-content>
+				<div class="ui-flex-container break-on-s960">
+					<ui-input-container>
+						<input type="number" [(ngModel)]="ocorrencia.codigo" name="codigo" uiInput>
+						<label>Codigo</label>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input type="text" [(ngModel)]="ocorrencia.recurso.nome" name="recursoNome" uiInput>
+						<label>Recurso</label>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s960">
+					<ui-input-container>
+						<input type="date" [(ngModel)]="ocorrencia.data" name="data" uiInput>
+						<label>Data</label>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input type="text" [(ngModel)]="ocorrencia.docente.nome" name="docenteNome" uiInput>
+						<label>Docente</label>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" uiInput>
+						<label>Detalhes</label>
+					</ui-input-container>
+				</div>
+			</ui-card-content>
+
+			<div class="ui-button-container cover">
+				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
+				<button class="ui-button raised error" uiRipple>Cancelar</button>
+			</div>
+		</form>
+	</ui-card>
+</div>

@@ -9,7 +9,7 @@ export class DocenteService {
   constructor(private http: HttpClient) { }
 
   getDocentes() {
-    return this.http.get(environment.urlApi + '/docentes');
+    return this.http.get(environment.urlApi + '/api/docente');
   }
 
   getDocenteById(id: any): any {

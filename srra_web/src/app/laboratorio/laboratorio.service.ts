@@ -11,7 +11,7 @@ export class LaboratorioService {
 
   constructor(private http: HttpClient) { }
 
-  getLaboratorio(): any {
+  getLaboratorios(): any {
     return this.http.get(environment.urlApi + '/api/laboratorio');
   }
 
@@ -33,7 +33,7 @@ export class LaboratorioService {
       );
   }
 
-  putRecurso(id: any, laboratorio: any) {
+  putLaboratorio(id: any, laboratorio: any) {
     console.log(id);
     console.log(laboratorio);
 
@@ -49,7 +49,7 @@ export class LaboratorioService {
       );
   }
 
-  deleteRecurso(id: any) {
+  deleteLaboratorio(id: any) {
     return this.http.delete(environment.urlApi + '/api/laboratorio/' + id).toPromise()
     .then( () => {
         console.log('ok');

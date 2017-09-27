@@ -18,8 +18,7 @@ export class RecursoInfoComponent implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       let id = params.id
       this.recursoService.getRecursoById(id).subscribe( data => {
-        this.recurso = data.content;
-        // console.log(this.recurso);
+        this.recurso = data;
       });
     })
   }

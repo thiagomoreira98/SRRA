@@ -14,16 +14,16 @@ function selecionar(callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }
 
 function buscar(id, callback) {
     Schema.findById(id, (err, data) => {
         if(err)
-            return callback(err);
+            return callback(500, err);
 
-        callback(data);
+        callback(null, data);
     });
 }
 

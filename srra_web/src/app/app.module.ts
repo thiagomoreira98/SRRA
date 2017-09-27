@@ -1,10 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MdSidenavModule } from '@angular/material';
+import { MatListModule } from '@angular/material';
+import { MatExpansionModule } from '@angular/material';
 
 import { NavComponent } from './nav/nav.component';
 import { AppComponent } from './app.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
 import { HomeComponent } from './home/home.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +31,6 @@ import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
 @NgModule({
   declarations: [
     AppComponent,
-    ToolbarComponent,
     NavComponent,
     HomeComponent
     // UiSnackbarComponent,
@@ -36,8 +38,12 @@ import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     SMNUIModule,
+    MdSidenavModule,
+    MatExpansionModule,
+    MatListModule,
     RecursoModule,
     DocenteModule,
     LaboratorioModule,

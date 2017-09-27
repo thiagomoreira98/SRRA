@@ -26,7 +26,7 @@
             <tbody>
                 <tr>
                     <th>
-                        Código
+                        Codigo
                     </th>
 
                     <th>
@@ -38,38 +38,30 @@
                     </th>
 
                     <th class="align-right">
-                        Quantidade
-                    </th>
-
-                    <th class="align-right">
                         
                     </th>
                 </tr>
                 
-                <tr *ngFor="let recurso of recursos">
+                <tr *ngFor="let laboratorio of laboratorios">
                     <td>
-                        {{recurso.codigo}}
+                        {{laboratorio.codigo}}
                     </td>
 
                     <td>
-                        {{recurso.nome}}
+                        {{laboratorio.nome}}
                     </td>
 
                     <td class="align-right">
-                        {{recurso.descricao}}
-                    </td>
-
-                    <td class="align-right">
-                        {{recurso.quantidade}}
+                        {{laboratorio.descricao}}
                     </td>
 
                     <td class="align-right">
                         <button class="ui-button flat icon" uiRipple
-                            [routerLink] = "['/recursos/info', recurso._id]">
+                            [routerLink] = "['/laboratorios/info', laboratorio._id]">
                             <i class="material-icons">edit</i>
                         </button>
 
-                        <button class="ui-button flat icon" uiRipple (click)="deleteRecurso(recurso._id)">
+                        <button class="ui-button flat icon" uiRipple (click)="deleteRecurso(laboratorio._id)">
                             <i class="material-icons">delete</i>
                         </button>
                     </td>
@@ -95,4 +87,8 @@
             </tfoot>
         </ui-data-table>
     </ui-card>
+
+    <button class="ui-button raised primary fab" uiRipple>
+        <i class="material-icons">add</i>
+    </button>
 </div>

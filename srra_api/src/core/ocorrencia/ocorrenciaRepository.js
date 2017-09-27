@@ -10,11 +10,11 @@ module.exports = {
 }
 
 function selecionar(callback) {
-    Schema.find( (err, data) => {
+    Schema.find().populate('srra-recurso').exec( (err, data) => {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }
 
@@ -23,36 +23,26 @@ function buscar(id, callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }
 
 function inserir(ocorrencia, callback) {
     new Schema(ocorrencia).save( (err, data) => {
         if(err)
-            return res.status(500).json(err);
+            return callback(err);
 
-        res.status(200).json({message: 'Inserido com Sucesso!'});
+        callback(null, data);
     });
 }
 
 function alterar(id, ocorrenciaNew, callback) {
-    Schema.findById(id, (err, data) => {
+    Schema.findByIdAndUpdate(id, ocorrenciaNew, (er, data) => {
         if(err)
-            return callback(err);
-        
-        for(item in data) {
-            if(item != "_id")
-                data[item] = ocorrenciaNew[item]
-        }
+            return callback(err)
 
-        data.save( (err, data) => {
-            if(err)
-                return callback(err)
-            
-            callback(data);
-        });
-    });    
+        callback(null, data)
+    })  
 }
 
 function deletar(id, callback) {
@@ -60,6 +50,6 @@ function deletar(id, callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }

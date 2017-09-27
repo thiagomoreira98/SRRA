@@ -1,11 +1,11 @@
 module.exports = (app) => {
     const controller = require('../../core/laboratorio/laboratorioController');
 
-    app.route('/laboratorio')
+    app.route('/api/laboratorio')
         .get(controller.selecionar)
         .post(controller.inserir)
 
-    app.route('/laboratorio/:id')
+    app.route('/api/laboratorio/:id')
         .get(controller.buscar)
         .put(controller.alterar)
         .delete(controller.deletar)
