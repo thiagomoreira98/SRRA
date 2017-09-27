@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
+import { MdSnackBar } from '@angular/material';
 
 import { environment } from '../../environments/environment';
-
-// import { UiSnackbarComponent } from '../snackbar/snackbar.component';
-
 
 @Injectable()
 export class RecursoService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackbar: MdSnackBar) { }
 
   getRecursos(): any {
     return this.http.get(environment.urlApi + '/api/recurso');
@@ -23,12 +21,12 @@ export class RecursoService {
     // console.log(recurso);
     return this.http.post(environment.urlApi + '/api/recurso', recurso).toPromise()
       .then( () => {
-          console.log('ok');
+          this.snackbar.open('BATATA', 'Fechar', { duration: 3000 });
         }
       )
       .catch(
         (err) => {
-          console.log(err);
+          this.snackbar.open('ERRROUU', 'Fechar', { duration: 3000});
         }
       );
   }

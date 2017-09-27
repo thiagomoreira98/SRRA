@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MdSidenavModule } from '@angular/material';
 import { MatListModule } from '@angular/material';
 import { MatExpansionModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material';
 
 import { NavComponent } from './nav/nav.component';
 import { AppComponent } from './app.component';
@@ -22,19 +23,12 @@ import { DocenteService } from './docente/docente.service';
 import { LaboratorioService } from './laboratorio/laboratorio.service';
 import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
 
-// import { UiSnackbarComponent } from './snackbar/snackbar.component';
-// import { UiSnackbarContainerComponent } from './snackbar/snackbar-container.component';
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent
-    // UiSnackbarComponent,
-    // UiSnackbarContainerComponent
+
   ],
   imports: [
     BrowserModule,
@@ -44,6 +38,7 @@ import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
     MdSidenavModule,
     MatExpansionModule,
     MatListModule,
+    MatSnackBarModule,
     RecursoModule,
     DocenteModule,
     LaboratorioModule,

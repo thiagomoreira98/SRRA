@@ -2,7 +2,7 @@
     <ui-card>
         <ui-toolbar class="flat">
             <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
-                <i class="material-icons">arrow_back</i>	
+                <i class="material-icons">arrow_back</i>
             </button>
             <span class="title" [ngClass]="{'hide': searchOpen}">Recursos Disponiveis</span>
             <div class="align-right">
@@ -45,10 +45,10 @@
                     </th>
 
                     <th class="align-right">
-                        
+
                     </th>
                 </tr>
-                
+
                 <tr *ngFor="let recurso of recursos">
                     <td>
                         {{recurso.codigo}}
@@ -98,4 +98,11 @@
             </tfoot>
         </ui-data-table>
     </ui-card>
+
+  <div class="ui-float-container fixed bottom-right spaced">
+    <button class="ui-button float teal icon fill" title="Cadastrar">
+      <i class="material-icons">add</i>
+      <!--<ui-spinner class="dark s32" ng-if="vm.confirmarUsuario.carregando()"></ui-spinner>-->
+    </button>
+  </div>
 </div>
