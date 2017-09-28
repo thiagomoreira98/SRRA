@@ -2,14 +2,14 @@
 	<ui-card>
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/docentes" href="/docentes" uiRipple>
-          <i class="material-icons">arrow_back</i>	
+          <i class="material-icons">arrow_back</i>
         </button>
 			<span class="title">{{ docente.nome }}</span>
 		</ui-toolbar>
 
 		<pre>{{ docente | json }}</pre>
 
-		<form (ngSubmit)="alterarDocente()">
+		<form (ngSubmit)="alterar()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
@@ -25,7 +25,7 @@
 
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
-						<input type="text" [(ngModel)]="docente.cpf" name="cpf" uiInput>
+						<input type="text" [(ngModel)]="docente.cpf" name="cpf" uiInput uiMaskCpf>
 						<label>CPF</label>
 					</ui-input-container>
 
@@ -53,11 +53,16 @@
 							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="1">
 							<span>Professor</span>
 						</ui-option>
+
 						<ui-option>
 							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="2">
 							<span>Funcionario</span>
 						</ui-option>
-						{{docente.funcao}}
+
+            <ui-option>
+              <input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="3">
+              <span>Administrador</span>
+            </ui-option>
 					</ui-option-container>
 				</div>
 			</ui-card-content>
@@ -66,14 +71,14 @@
           <ui-toolbar class="flat">
             <span class="title">Manutenção</span>
           </ui-toolbar>
-  
+
           <ui-card-content>
             <div class="ui-flex-container break-on-s960">
               <ui-input-container>
                 <input type="text" [(ngModel)]="recurso.manutencao" name="motivoManutencao" uiInput>
                 <label>motivo</label>
               </ui-input-container>
-      
+
               <ui-input-container>
                 <input type="date" [(ngModel)]="recurso.manutencao" name="dataManutencao" uiInput>
                 <label>data</label>
@@ -81,19 +86,19 @@
             </div>
           </ui-card-content>
         </div>
-  
+
         <div *ngIf="recurso.status === 3">
           <ui-toolbar class="flat">
             <span class="title">Inativo</span>
           </ui-toolbar>
-  
+
           <ui-card-content>
             <div class="ui-flex-container break-on-s960">
               <ui-input-container>
                 <input type="text" [(ngModel)]="recurso.inativo" name="motivoInativo" uiInput>
                 <label>Descrição</label>
               </ui-input-container>
-      
+
               <ui-input-container>
                 <input type="text" [(ngModel)]="recurso.inativo" name="dataInativo" uiInput>
                 <label>itens</label>

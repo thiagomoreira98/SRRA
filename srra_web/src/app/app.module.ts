@@ -6,6 +6,7 @@ import { MdSidenavModule } from '@angular/material';
 import { MatListModule } from '@angular/material';
 import { MatExpansionModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material';
 
 import { NavComponent } from './nav/nav.component';
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
     MatExpansionModule,
     MatListModule,
     MatSnackBarModule,
+    MatSelectModule,
     RecursoModule,
     DocenteModule,
     LaboratorioModule,

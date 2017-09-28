@@ -11,8 +11,9 @@ module.exports = {
 
 function selecionar(req, res) {
     repository.selecionar( (err, data) => {
-        if(err)
+        if(err) {
             return res.status(500).json(err);
+        }
 
         res.status(200).json(data);
     })
@@ -20,8 +21,9 @@ function selecionar(req, res) {
 
 function buscar(req, res) {
     repository.buscar(req.params.id, (err, data) => {
-        if(err)
+        if(err) {
             return res.status(500).json(err)
+        }
 
         res.status(200).json(data);
     })

@@ -17,45 +17,14 @@ export class DocenteService {
   }
 
   postDocente(docente: any) {
-    // console.log(Docente);
-    return this.http.post(environment.urlApi + '/api/docente', docente).toPromise()
-      .then( () => {
-          console.log('ok');
-        }
-      )
-      .catch(
-        (err) => {
-          console.log(err);
-        }
-      );
+    return this.http.post(environment.urlApi + '/api/docente', docente).toPromise();
   }
 
   putDocente(id: any, docente: any) {
-    console.log(id);
-    console.log(docente);
-
-    return this.http.put(environment.urlApi + '/api/docente/' + id, docente).toPromise()
-      .then( () => {
-          console.log('ok');
-        }
-      )
-      .catch(
-        (err) => {
-          console.log(err);
-        }
-      );
+    return this.http.put(environment.urlApi + '/api/docente/' + id, docente).toPromise();
   }
 
   deleteDocente(id: any) {
-    return this.http.delete(environment.urlApi + '/api/docente/' + id).toPromise()
-    .then( () => {
-        console.log('ok');
-      }
-    )
-    .catch(
-      (err) => {
-        console.log(err);
-      }
-    );
+    return this.http.delete(environment.urlApi + '/api/docente/' + id).toPromise();
   }
 }

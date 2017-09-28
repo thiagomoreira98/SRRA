@@ -2,14 +2,14 @@
 	<ui-card>
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/recursos" href="/recursos" uiRipple>
-				<i class="material-icons">arrow_back</i>	
+				<i class="material-icons">arrow_back</i>
 			</button>
 			<span class="title">Cadastro de Recurso</span>
 		</ui-toolbar>
 
 		<pre>{{ recurso | json }}</pre>
 
-		<form (ngSubmit)="onSubmit()">
+		<form (ngSubmit)="cadastrar()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
@@ -56,7 +56,6 @@
 							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="3">
 							<span>Inativo</span>
 						</ui-option>
-						{{recurso.status}}
 					</ui-option-container>
 				</div>
 			</ui-card-content>

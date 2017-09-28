@@ -2,7 +2,7 @@
 	<ui-card>
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/ocorrencias" href="/ocorrencias" uiRipple>
-            <i class="material-icons">arrow_back</i>	
+            <i class="material-icons">arrow_back</i>
           </button>
 			<span class="title">{{ ocorrencia.nome }}</span>
 		</ui-toolbar>
@@ -18,7 +18,7 @@
 					</ui-input-container>
 
 					<ui-input-container>
-						<input type="text" [(ngModel)]="ocorrencia.recurso.nome" name="recursoNome" uiInput>
+						<input type="text" [(ngModel)]="ocorrencia.nomeRecurso" name="recursoNome" uiInput>
 						<label>Recurso</label>
 					</ui-input-container>
 				</div>
@@ -30,7 +30,7 @@
 					</ui-input-container>
 
 					<ui-input-container>
-						<input type="text" [(ngModel)]="ocorrencia.docente.nome" name="docenteNome" uiInput>
+						<input type="text" [(ngModel)]="ocorrencia.nomeDocente" name="docenteNome" uiInput>
 						<label>Docente</label>
 					</ui-input-container>
 

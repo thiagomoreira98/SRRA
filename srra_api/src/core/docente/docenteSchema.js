@@ -5,7 +5,8 @@ let docenteSchema = mongoose.Schema({
     "cpf": Number,
     "nome": String,
     "email": String,
-    "senha": Number
+    "senha": Number,
+    "funcao": Number
 })
 
 module.exports = mongoose.model('srra-docente', docenteSchema);

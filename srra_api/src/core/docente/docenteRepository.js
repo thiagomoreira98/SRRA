@@ -37,7 +37,7 @@ function inserir(docente, callback) {
 }
 
 function alterar(id, docenteNew, callback) {
-    Schema.findByIdAndUpdate(id, docenteNew).exec().then( (err, data) => {
+    Schema.findByIdAndUpdate(id, docenteNew, (err, data) => {
         if(err)
             return callback(err);
 

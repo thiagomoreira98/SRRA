@@ -10,7 +10,7 @@ module.exports = {
 }
 
 function selecionar(callback) {
-    Schema.find().populate('srra-recurso').exec( (err, data) => {
+    Schema.find( (err, data) => {
         if(err)
             return callback(err);
 

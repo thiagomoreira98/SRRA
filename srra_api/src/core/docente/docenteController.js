@@ -44,7 +44,6 @@ function alterar(req, res) {
         //return res.status(406).json(req.errors)
     repository.alterar(req.params.id, req.body, (err, data) => {
         if(err)
-            console.log(err);
             return res.status(500).json(err);
         
         res.status(200).json({message: 'Alterado com Sucesso!'});

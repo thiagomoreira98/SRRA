@@ -2,14 +2,14 @@
 	<ui-card>
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/docentes" href="/docentes" uiRipple>
-				<i class="material-icons">arrow_back</i>	
+				<i class="material-icons">arrow_back</i>
 			</button>
 			<span class="title">Cadastro de Docente</span>
 		</ui-toolbar>
 
 		<pre>{{ docente | json }}</pre>
 
-		<form (ngSubmit)="onSubmit()">
+		<form (ngSubmit)="cadastrar()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
@@ -37,7 +37,7 @@
 
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
-						<input type="text" [(ngModel)]="docente.cpf" name="cpf" uiInput>
+						<input type="text" [(ngModel)]="docente.cpf" name="cpf" uiInput uiMaskCpf>
 						<label>CPF</label>
 					</ui-input-container>
 
@@ -53,12 +53,11 @@
 							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="2">
 							<span>Funcionario</span>
 						</ui-option>
-						{{docente.funcao}}
 					</ui-option-container>
 				</div>
 			</ui-card-content>
 
-			<!-- <div *ngIf="recurso.status === 2">
+			<!-- <div *ngIf="docente.funcao === 2">
 				<ui-toolbar class="flat">
 					<span class="title">Manutenção</span>
 				</ui-toolbar>
@@ -78,7 +77,7 @@
 				</ui-card-content>
 			</div>
 
-			<div *ngIf="recurso.status === 3">
+			<div *ngIf="docente.funcao === 3">
 				<ui-toolbar class="flat">
 					<span class="title">Inativo</span>
 				</ui-toolbar>

@@ -31,18 +31,18 @@ function buscar(id, callback) {
 function inserir(recurso, callback) {
     new Schema(recurso).save( (err, data) => {
         if(err)
-            return res.status(500).json(err);
+            return callback(err);
 
-        res.status(200).json({message: 'Inserido com Sucesso!'});
+        callback(null, data);
     });
 }
 
 function alterar(id, recursoNew, callback) {
-    Schema.findByIdAndUpdate(id, recursoNew).then( (err, data) => {
+    Schema.findByIdAndUpdate(id, recursoNew, (err, data) => {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     }) 
 }
 
@@ -51,6 +51,6 @@ function deletar(id, callback) {
         if(err)
             return callback(err);
 
-        callback(data);
+        callback(null, data);
     });
 }

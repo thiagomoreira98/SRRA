@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MdSnackBar } from '@angular/material';
+
+import { DocenteService } from '../docente.service';
 
 @Component({
   selector: 'app-docente-form',
@@ -7,11 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DocenteFormComponent implements OnInit {
 
-  docente: any = [];
+  docente: any = {};
 
-  constructor() { }
+  constructor(private docenteService: DocenteService, private snackbar: MdSnackBar) { }
 
   ngOnInit() {
+  }
+
+  cadastrar() {
+    this.docenteService.postDocente(this.docente).then( () => {
+      this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000});
+    })
+      .catch( () => {
+        this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000});
+      });
   }
 
 }

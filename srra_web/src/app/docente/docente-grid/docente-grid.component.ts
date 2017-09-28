@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { MdSnackBar } from '@angular/material';
 
 import { DocenteService } from '../docente.service';
 
@@ -12,7 +12,7 @@ export class DocenteGridComponent implements OnInit {
 
   docentes: any = [];
 
-  constructor(private docenteService: DocenteService) { }
+  constructor(private docenteService: DocenteService, private snackbar: MdSnackBar) { }
 
   ngOnInit() {
     this.getDocentes();
@@ -25,8 +25,13 @@ export class DocenteGridComponent implements OnInit {
   }
 
   deleteDocente(id): any {
-    console.log(id);
-    this.docenteService.deleteDocente(id);
+    this.docenteService.deleteDocente(id)
+      .then( () => {
+        this.snackbar.open('Deletado Com Sucesso!', 'Fechar', { duration: 3000 })
+      })
+      .catch( () => {
+        this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 })
+      });
   }
 
 }
