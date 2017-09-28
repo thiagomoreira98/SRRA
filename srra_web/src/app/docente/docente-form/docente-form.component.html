@@ -7,7 +7,7 @@
 			<span class="title">Cadastro de Docente</span>
 		</ui-toolbar>
 
-		<pre>{{ docente | json }}</pre>
+		<!--<pre>{{ docente | json }}</pre>-->
 
 		<form (ngSubmit)="cadastrar()">
 			<ui-card-content>
@@ -49,11 +49,17 @@
 							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="1">
 							<span>Professor</span>
 						</ui-option>
+
 						<ui-option>
 							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="2">
 							<span>Funcionario</span>
 						</ui-option>
-					</ui-option-container>
+
+            <ui-option>
+              <input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="3">
+              <span>Administrador</span>
+            </ui-option>
+          </ui-option-container>
 				</div>
 			</ui-card-content>
 
@@ -99,7 +105,7 @@
 
 			<div class="ui-button-container cover">
 				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple>Cancelar</button>
+				<button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
 			</div>
 		</form>
 	</ui-card>

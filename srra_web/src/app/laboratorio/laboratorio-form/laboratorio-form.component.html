@@ -4,9 +4,9 @@
 			<span class="title">Cadastro de Recurso</span>
 		</ui-toolbar>
 
-		<pre>{{ laboratorio | json }}</pre>
+		<!--<pre>{{ laboratorio | json }}</pre>-->
 
-		<form (ngSubmit)="onSubmit()">
+		<form (ngSubmit)="cadastar()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
@@ -53,14 +53,14 @@
           <ui-toolbar class="flat">
             <span class="title">Manutenção</span>
           </ui-toolbar>
-  
+
           <ui-card-content>
             <div class="ui-flex-container break-on-s960">
               <ui-input-container>
                 <input type="text" [(ngModel)]="laboratorio.motivo" name="motivoManutencao" uiInput>
                 <label>motivo</label>
               </ui-input-container>
-  
+
               <ui-input-container>
                 <input type="date" [(ngModel)]="laboratorio.data" name="dataManutencao" uiInput>
                 <label>data</label>
@@ -68,19 +68,19 @@
             </div>
           </ui-card-content>
         </div>
-  
+
         <div *ngIf="laboratorio.status === 3">
           <ui-toolbar class="flat">
             <span class="title">Inativo</span>
           </ui-toolbar>
-  
+
           <ui-card-content>
             <div class="ui-flex-container break-on-s960">
               <ui-input-container>
                 <input type="text" [(ngModel)]="laboratorio.motivo" name="motivoInativo" uiInput>
                 <label>Descrição</label>
               </ui-input-container>
-  
+
               <ui-input-container>
                 <input type="text" [(ngModel)]="laboratorio.data" name="dataInativo" uiInput>
                 <label>data</label>
@@ -91,7 +91,7 @@
 
 			<div class="ui-button-container cover">
 				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple>Cancelar</button>
+				<button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
 			</div>
 		</form>
 	</ui-card>

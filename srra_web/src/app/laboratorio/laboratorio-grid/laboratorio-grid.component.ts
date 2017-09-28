@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { MdSnackBar } from '@angular/material';
 
 import { LaboratorioService } from '../laboratorio.service';
+
 
 @Component({
   selector: 'app-laboratorio-grid',
@@ -11,22 +12,30 @@ import { LaboratorioService } from '../laboratorio.service';
 export class LaboratorioGridComponent implements OnInit {
 
   laboratorios: any = [];
-  
-  constructor(private laboratorioService: LaboratorioService) { }
+
+  constructor(
+    private laboratorioService: LaboratorioService,
+    private snackbar: MdSnackBar
+  ) { }
 
   ngOnInit() {
-    this.getLaboratorios();
+    this.selecionar();
   }
 
-  getLaboratorios(): any {
-    this.laboratorioService.getLaboratorios().subscribe( data => {
+  selecionar(): any {
+    this.laboratorioService.selecionar().subscribe( data => {
       this.laboratorios = data;
     });
   }
 
-  deleteLaboratorio(id): any {
-    console.log(id);
-    this.laboratorioService.deleteLaboratorio(id);
+  deletar(id): any {
+    this.laboratorioService.deletar(id)
+      .then( () => {
+        this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 });
+      })
+      .catch( () => {
+        this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });
+      });
   }
 
 }

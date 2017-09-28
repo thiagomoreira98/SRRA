@@ -2,7 +2,7 @@
     <ui-card>
         <ui-toolbar class="flat">
             <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
-                <i class="material-icons">arrow_back</i>	
+                <i class="material-icons">arrow_back</i>
             </button>
             <span class="title" [ngClass]="{'hide': searchOpen}">Docentes Disponiveis</span>
             <!-- <div class="align-right">
@@ -44,10 +44,10 @@
                     </th>
 
                     <th class="align-right">
-                      
+
                     </th>
                 </tr>
-                
+
                 <tr *ngFor="let docente of docentes">
                     <td>
                         {{docente.matricula}}
@@ -71,7 +71,7 @@
                             <i class="material-icons">edit</i>
                         </button>
 
-                        <button class="ui-button flat icon" uiRipple (click)="deleteDocente(docente._id)">
+                        <button class="ui-button flat icon" uiRipple (click)="deletar(docente._id)">
                             <i class="material-icons">delete</i>
                         </button>
                     </td>

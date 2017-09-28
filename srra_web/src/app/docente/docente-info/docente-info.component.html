@@ -7,7 +7,7 @@
 			<span class="title">{{ docente.nome }}</span>
 		</ui-toolbar>
 
-		<pre>{{ docente | json }}</pre>
+		<!--<pre>{{ docente | json }}</pre>-->
 
 		<form (ngSubmit)="alterar()">
 			<ui-card-content>
@@ -109,7 +109,7 @@
 
 			<div class="ui-button-container cover">
 				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple>Cancelar</button>
+				<button class="ui-button raised error" uiRipple routerLink="/docentes" href="/docentes">Cancelar</button>
 			</div>
 		</form>
 	</ui-card>

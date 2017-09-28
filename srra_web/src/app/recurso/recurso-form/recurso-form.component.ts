@@ -10,15 +10,18 @@ import { RecursoService } from '../recurso.service';
 })
 export class RecursoFormComponent implements OnInit {
 
-  recurso: any = {}
+  recurso: any = {};
 
-  constructor(private recursoService: RecursoService, private snackbar: MdSnackBar) { }
+  constructor(
+    private recursoService: RecursoService,
+    private snackbar: MdSnackBar
+  ) { }
 
   ngOnInit() {
   }
 
   cadastrar() {
-    this.recursoService.postRecurso(this.recurso)
+    this.recursoService.inserir(this.recurso)
     .then( () => {
       this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
     })

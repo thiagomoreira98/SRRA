@@ -33,19 +33,19 @@ export class OcorrenciaFormComponent implements OnInit {
 
 
   recursosDropdown() {
-    this.recursoService.getRecursos().subscribe(data => {
+    this.recursoService.selecionar().subscribe(data => {
       this.recursos = data;
     });
   }
 
   docentesDropdown() {
-    this.docenteService.getDocentes().subscribe(data => {
+    this.docenteService.selecionar().subscribe(data => {
       this.docentes = data;
     });
   }
 
   cadastrar() {
-    this.ocorrenciaService.postOcorrencia(this.ocorrencia).then( () => {
+    this.ocorrenciaService.inserir(this.ocorrencia).then( () => {
       this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000});
     })
       .catch( () => {

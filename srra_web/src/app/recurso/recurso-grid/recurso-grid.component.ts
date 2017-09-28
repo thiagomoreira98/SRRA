@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { MdSnackBar } from '@angular/material';
 
 import { RecursoService } from '../recurso.service';
 
@@ -13,20 +13,28 @@ export class RecursoGridComponent implements OnInit {
 
   recursos: any = [];
 
-  constructor(private recursoService: RecursoService) { }
+  constructor(
+    private recursoService: RecursoService,
+    private snackbar: MdSnackBar
+  ) { }
 
   ngOnInit() {
-    this.getRecursos();
+    this.selecionar();
   }
 
-  getRecursos(): any {
-    this.recursoService.getRecursos().subscribe( data => {
+  selecionar(): any {
+    this.recursoService.selecionar().subscribe( data => {
       this.recursos = data;
     });
   }
 
-  deleteRecurso(id): any {
-    console.log(id);
-    this.recursoService.deleteRecurso(id);
+  deletar(id): any {
+    this.recursoService.deletar(id)
+      .then( () => {
+        this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 });
+      })
+      .catch( () => {
+        this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });
+      });
   }
 }

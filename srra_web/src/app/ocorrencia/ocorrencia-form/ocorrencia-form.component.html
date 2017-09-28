@@ -7,7 +7,7 @@
       <span class="title">{{ ocorrencia.nome }}</span>
     </ui-toolbar>
 
-    <pre>{{ ocorrencia | json }}</pre>
+    <!--<pre>{{ ocorrencia | json }}</pre>-->
 
     <form (ngSubmit)="cadastrar()">
       <ui-card-content>
@@ -52,7 +52,7 @@
 
       <div class="ui-button-container cover">
         <button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-        <button class="ui-button raised error" uiRipple>Cancelar</button>
+        <button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
       </div>
     </form>
   </ui-card>

@@ -12,25 +12,28 @@ export class DocenteGridComponent implements OnInit {
 
   docentes: any = [];
 
-  constructor(private docenteService: DocenteService, private snackbar: MdSnackBar) { }
+  constructor(
+    private docenteService: DocenteService,
+    private snackbar: MdSnackBar
+  ) { }
 
   ngOnInit() {
-    this.getDocentes();
+    this.selecionar();
   }
 
-  getDocentes(): any {
-    this.docenteService.getDocentes().subscribe( data => {
+  selecionar(): any {
+    this.docenteService.selecionar().subscribe( data => {
       this.docentes = data;
     });
   }
 
-  deleteDocente(id): any {
-    this.docenteService.deleteDocente(id)
+  deletar(id): any {
+    this.docenteService.deletar(id)
       .then( () => {
-        this.snackbar.open('Deletado Com Sucesso!', 'Fechar', { duration: 3000 })
+        this.snackbar.open('Deletado Com Sucesso!', 'Fechar', { duration: 3000 });
       })
       .catch( () => {
-        this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 })
+        this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });
       });
   }
 

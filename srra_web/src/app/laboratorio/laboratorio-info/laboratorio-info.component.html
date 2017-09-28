@@ -2,14 +2,14 @@
 	<ui-card>
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/laboratorios"  href="/laboratorios" uiRipple>
-				<i class="material-icons">arrow_back</i>	
+				<i class="material-icons">arrow_back</i>
 			</button>
 			<span class="title">Cadastro de Laboratorio</span>
 		</ui-toolbar>
 
-		<pre>{{ laboratorio | json }}</pre>
+		<!--<pre>{{ laboratorio | json }}</pre>-->
 
-		<form (ngSubmit)="alterarLaboratorio()">
+		<form (ngSubmit)="alterar()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
@@ -94,7 +94,7 @@
 
 			<div class="ui-button-container cover">
 				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple>Cancelar</button>
+				<button class="ui-button raised error" uiRipple routerLink="/laboratorios" href="/laboratorios">Cancelar</button>
 			</div>
 		</form>
 	</ui-card>

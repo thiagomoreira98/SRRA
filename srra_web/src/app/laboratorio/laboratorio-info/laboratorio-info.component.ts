@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import { ActivatedRoute, Params} from '@angular/router';
+import { MdSnackBar } from '@angular/material';
 
 import { LaboratorioService } from '../laboratorio.service';
+
 
 @Component({
   selector: 'app-laboratorio-info',
@@ -9,21 +11,30 @@ import { LaboratorioService } from '../laboratorio.service';
   styleUrls: ['./laboratorio-info.component.scss']
 })
 export class LaboratorioInfoComponent implements OnInit {
-  
+
   laboratorio: any = {};
-  
-  constructor(private LaboratorioService : LaboratorioService, private activatedRoute: ActivatedRoute) { }
+
+  constructor(
+    private LaboratorioService: LaboratorioService,
+    private activatedRoute: ActivatedRoute,
+    private snackbar: MdSnackBar
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: Params) => {
-      let id = params.id
-      this.LaboratorioService.getLaboratorioById(id).subscribe( data => {
+      this.LaboratorioService.buscar(params.id).subscribe( data => {
         this.laboratorio = data;
       });
-    })
+    });
   }
 
-  alterarLaboratorio() {
-    this.LaboratorioService.putLaboratorio(this.laboratorio._id, this.laboratorio);
+  alterar() {
+    this.LaboratorioService.alterar(this.laboratorio._id, this.laboratorio)
+    .then( () => {
+      this.snackbar.open('Alterado com Sucesso!', 'Fechar', { duration: 3000 });
+    })
+    .catch( () => {
+      this.snackbar.open('Erro ao Alterar!', 'Fechar', { duration: 3000 } );
+    });
   }
 }

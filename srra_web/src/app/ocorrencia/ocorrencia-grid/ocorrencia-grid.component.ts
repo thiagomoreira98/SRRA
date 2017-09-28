@@ -12,21 +12,21 @@ import { OcorrenciaService } from '../ocorrencia.service';
 export class OcorrenciaGridComponent implements OnInit {
 
   ocorrencias: any = [];
-  
+
   constructor(private ocorrenciaService: OcorrenciaService) { }
 
   ngOnInit() {
-    this.getOcorrencias();
+    this.selecionar();
   }
 
-  getOcorrencias(): any {
-    this.ocorrenciaService.getOcorrencias().subscribe( data => {
+  selecionar(): any {
+    this.ocorrenciaService.selecionar().subscribe( data => {
       this.ocorrencias = data;
     });
   }
 
-  deleteOcorrencia(id): any {
+  deletar(id): any {
     console.log(id);
-    this.ocorrenciaService.deleteOcorrencia(id);
+    this.ocorrenciaService.deletar(id);
   }
 }

@@ -12,13 +12,16 @@ export class DocenteFormComponent implements OnInit {
 
   docente: any = {};
 
-  constructor(private docenteService: DocenteService, private snackbar: MdSnackBar) { }
+  constructor(
+    private docenteService: DocenteService,
+    private snackbar: MdSnackBar
+  ) { }
 
   ngOnInit() {
   }
 
   cadastrar() {
-    this.docenteService.postDocente(this.docente).then( () => {
+    this.docenteService.inserir(this.docente).then( () => {
       this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000});
     })
       .catch( () => {

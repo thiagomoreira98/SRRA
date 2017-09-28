@@ -8,27 +8,23 @@ export class OcorrenciaService {
 
   constructor(private http: HttpClient) { }
 
-    getOcorrencias(): any {
+    selecionar(): any {
       return this.http.get(environment.urlApi + '/api/ocorrencia');
     }
 
-    getOcorrenciaById(id: any): any {
+    buscar(id: any): any {
       return this.http.get(environment.urlApi + '/api/ocorrencia/' + id);
     }
 
-    postOcorrencia(ocorrencia: any) {
-      // console.log(laboratorio);
+    inserir(ocorrencia: any) {
       return this.http.post(environment.urlApi + '/api/ocorrencia', ocorrencia).toPromise();
     }
 
-    putOcorrencia(id: any, ocorrencia: any) {
-      console.log(id);
-      console.log(ocorrencia);
-
+    alterar(id: any, ocorrencia: any) {
       return this.http.put(environment.urlApi + '/api/ocorrencia/' + id, ocorrencia).toPromise();
     }
 
-    deleteOcorrencia(id: any) {
+    deletar(id: any) {
       return this.http.delete(environment.urlApi + '/api/ocorrencia/' + id).toPromise();
     }
 }

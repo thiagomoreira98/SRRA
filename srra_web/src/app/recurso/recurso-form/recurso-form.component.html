@@ -7,7 +7,7 @@
 			<span class="title">Cadastro de Recurso</span>
 		</ui-toolbar>
 
-		<pre>{{ recurso | json }}</pre>
+		<!--<pre>{{ recurso | json }}</pre>-->
 
 		<form (ngSubmit)="cadastrar()">
 			<ui-card-content>
@@ -33,10 +33,6 @@
 						<input type="text" [(ngModel)]="recurso.itens" name="itens" uiInput>
 						<label>itens</label>
 					</ui-input-container>
-
-					<button class="ui-button raised primary fab" uiRipple>
-							  <i class="material-icons">add</i>
-						</button>
 				</div>
 
 				<div class="ui-flex-container break-on-s960">
@@ -102,7 +98,7 @@
 
 			<div class="ui-button-container cover">
 				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple>Cancelar</button>
+				<button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
 			</div>
 		</form>
 	</ui-card>

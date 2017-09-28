@@ -7,9 +7,9 @@
 			<span class="title">{{ ocorrencia.nome }}</span>
 		</ui-toolbar>
 
-		<pre>{{ ocorrencia | json }}</pre>
+		<!--<pre>{{ ocorrencia | json }}</pre>-->
 
-		<form (ngSubmit)="alterarOcorrencia()">
+		<form (ngSubmit)="alterar()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
@@ -43,7 +43,7 @@
 
 			<div class="ui-button-container cover">
 				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple>Cancelar</button>
+				<button class="ui-button raised error" uiRipple routerLink="/ocorrencias" href="/ocorrencias">Cancelar</button>
 			</div>
 		</form>
 	</ui-card>

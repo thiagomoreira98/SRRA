@@ -34,6 +34,7 @@ import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     AppRoutingModule,
     SMNUIModule,
     MdSidenavModule,

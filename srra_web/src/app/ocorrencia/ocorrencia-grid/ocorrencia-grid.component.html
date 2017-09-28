@@ -2,7 +2,7 @@
 	<ui-card>
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
-                <i class="material-icons">arrow_back</i>	
+                <i class="material-icons">arrow_back</i>
             </button>
 			<span class="title" [ngClass]="{'hide': searchOpen}">Ocorrências Registradas</span>
 			<!-- <div class="align-right">
@@ -70,7 +70,7 @@
                             <i class="material-icons">edit</i>
                         </button>
 
-						<button class="ui-button flat icon" uiRipple (click)="deleteOcorrencia(ocorrencia._id)">
+						<button class="ui-button flat icon" uiRipple (click)="deletar(ocorrencia._id)">
                             <i class="material-icons">delete</i>
                         </button>
 					</td>
