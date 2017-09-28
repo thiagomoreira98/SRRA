@@ -18,8 +18,10 @@
 					</ui-input-container>
 
 					<ui-input-container>
-						<input type="text" [(ngModel)]="ocorrencia.nomeRecurso" name="recursoNome" uiInput>
-						<label>Recurso</label>
+            <select name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput>
+              <option *ngFor="let recurso of recursos">{{recurso.nome}}</option>
+            </select>
+            <label>Recurso</label>
 					</ui-input-container>
 				</div>
 
@@ -30,8 +32,10 @@
 					</ui-input-container>
 
 					<ui-input-container>
-						<input type="text" [(ngModel)]="ocorrencia.nomeDocente" name="docenteNome" uiInput>
-						<label>Docente</label>
+            <select name="docente" [(ngModel)]="ocorrencia.docente" uiInput>
+              <option *ngFor="let docente of docentes">{{docente.nome}}</option>
+            </select>
+            <label>Docente</label>
 					</ui-input-container>
 
 					<ui-input-container>

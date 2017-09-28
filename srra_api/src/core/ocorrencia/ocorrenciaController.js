@@ -44,6 +44,7 @@ function inserir(req, res) {
 function alterar(req, res) {
     //if(!scope.verificarDados)
         //return res.status(406).json(req.errors)
+        
     repository.alterar(req.params.id, req.body, (err, data) => {
         if(err)
             return res.status(500).json(err);

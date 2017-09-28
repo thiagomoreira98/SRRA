@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params} from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
+import { RecursoService } from '../../recurso/recurso.service';
+import { DocenteService } from '../../docente/docente.service';
 import { OcorrenciaService } from '../ocorrencia.service';
 
 @Component({
@@ -12,14 +14,39 @@ import { OcorrenciaService } from '../ocorrencia.service';
 export class OcorrenciaInfoComponent implements OnInit {
 
   ocorrencia: any = {};
+  recursos: any = [];
+  docentes: any = [];
+  today: Date;
+
 
   constructor(
+    private recursoService: RecursoService,
+    private docenteService: DocenteService,
     private ocorrenciaService: OcorrenciaService,
     private activatedRoute: ActivatedRoute,
     private snackbar: MdSnackBar
   ) { }
 
   ngOnInit() {
+    this.today = new Date();
+    this.buscar();
+    this.recursosDropdown();
+    this.docentesDropdown();
+  }
+
+  recursosDropdown() {
+    this.recursoService.selecionar().subscribe(data => {
+      this.recursos = data;
+    });
+  }
+
+  docentesDropdown() {
+    this.docenteService.selecionar().subscribe(data => {
+      this.docentes = data;
+    });
+  }
+
+  buscar() {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.ocorrenciaService.buscar(params.id).subscribe( data => {
         this.ocorrencia = data;

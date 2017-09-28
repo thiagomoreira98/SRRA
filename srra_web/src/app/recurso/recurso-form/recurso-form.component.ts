@@ -11,6 +11,20 @@ import { RecursoService } from '../recurso.service';
 export class RecursoFormComponent implements OnInit {
 
   recurso: any = {};
+  status: any = [
+    {
+      "id": 1,
+      "nome": "Disponivel"
+    },
+    {
+      "id": 2,
+      "nome": "Em Manutenção"
+    },
+    {
+      "id": 3,
+      "nome": "Inativo"
+    }
+  ];
 
   constructor(
     private recursoService: RecursoService,

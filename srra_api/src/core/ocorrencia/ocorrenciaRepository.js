@@ -37,7 +37,7 @@ function inserir(ocorrencia, callback) {
 }
 
 function alterar(id, ocorrenciaNew, callback) {
-    Schema.findByIdAndUpdate(id, ocorrenciaNew, (er, data) => {
+    Schema.findByIdAndUpdate(id, ocorrenciaNew, (err, data) => {
         if(err)
             return callback(err)
 

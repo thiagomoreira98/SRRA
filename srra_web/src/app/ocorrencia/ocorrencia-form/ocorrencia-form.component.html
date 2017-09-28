@@ -18,8 +18,8 @@
           </ui-input-container>
 
           <ui-input-container>
-            <select name="recursoNome" [(ngModel)]="ocorrencia.recursoNome" uiInput>
-              <option *ngFor="let recurso of recursos">{{recurso.nome}}</option>
+            <select name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput>
+              <option *ngFor="let recurso of recursos">{{ recurso.nome }}</option>
             </select>
             <label>Recurso</label>
           </ui-input-container>
@@ -37,8 +37,8 @@
           </ui-input-container>
 
           <ui-input-container>
-            <select name="docenteNome" [(ngModel)]="ocorrencia.docenteNome" uiInput>
-              <option *ngFor="let docente of docentes">{{docente.nome}}</option>
+            <select name="docente" [(ngModel)]="ocorrencia.docente" uiInput>
+              <option *ngFor="let docente of docentes">{{ docente.nome }}</option>
             </select>
             <label>Docente</label>
           </ui-input-container>
