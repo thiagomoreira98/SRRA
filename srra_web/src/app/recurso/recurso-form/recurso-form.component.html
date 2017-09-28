@@ -7,7 +7,7 @@
 			<span class="title">Cadastro de Recurso</span>
 		</ui-toolbar>
 
-		<!--<pre>{{ recurso | json }}</pre>-->
+		<pre>{{ recurso | json }}</pre>
 
 		<form (ngSubmit)="cadastrar()">
 			<ui-card-content>
@@ -41,22 +41,24 @@
 							Status
 						</div>
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="1">
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Disponivel'">
 							<span>Disponivel</span>
 						</ui-option>
-						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="2">
-							<span>Em Manutenção</span>
-						</ui-option>
-						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="3">
-							<span>Inativo</span>
-						</ui-option>
+
+            <ui-option>
+              <input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Em Manutenção'">
+              <span>Em Manutenção</span>
+            </ui-option>
+
+            <ui-option>
+              <input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Inativo'">
+              <span>Inativo</span>
+            </ui-option>
 					</ui-option-container>
 				</div>
 			</ui-card-content>
 
-			<div *ngIf="recurso.status === 2">
+			<div *ngIf="recurso.status === 'Em Manutenção'">
 				<ui-toolbar class="flat">
 					<span class="title">Manutenção</span>
 				</ui-toolbar>
@@ -65,18 +67,18 @@
 					<div class="ui-flex-container break-on-s960">
 						<ui-input-container>
 							<input type="text" [(ngModel)]="recurso.motivo" name="motivoManutencao" uiInput>
-							<label>motivo</label>
+							<label>Motivo</label>
 						</ui-input-container>
 
 						<ui-input-container>
 							<input type="date" [(ngModel)]="recurso.data" name="dataManutencao" uiInput>
-							<label>data</label>
+							<label>Data</label>
 						</ui-input-container>
 					</div>
 				</ui-card-content>
 			</div>
 
-			<div *ngIf="recurso.status === 3">
+			<div *ngIf="recurso.status === 'Inativo'">
 				<ui-toolbar class="flat">
 					<span class="title">Inativo</span>
 				</ui-toolbar>
@@ -85,12 +87,12 @@
 					<div class="ui-flex-container break-on-s960">
 						<ui-input-container>
 							<input type="text" [(ngModel)]="recurso.motivo" name="motivoInativo" uiInput>
-							<label>Descrição</label>
+							<label>Motivo</label>
 						</ui-input-container>
 
 						<ui-input-container>
 							<input type="text" [(ngModel)]="recurso.data" name="dataInativo" uiInput>
-							<label>data</label>
+							<label>Data</label>
 						</ui-input-container>
 					</div>
 				</ui-card-content>

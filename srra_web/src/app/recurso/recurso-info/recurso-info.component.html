@@ -41,22 +41,22 @@
 							Status
 						</div>
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="1">
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Disponivel'">
 							<span>Disponivel</span>
 						</ui-option>
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="2">
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Em Manutenção'">
 							<span>Em Manutenção</span>
 						</ui-option>
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="3">
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Inativo'">
 							<span>Inativo</span>
 						</ui-option>
 					</ui-option-container>
 				</div>
 			</ui-card-content>
 
-			<div *ngIf="recurso.status === 2">
+			<div *ngIf="recurso.status === 'Em Manutenção'">
 				<ui-toolbar class="flat">
 					<span class="title">Manutenção</span>
 				</ui-toolbar>
@@ -64,19 +64,19 @@
 				<ui-card-content>
 					<div class="ui-flex-container break-on-s960">
 						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.manutencao" name="motivoManutencao" uiInput>
-							<label>motivo</label>
+							<input type="text" [(ngModel)]="recurso.motivo" name="motivoManutencao" uiInput>
+							<label>Motivo</label>
 						</ui-input-container>
 
 						<ui-input-container>
-							<input type="date" [(ngModel)]="recurso.manutencao" name="dataManutencao" uiInput>
-							<label>data</label>
+							<input type="date" [(ngModel)]="recurso.data" name="dataManutencao" uiInput>
+							<label>Data</label>
 						</ui-input-container>
 					</div>
 				</ui-card-content>
 			</div>
 
-			<div *ngIf="recurso.status === 3">
+			<div *ngIf="recurso.status === 'Inativo'">
 				<ui-toolbar class="flat">
 					<span class="title">Inativo</span>
 				</ui-toolbar>
@@ -84,13 +84,13 @@
 				<ui-card-content>
 					<div class="ui-flex-container break-on-s960">
 						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.inativo" name="motivoInativo" uiInput>
-							<label>Descrição</label>
+							<input type="text" [(ngModel)]="recurso.motivo" name="motivoInativo" uiInput>
+							<label>Motivo</label>
 						</ui-input-container>
 
 						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.inativo" name="dataInativo" uiInput>
-							<label>itens</label>
+							<input type="text" [(ngModel)]="recurso.data" name="dataInativo" uiInput>
+							<label>Data</label>
 						</ui-input-container>
 					</div>
 				</ui-card-content>
