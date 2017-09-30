@@ -46,17 +46,17 @@
 							Status
 						</div> -->
 						<ui-option>
-							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="1">
+							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Administrador'">
 							<span>Professor</span>
 						</ui-option>
 
 						<ui-option>
-							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="2">
+							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Professor'">
 							<span>Funcionario</span>
 						</ui-option>
 
             <ui-option>
-              <input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="3">
+              <input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Funcionario'">
               <span>Administrador</span>
             </ui-option>
           </ui-option-container>
