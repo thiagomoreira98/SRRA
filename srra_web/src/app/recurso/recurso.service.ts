@@ -9,22 +9,22 @@ export class RecursoService {
   constructor(private http: HttpClient) { }
 
   selecionar(): any {
-    return this.http.get(environment.urlApi + '/api/recurso');
+    return this.http.get(`${environment.urlApi}/api/recurso`);
   }
 
   buscar(id: any): any {
-    return this.http.get(environment.urlApi + '/api/recurso/' + id);
+    return this.http.get(`${environment.urlApi}/api/recurso/${id}`);
   }
 
   inserir(recurso: any) {
-    return this.http.post(environment.urlApi + '/api/recurso', recurso).toPromise();
+    return this.http.post(`${environment.urlApi}/api/recurso`, recurso).toPromise();
   }
 
   alterar(id: any, recurso: any) {
-    return this.http.put(environment.urlApi + '/api/recurso/' + id, recurso).toPromise();
+    return this.http.put(`${environment.urlApi}/api/recurso/${id}`, recurso).toPromise();
   }
 
   deletar(id: any) {
-    return this.http.delete(environment.urlApi + '/api/recurso/' + id).toPromise();
+    return this.http.delete(`${environment.urlApi}/api/recurso/${id}`).toPromise();
   }
 }
