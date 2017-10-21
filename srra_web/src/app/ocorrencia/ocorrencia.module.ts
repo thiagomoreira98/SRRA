@@ -8,7 +8,6 @@ import { AppRoutingModule } from '../app-routing.module';
 
 import { OcorrenciaFormComponent } from './ocorrencia-form/ocorrencia-form.component';
 import { OcorrenciaGridComponent } from './ocorrencia-grid/ocorrencia-grid.component';
-import { OcorrenciaInfoComponent } from './ocorrencia-info/ocorrencia-info.component';
 
 @NgModule({
   imports: [
@@ -21,12 +20,10 @@ import { OcorrenciaInfoComponent } from './ocorrencia-info/ocorrencia-info.compo
   declarations: [
     OcorrenciaFormComponent,
     OcorrenciaGridComponent,
-    OcorrenciaInfoComponent
   ],
   exports: [
     OcorrenciaFormComponent,
     OcorrenciaGridComponent,
-    OcorrenciaInfoComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

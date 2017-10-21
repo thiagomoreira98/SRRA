@@ -8,7 +8,6 @@ import { AppRoutingModule } from '../app-routing.module';
 
 import { LaboratorioFormComponent } from './laboratorio-form/laboratorio-form.component';
 import { LaboratorioGridComponent } from './laboratorio-grid/laboratorio-grid.component';
-import { LaboratorioInfoComponent } from './laboratorio-info/laboratorio-info.component';
 
 @NgModule({
   imports: [
@@ -21,12 +20,10 @@ import { LaboratorioInfoComponent } from './laboratorio-info/laboratorio-info.co
   declarations: [
     LaboratorioFormComponent,
     LaboratorioGridComponent,
-    LaboratorioInfoComponent
 ],
   exports: [
     LaboratorioFormComponent,
     LaboratorioGridComponent,
-    LaboratorioInfoComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

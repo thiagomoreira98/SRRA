@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
 import {LaboratorioService} from '../laboratorio.service';
@@ -14,10 +15,16 @@ export class LaboratorioFormComponent implements OnInit {
 
   constructor(
     private laboratorioService: LaboratorioService,
-    private snackbar: MdSnackBar
+    private snackbar: MdSnackBar,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.laboratorioService.buscar(params.id).subscribe( data => {
+        this.laboratorio = data;
+      });
+    });
   }
 
   cadastar() {

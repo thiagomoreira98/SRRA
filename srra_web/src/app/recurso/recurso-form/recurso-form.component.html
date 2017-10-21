@@ -45,20 +45,20 @@
 							<span>Disponivel</span>
 						</ui-option>
 
-            <ui-option>
-              <input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Em Manutenção'">
-              <span>Em Manutenção</span>
-            </ui-option>
+						<ui-option>
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Em Manutenção'">
+							<span>Em Manutenção</span>
+						</ui-option>
 
-            <ui-option>
-              <input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Inativo'">
-              <span>Inativo</span>
-            </ui-option>
+						<ui-option>
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Inativo'">
+							<span>Inativo</span>
+						</ui-option>
 					</ui-option-container>
 				</div>
 			</ui-card-content>
 
-			<div *ngIf="recurso.status === 'Em Manutenção'">
+			<div *ngIf="recurso.status === 'Em Manutenção' || recurso.status === 'Inativo'">
 				<ui-toolbar class="flat">
 					<span class="title">Manutenção</span>
 				</ui-toolbar>
@@ -66,40 +66,25 @@
 				<ui-card-content>
 					<div class="ui-flex-container break-on-s960">
 						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivoManutencao" uiInput>
+							<input type="text" [(ngModel)]="recurso.motivo" name="motivo" uiInput>
 							<label>Motivo</label>
 						</ui-input-container>
 
 						<ui-input-container>
-							<input type="date" [(ngModel)]="recurso.data" name="dataManutencao" uiInput>
+							<input type="text" uiInput [(ngModel)]="recurso.data" name="date" uiDatePicker="tested" uiMaskDate #date="ngModel">
 							<label>Data</label>
-						</ui-input-container>
-					</div>
-				</ui-card-content>
-			</div>
-
-			<div *ngIf="recurso.status === 'Inativo'">
-				<ui-toolbar class="flat">
-					<span class="title">Inativo</span>
-				</ui-toolbar>
-
-				<ui-card-content>
-					<div class="ui-flex-container break-on-s960">
-						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivoInativo" uiInput>
-							<label>Motivo</label>
-						</ui-input-container>
-
-						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.data" name="dataInativo" uiInput>
-							<label>Data</label>
+							<div class="icon">
+								<button type="button" class="ui-button icon flat" uiDatePickerCaller="tested">
+                  					<i class="material-icons">today</i>
+                				</button>
+							</div>
 						</ui-input-container>
 					</div>
 				</ui-card-content>
 			</div>
 
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
+				<button type="submit" class="ui-button raised success" uiRipple>Salvar</button>
 				<button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
 			</div>
 		</form>

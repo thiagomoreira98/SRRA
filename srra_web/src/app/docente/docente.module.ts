@@ -7,7 +7,6 @@ import { SMNUIModule } from 'ng-smn-ui';
 import { AppRoutingModule } from '../app-routing.module'
 import { DocenteGridComponent } from './docente-grid/docente-grid.component';
 import { DocenteFormComponent } from './docente-form/docente-form.component';
-import { DocenteInfoComponent } from './docente-info/docente-info.component';
 
 @NgModule({
   imports: [
@@ -20,12 +19,10 @@ import { DocenteInfoComponent } from './docente-info/docente-info.component';
   declarations: [
     DocenteFormComponent,
     DocenteGridComponent,
-    DocenteInfoComponent
   ],
   exports: [
     DocenteFormComponent,
     DocenteGridComponent,
-    DocenteInfoComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

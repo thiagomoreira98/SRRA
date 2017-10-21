@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
 import { RecursoService } from '../../recurso/recurso.service';
@@ -22,10 +23,17 @@ export class OcorrenciaFormComponent implements OnInit {
     private recursoService: RecursoService,
     private docenteService: DocenteService,
     private ocorrenciaService: OcorrenciaService,
-    private snackbar: MdSnackBar
+    private snackbar: MdSnackBar,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.ocorrenciaService.buscar(params.id).subscribe( data => {
+        this.ocorrencia = data;
+      });
+    });
+
     this.today = new Date();
     this.recursosDropdown();
     this.docentesDropdown();
