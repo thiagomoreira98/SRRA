@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import {LaboratorioService} from '../laboratorio.service';
 
@@ -15,7 +15,7 @@ export class LaboratorioFormComponent implements OnInit {
 
   constructor(
     private laboratorioService: LaboratorioService,
-    private snackbar: MdSnackBar,
+    private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute
   ) { }
 

@@ -2,10 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MdSidenavModule } from '@angular/material';
+import { MatSidenavModule } from '@angular/material';
 import { MatListModule } from '@angular/material';
 import { MatExpansionModule } from '@angular/material';
-import { MatSnackBarModule } from '@angular/material';
 import { MatSelectModule } from '@angular/material';
 
 import { NavComponent } from './nav/nav.component';
@@ -29,7 +28,6 @@ import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
     AppComponent,
     NavComponent,
     HomeComponent
-
   ],
   imports: [
     BrowserModule,
@@ -37,10 +35,9 @@ import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
     FormsModule,
     AppRoutingModule,
     SMNUIModule,
-    MdSidenavModule,
+    MatSidenavModule,
     MatExpansionModule,
     MatListModule,
-    MatSnackBarModule,
     MatSelectModule,
     RecursoModule,
     DocenteModule,

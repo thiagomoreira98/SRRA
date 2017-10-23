@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { RecursoService } from '../recurso.service';
 
@@ -15,7 +15,7 @@ export class RecursoFormComponent implements OnInit {
 
   constructor(
     private recursoService: RecursoService,
-    private snackbar: MdSnackBar,
+    private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute
   ) { }
 

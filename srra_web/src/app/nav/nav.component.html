@@ -3,122 +3,122 @@
                 <i class="material-icons">menu</i>
             </button>
     <!-- <img class="logo" src="http://smn.com.br/content/img/logotipo/light-lying.svg" alt=""> -->
-    <span class="title">SRRA</span>
+    <span class="title">FATEC - SRRA | {{ title }}</span>
 
-    <div class="align-right">
+    <!-- <div class="align-right">
         <button class="ui-button flat icon" uiRipple>
             <i class="material-icons">notifications</i>
             <span class="badge">1</span>
         </button>
-    </div>
+    </div> -->
 </ui-toolbar>
 
-<md-sidenav #sidenav class="sidenav">
+<mat-sidenav #sidenav class="sidenav">
     <button class="ui-button flat icon" uiRipple (click)="sidenav.close()">
         <i class="material-icons">arrow_back</i>
     </button>
     <div class="ui-list">
-        <md-list>
-            <md-list-item> SRRA </md-list-item>
-            <md-divider></md-divider>
+        <mat-list>
+            <mat-list-item> SRRA </mat-list-item>
+            <mat-divider></mat-divider>
 
             <!-- Home -->
-            <md-list-item>
+            <mat-list-item>
                 <a class="ui-list-item" routerlink="/home" href="/home">
                     <i class="material-icons" style="margin-right: 10px">home</i>
                     Home
                 </a>
-            </md-list-item>
+            </mat-list-item>
 
             <!-- Docentes -->
-            <md-expansion-panel>
-                <md-expansion-panel-header>
-                    <md-panel-title>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         <a class="ui-list-item">Docentes</a>
-                    </md-panel-title>
-                </md-expansion-panel-header>
-                <md-list-item>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list-item>
                     <a class="ui-list-item" routerlink="/docentes" href="/docentes">
                         <i class="material-icons" style="margin-right: 10px">person</i>
                         Mostrar Docentes
                     </a>
-                </md-list-item>
+                </mat-list-item>
 
-                <md-list-item>
+                <mat-list-item>
                     <a class="ui-list-item" routerlink="/docentes/cadastrar" href="/docentes/cadastrar">
                         <i class="material-icons" style="margin-right: 10px">person_add</i>
                         Cadastrar Docente
                     </a>
-                </md-list-item>
-            </md-expansion-panel>
+                </mat-list-item>
+            </mat-expansion-panel>
 
             <!-- Recursos -->
-            <md-expansion-panel>
-                <md-expansion-panel-header>
-                    <md-panel-title>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         <a class="ui-list-item">Recursos</a>
-                    </md-panel-title>
-                </md-expansion-panel-header>
-                <md-list-item>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list-item>
                     <a class="ui-list-item" routerlink="/recursos" href="/recursos">
                         <i class="material-icons" style="margin-right: 10px">computer</i>
                         Mostrar Recursos
                     </a>
-                </md-list-item>
+                </mat-list-item>
 
-                <md-list-item>
+                <mat-list-item>
                     <a class="ui-list-item" routerlink="/recursos/cadastrar" href="/recursos/cadastrar">
                         <i class="material-icons" style="margin-right: 10px">add_box</i>
                         Cadastrar Recurso
                     </a>
-                </md-list-item>
-            </md-expansion-panel>
+                </mat-list-item>
+            </mat-expansion-panel>
 
             <!-- Laboratorios -->
-            <md-expansion-panel>
-                <md-expansion-panel-header>
-                    <md-panel-title>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         <a class="ui-list-item">Laboratorios</a>
-                    </md-panel-title>
-                </md-expansion-panel-header>
-                <md-list-item>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list-item>
                     <a class="ui-list-item" routerlink="/laboratorios" href="/laboratorios">
                             <i class="material-icons" style="margin-right: 10px">desktop_windows</i>
                             Mostrar Laboratorios
                         </a>
-                </md-list-item>
+                </mat-list-item>
 
-                <md-list-item>
+                <mat-list-item>
                     <a class="ui-list-item" routerlink="/laboratorios/cadastrar" href="/laboratorios/cadastrar">
                             <i class="material-icons" style="margin-right: 10px">add_box</i>
                             Cadastrar Laboratorio
                         </a>
-                </md-list-item>
-            </md-expansion-panel>
+                </mat-list-item>
+            </mat-expansion-panel>
 
             <!-- Ocorrencia de Uso -->
-            <md-expansion-panel>
-                <md-expansion-panel-header>
-                    <md-panel-title>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
                         <a class="ui-list-item">Ocorrências De Uso</a>
-                    </md-panel-title>
-                </md-expansion-panel-header>
-                <md-list-item>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list-item>
                     <a class="ui-list-item" routerlink="/ocorrencias" href="/ocorrencias">
                             <i class="material-icons" style="margin-right: 10px">desktop_windows</i>
                             Mostrar Ocorrências
                         </a>
-                </md-list-item>
+                </mat-list-item>
 
-                <md-list-item>
+                <mat-list-item>
                     <a class="ui-list-item" routerlink="/ocorrencias/cadastrar" href="/ocorrencias/cadastrar">
                             <i class="material-icons" style="margin-right: 10px">add_box</i>
                             Cadastrar Ocorrência
                         </a>
-                </md-list-item>
-            </md-expansion-panel>
-        </md-list>
+                </mat-list-item>
+            </mat-expansion-panel>
+        </mat-list>
     </div>
-</md-sidenav>
+</mat-sidenav>
 
 <router-outlet></router-outlet>

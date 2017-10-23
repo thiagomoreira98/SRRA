@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { MdSnackBar } from '@angular/material';
-
+import { MatSnackBar } from '@angular/material';
 import { RecursoService } from '../../recurso/recurso.service';
 import { DocenteService } from '../../docente/docente.service';
 import { OcorrenciaService } from '../../ocorrencia/ocorrencia.service';
@@ -23,7 +22,7 @@ export class OcorrenciaFormComponent implements OnInit {
     private recursoService: RecursoService,
     private docenteService: DocenteService,
     private ocorrenciaService: OcorrenciaService,
-    private snackbar: MdSnackBar,
+    private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute
   ) { }
 

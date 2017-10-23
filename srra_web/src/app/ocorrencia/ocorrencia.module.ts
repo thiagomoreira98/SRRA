@@ -1,7 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material';
+import { MatInputModule } from '@angular/material';
+import { MatDatepickerModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
 
 import { SMNUIModule } from 'ng-smn-ui';
 import { AppRoutingModule } from '../app-routing.module';
@@ -11,11 +16,16 @@ import { OcorrenciaGridComponent } from './ocorrencia-grid/ocorrencia-grid.compo
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
     SMNUIModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule,
+    HttpClientModule,
+    FormsModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   declarations: [
     OcorrenciaFormComponent,

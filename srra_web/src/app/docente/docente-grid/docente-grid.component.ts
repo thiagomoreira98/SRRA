@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { DocenteService } from '../docente.service';
 
@@ -14,7 +14,7 @@ export class DocenteGridComponent implements OnInit {
 
   constructor(
     private docenteService: DocenteService,
-    private snackbar: MdSnackBar
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {

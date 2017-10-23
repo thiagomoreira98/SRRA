@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 import { RecursoService } from '../recurso.service';
 
@@ -15,7 +15,7 @@ export class RecursoGridComponent implements OnInit {
 
   constructor(
     private recursoService: RecursoService,
-    private snackbar: MdSnackBar
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
