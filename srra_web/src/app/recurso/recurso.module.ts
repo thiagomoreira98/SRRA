@@ -7,7 +7,6 @@ import { SMNUIModule } from 'ng-smn-ui';
 import { AppRoutingModule } from '../app-routing.module'
 import { RecursoFormComponent } from './recurso-form/recurso-form.component';
 import { RecursoGridComponent } from './recurso-grid/recurso-grid.component';
-import { RecursoInfoComponent } from './recurso-info/recurso-info.component';
 
 @NgModule({
   imports: [
@@ -20,12 +19,10 @@ import { RecursoInfoComponent } from './recurso-info/recurso-info.component';
   declarations: [
     RecursoFormComponent,
     RecursoGridComponent,
-    RecursoInfoComponent
   ],
   exports: [
     RecursoFormComponent,
     RecursoGridComponent,
-    RecursoInfoComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

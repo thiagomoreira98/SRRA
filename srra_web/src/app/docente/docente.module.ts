@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { SMNUIModule } from 'ng-smn-ui';
 import { AppRoutingModule } from '../app-routing.module'
+
 import { DocenteGridComponent } from './docente-grid/docente-grid.component';
 import { DocenteFormComponent } from './docente-form/docente-form.component';
 

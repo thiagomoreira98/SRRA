@@ -4,7 +4,6 @@ const cors = require('cors');
 const app = express();
 const db = require('./config/database');
 
-require('devbox-response');
 require('./config/config.js');
 
 db(global.config.mongoDb.connectionString());
@@ -27,5 +26,5 @@ db(global.config.mongoDb.connectionString());
 })();
 
 app.listen(global.config.port, () => {
-    console.log('SERVER ON localhost:', global.config.port);
+    console.log(`SERVER LISTENING ON ${global.config.host}:${global.config.port}`);
 })
