@@ -4,12 +4,11 @@
 			<button class="ui-button flat icon" routerLink="/recursos" href="/recursos" uiRipple>
 				<i class="material-icons">arrow_back</i>
 			</button>
-			<span class="title">Cadastro de Recurso</span>
 		</ui-toolbar>
 
 		<!-- <pre>{{ recurso | json }}</pre> -->
 
-		<form (ngSubmit)="cadastrar()">
+		<form (ngSubmit)="onSubmit()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
@@ -70,22 +69,21 @@
 							<label>Motivo</label>
 						</ui-input-container>
 
-						<ui-input-container>
-							<input type="text" uiInput [(ngModel)]="recurso.data" name="date" uiDatePicker="tested" uiMaskDate #date="ngModel">
+
+						<ui-input-container style="max-width: 200px; padding-left: 20px;">
+							<input uiInput [matDatepicker]="picker" name="data" [(ngModel)]="recurso.data">
 							<label>Data</label>
-							<div class="icon">
-								<button type="button" class="ui-button icon flat" uiDatePickerCaller="tested">
-                  					<i class="material-icons">today</i>
-                				</button>
-							</div>
 						</ui-input-container>
+	
+						<mat-datepicker-toggle matSuffix [for]="picker" style="margin-top: 20px;"></mat-datepicker-toggle>
+						<mat-datepicker #picker></mat-datepicker>
 					</div>
 				</ui-card-content>
 			</div>
 
 			<div class="ui-button-container cover">
 				<button type="submit" class="ui-button raised success" uiRipple>SALVAR</button>
-				<button type="button" mat-button color="warn" routerLink="/home" href="/home">CANCELAR</button>
+				<button type="button" mat-button color="warn" routerLink="/recursos" href="/recursos">CANCELAR</button>
 			</div>
 		</form>
 	</ui-card>

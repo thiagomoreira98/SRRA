@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material';
 
+import { NavComponent } from '../../nav/nav.component';
 import { OcorrenciaService } from '../ocorrencia.service';
-
 
 @Component({
   selector: 'app-ocorrencia-grid',
@@ -13,9 +14,14 @@ export class OcorrenciaGridComponent implements OnInit {
 
   ocorrencias: any = [];
 
-  constructor(private ocorrenciaService: OcorrenciaService) { }
+  constructor(
+    private navComponent: NavComponent,
+    private ocorrenciaService: OcorrenciaService, 
+    private snackbar: MatSnackBar
+  ) { }
 
   ngOnInit() {
+    this.navComponent.setTitle('Ocorrências');
     this.selecionar();
   }
 
@@ -26,7 +32,11 @@ export class OcorrenciaGridComponent implements OnInit {
   }
 
   deletar(id): any {
-    console.log(id);
-    this.ocorrenciaService.deletar(id);
+    this.ocorrenciaService.deletar(id).then( () => {
+      this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 })
+    })
+    .catch( (err) => {
+      this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 })
+    })
   }
 }

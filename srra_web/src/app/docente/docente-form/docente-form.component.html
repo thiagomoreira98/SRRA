@@ -4,12 +4,11 @@
 			<button class="ui-button flat icon" routerLink="/docentes" href="/docentes" uiRipple>
 				<i class="material-icons">arrow_back</i>
 			</button>
-			<span class="title">Cadastro de Docente</span>
 		</ui-toolbar>
 
 		<!--<pre>{{ docente | json }}</pre>-->
 
-		<form (ngSubmit)="cadastrar()">
+		<form (ngSubmit)="onSubmit()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container style="max-width: 250px;">
@@ -62,7 +61,7 @@
 
 			<div class="ui-button-container cover">
 				<button type="submit" class="ui-button raised success" uiRipple>SALVAR</button>
-				<button mat-button color="warn" routerLink="/home" href="/home">CANCELAR</button>
+				<button mat-button color="warn" routerLink="/docentes" href="/docentes">CANCELAR</button>
 			</div>
 		</form>
 	</ui-card>

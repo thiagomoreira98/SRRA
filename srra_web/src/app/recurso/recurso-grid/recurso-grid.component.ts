@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 
+import { NavComponent } from '../../nav/nav.component';
 import { RecursoService } from '../recurso.service';
 
 @Component({
@@ -14,11 +15,13 @@ export class RecursoGridComponent implements OnInit {
   recursos: any = [];
 
   constructor(
+    private navComponent: NavComponent,
     private recursoService: RecursoService,
     private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
+    this.navComponent.setTitle('Recursos');
     this.selecionar();
   }
 
@@ -29,12 +32,11 @@ export class RecursoGridComponent implements OnInit {
   }
 
   deletar(id): any {
-    this.recursoService.deletar(id)
-      .then( () => {
-        this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 });
-      })
-      .catch( () => {
-        this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });
-      });
+    this.recursoService.deletar(id).then( () => {
+      this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 });
+    })
+    .catch( () => {
+      this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });
+    });
   }
 }

@@ -1,9 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material';
-import { HttpClientModule } from '@angular/common/http';
+import { MatDatepickerModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
 
 import { SMNUIModule } from 'ng-smn-ui';
 import { AppRoutingModule } from '../app-routing.module'
@@ -12,13 +14,15 @@ import { RecursoGridComponent } from './recurso-grid/recurso-grid.component';
 
 @NgModule({
   imports: [
+    SMNUIModule,
+    AppRoutingModule,
+    HttpClientModule,
     CommonModule,
     FormsModule,
     MatButtonModule,
     MatSnackBarModule,
-    HttpClientModule,
-    SMNUIModule,
-    AppRoutingModule
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   declarations: [
     RecursoFormComponent,

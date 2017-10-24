@@ -1,7 +1,6 @@
 <div class="ui-s960">
     <ui-card>
         <ui-toolbar class="flat">
-            <span class="title" [ngClass]="{'hide': searchOpen}">Recursos Disponiveis</span>
             <div class="align-right">
                 <!-- <form #searchForm="ngForm" name="searchForm" class="ui-validate on-dirty" [ngClass]="{'open': searchOpen}">
                     <ui-input-container>
@@ -56,8 +55,7 @@
                     </td>
 
                     <td class="align-right">
-                        <button class="ui-button flat icon" uiRipple
-                            [routerLink] = "['/laboratorios/info', laboratorio._id]">
+                        <button class="ui-button flat icon" uiRipple [routerLink] = "['/laboratorios/info', laboratorio._id]">
                             <i class="material-icons">edit</i>
                         </button>
 
@@ -75,10 +73,10 @@
                             <span class="pagination">
                                 1-10 de 10
                             </span>
-                            <button class="ui-button flat icon" uiRipple disabled>
+                            <button class="ui-button flat icon" uiRipple>
                                 <i class="material-icons">keyboard_arrow_left</i>
                             </button>
-                            <button class="ui-button flat icon" uiRipple disabled>
+                            <button class="ui-button flat icon" uiRipple>
                                 <i class="material-icons">keyboard_arrow_right</i>
                             </button>
                         </div>
@@ -88,7 +86,9 @@
         </ui-data-table>
     </ui-card>
 
-    <button class="ui-button raised primary fab" uiRipple>
-        <i class="material-icons">add</i>
-    </button>
+    <div class="ui-fab-container">
+		<button class="ui-button primary fab" uiRipple routerLink="/laboratorios/cadastrar">
+			<i class="material-icons">add</i>
+		</button>
+	</div>
 </div>

@@ -1,18 +1,17 @@
 <div class="ui-s960">
 	<ui-card>
 		<ui-toolbar class="flat">
-      <button class="ui-button flat icon" routerLink="/home"  href="/home" uiRipple>
-        <i class="material-icons">arrow_back</i>
-      </button>
-			<span class="title">Cadastro de Recurso</span>
+			<button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
+				<i class="material-icons">arrow_back</i>
+			</button>
 		</ui-toolbar>
 
 		<!--<pre>{{ laboratorio | json }}</pre>-->
 
-		<form (ngSubmit)="cadastar()">
+		<form (ngSubmit)="onSubmit()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
+					<ui-input-container style="max-width: 200px">
 						<input type="number" [(ngModel)]="laboratorio.codigo" name="codigo" uiInput>
 						<label>Codigo</label>
 					</ui-input-container>
@@ -29,72 +28,11 @@
 						<label>Descrição</label>
 					</ui-input-container>
 				</div>
-
-				<!-- <div class="ui-flex-container break-on-s960">
-					<ui-option-container class="v-space-4 b-space-16">
-						<div class="info">
-							Status
-						</div>
-						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="laboratorio.status" [value]="1">
-							<span>Disponivel</span>
-						</ui-option>
-						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="laboratorio.status" [value]="2">
-							<span>Em Manutenção</span>
-						</ui-option>
-						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="laboratorio.status" [value]="3">
-							<span>Inativo</span>
-						</ui-option>
-						{{laboratorio.status}}
-					</ui-option-container>
-				</div> -->
 			</ui-card-content>
 
-			<!-- <div *ngIf="laboratorio.status === 2">
-          <ui-toolbar class="flat">
-            <span class="title">Manutenção</span>
-          </ui-toolbar>
-
-          <ui-card-content>
-            <div class="ui-flex-container break-on-s960">
-              <ui-input-container>
-                <input type="text" [(ngModel)]="laboratorio.motivo" name="motivoManutencao" uiInput>
-                <label>motivo</label>
-              </ui-input-container>
-
-              <ui-input-container>
-                <input type="date" [(ngModel)]="laboratorio.data" name="dataManutencao" uiInput>
-                <label>data</label>
-              </ui-input-container>
-            </div>
-          </ui-card-content>
-        </div>
-
-        <div *ngIf="laboratorio.status === 3">
-          <ui-toolbar class="flat">
-            <span class="title">Inativo</span>
-          </ui-toolbar>
-
-          <ui-card-content>
-            <div class="ui-flex-container break-on-s960">
-              <ui-input-container>
-                <input type="text" [(ngModel)]="laboratorio.motivo" name="motivoInativo" uiInput>
-                <label>Descrição</label>
-              </ui-input-container>
-
-              <ui-input-container>
-                <input type="text" [(ngModel)]="laboratorio.data" name="dataInativo" uiInput>
-                <label>data</label>
-              </ui-input-container>
-            </div>
-          </ui-card-content>
-        </div> -->
-
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
+				<button type="submit" class="ui-button raised success" uiRipple>SALVAR</button>
+				<button mat-button color="warn" routerLink="/laboratorios" href="/laboratorios">CANCELAR</button>
 			</div>
 		</form>
 	</ui-card>
