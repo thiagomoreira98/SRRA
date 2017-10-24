@@ -12,45 +12,35 @@
         <form (ngSubmit)="cadastrar()">
             <ui-card-content>
                 <div class="ui-flex-container break-on-s960">
-                    <ui-input-container>
+                    <ui-input-container style="max-width: 150px;">
                         <input type="number" [(ngModel)]="ocorrencia.codigo" name="codigo" uiInput>
                         <label>Codigo</label>
                     </ui-input-container>
 
-                    <ui-input-container>
+                    <ui-input-container style="max-width: 200px; padding-left: 20px">
                         <select name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput>
                             <option *ngFor="let recurso of recursos">{{ recurso.nome }}</option>
                         </select>
                         <label>Recurso</label>
                     </ui-input-container>
-                </div>
 
-                <div class="ui-flex-container break-on-s960">
-                    <!-- <ui-input-container>
-                        <input type="text" uiInput [(ngModel)]="ocorrencia.data" name="data" uiDatePicker="simple" uiMaskDate #date="ngModel">
-                        <label>Date</label>
-                        <div class="icon">
-                            <button type="button" class="ui-button icon flat" uiDatePickerCaller="simple">
-                                <i class="material-icons">today</i>
-                            </button>
-                        </div>
-                    </ui-input-container> -->
-
-                    <ui-input-container style="max-width: 130px">
-                        <input uiInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data">
-                        <label>Data</label>
-                    </ui-input-container>
-
-                    <mat-datepicker-toggle matSuffix [for]="picker" style="margin-top: 20px;"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-
-                    <ui-input-container style="padding-left: 30px;">
+                    <ui-input-container style="max-width: 250px; padding-left: 20px;">
                         <select name="docente" [(ngModel)]="ocorrencia.docente" uiInput>
                             <option *ngFor="let docente of docentes">{{ docente.nome }}</option>
                         </select>
                         <label>Docente</label>
                     </ui-input-container>
 
+                    <ui-input-container style="max-width: 200px; padding-left: 20px;">
+                        <input uiInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data">
+                        <label>Data</label>
+                    </ui-input-container>
+
+                    <mat-datepicker-toggle matSuffix [for]="picker" style="margin-top: 20px;"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+
+                <div class="ui-flex-container break-on-s960">
                     <ui-input-container>
                         <input type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" uiInput>
                         <label>Detalhes</label>

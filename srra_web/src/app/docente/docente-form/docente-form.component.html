@@ -12,12 +12,12 @@
 		<form (ngSubmit)="cadastrar()">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
+					<ui-input-container style="max-width: 250px;">
 						<input type="number" [(ngModel)]="docente.matricula" name="matricula" uiInput>
 						<label>Matricula</label>
 					</ui-input-container>
 
-					<ui-input-container>
+					<ui-input-container style="">
 						<input type="text" [(ngModel)]="docente.nome" name="nome" uiInput>
 						<label>Nome</label>
 					</ui-input-container>
@@ -36,15 +36,12 @@
 				</div>
 
 				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
+					<ui-input-container style="max-width: 150px;">
 						<input type="text" [(ngModel)]="docente.cpf" name="cpf" uiInput uiMaskCpf>
 						<label>CPF</label>
 					</ui-input-container>
 
 					<ui-option-container class="v-space-4 b-space-16">
-						<!-- <div class="info">
-							Status
-						</div> -->
 						<ui-option>
 							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Administrador'">
 							<span>Professor</span>
@@ -55,57 +52,17 @@
 							<span>Funcionario</span>
 						</ui-option>
 
-            <ui-option>
-              <input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Funcionario'">
-              <span>Administrador</span>
-            </ui-option>
-          </ui-option-container>
+						<ui-option>
+							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Funcionario'">
+							<span>Administrador</span>
+						</ui-option>
+					</ui-option-container>
 				</div>
 			</ui-card-content>
 
-			<!-- <div *ngIf="docente.funcao === 2">
-				<ui-toolbar class="flat">
-					<span class="title">Manutenção</span>
-				</ui-toolbar>
-
-				<ui-card-content>
-					<div class="ui-flex-container break-on-s960">
-						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivoManutencao" uiInput>
-							<label>motivo</label>
-						</ui-input-container>
-
-						<ui-input-container>
-							<input type="date" [(ngModel)]="recurso.data" name="dataManutencao" uiInput>
-							<label>data</label>
-						</ui-input-container>
-					</div>
-				</ui-card-content>
-			</div>
-
-			<div *ngIf="docente.funcao === 3">
-				<ui-toolbar class="flat">
-					<span class="title">Inativo</span>
-				</ui-toolbar>
-
-				<ui-card-content>
-					<div class="ui-flex-container break-on-s960">
-						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivoInativo" uiInput>
-							<label>Descrição</label>
-						</ui-input-container>
-
-						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.data" name="dataInativo" uiInput>
-							<label>data</label>
-						</ui-input-container>
-					</div>
-				</ui-card-content>
-			</div> -->
-
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
+				<button type="submit" class="ui-button raised success" uiRipple>SALVAR</button>
+				<button mat-button color="warn" routerLink="/home" href="/home">CANCELAR</button>
 			</div>
 		</form>
 	</ui-card>
