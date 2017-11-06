@@ -9,11 +9,11 @@
 
 		<!--<pre>{{ laboratorio | json }}</pre>-->
 
-		<form (ngSubmit)="cadastar()">
+		<form (ngSubmit)="cadastar()" #laboratorioForm>
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
-						<input type="number" [(ngModel)]="laboratorio.codigo" name="codigo" uiInput>
+					<ui-input-container style="max-width: 200px;">
+						<input type="number" [(ngModel)]="laboratorio.codigo" name="codigo" uiInput required>
 						<label>Codigo</label>
 					</ui-input-container>
 

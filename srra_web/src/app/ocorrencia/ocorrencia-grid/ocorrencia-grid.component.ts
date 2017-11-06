@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { OcorrenciaService } from '../ocorrencia.service';
 
+import { NavComponent } from '../../nav/nav.component';
+
 
 @Component({
   selector: 'app-ocorrencia-grid',
@@ -13,9 +15,13 @@ export class OcorrenciaGridComponent implements OnInit {
 
   ocorrencias: any = [];
 
-  constructor(private ocorrenciaService: OcorrenciaService) { }
+  constructor(
+    private ocorrenciaService: OcorrenciaService,
+    private navComponent: NavComponent
+  ) { }
 
   ngOnInit() {
+    this.navComponent.setTitle('Ocorrências');
     this.selecionar();
   }
 

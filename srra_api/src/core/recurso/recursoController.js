@@ -15,7 +15,7 @@ function selecionar(req, res) {
             return res.status(500).json(err);
 
         res.status(200).json(data);
-    })
+    });
 }
 
 function buscar(req, res) {
@@ -24,7 +24,7 @@ function buscar(req, res) {
             return res.status(500).json(err);
 
         res.status(200).json(data);
-    })
+    });
 }
 
 function inserir(req, res) {
@@ -36,7 +36,7 @@ function inserir(req, res) {
             return res.status(500).json(err);
 
         res.status(200).json({message: 'Inserido com Sucesso!'});
-    })
+    });
 }
 
 function alterar(req, res) {
@@ -48,7 +48,7 @@ function alterar(req, res) {
             res.status(500).json(err);
 
         res.status(200).json({message: 'Alterado com Sucesso!'});
-    })
+    });
 }
 
 function deletar(req, res) {
@@ -57,5 +57,5 @@ function deletar(req, res) {
             return res.status(500).json(err);
         
         res.status(200).json({message: 'Deletado com Sucesso!'});
-    })
+    });
 }

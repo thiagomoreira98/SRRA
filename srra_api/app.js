@@ -27,4 +27,4 @@ db(global.config.mongoDb.connectionString());
 
 app.listen(global.config.port, () => {
     console.log(`SERVER LISTENING ON ${global.config.host}:${global.config.port}`);
-})
+});

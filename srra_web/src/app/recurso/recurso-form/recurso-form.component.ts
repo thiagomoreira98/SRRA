@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 import { RecursoService } from '../recurso.service';
+import { NavComponent } from '../../nav/nav.component';
 
 @Component({
   selector: 'app-recurso-form',
@@ -12,11 +13,13 @@ import { RecursoService } from '../recurso.service';
 export class RecursoFormComponent implements OnInit {
 
   recurso: any = {};
+  item: String;
 
   constructor(
     private recursoService: RecursoService,
     private snackbar: MatSnackBar,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private navComponent: NavComponent
   ) { }
 
   ngOnInit() {
@@ -25,6 +28,19 @@ export class RecursoFormComponent implements OnInit {
         this.recurso = data;
       });
     });
+
+    if(!this.recurso._id) {
+      this.recurso.itens = [];
+      this.navComponent.setTitle('Cadastrar Recurso');
+    }
+    else {
+      this.navComponent.setTitle('Alterar Recurso');
+    }
+  }
+
+  adicionarItem(item) {
+    this.recurso.itens.push(item);
+    this.item = '';
   }
 
   cadastrar() {
@@ -44,8 +60,7 @@ export class RecursoFormComponent implements OnInit {
       .catch( (err) => {
         this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });
       });
-    }
-    
+    }    
   }
 
 }

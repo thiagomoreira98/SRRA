@@ -8,6 +8,8 @@
         </ui-toolbar>
 
         <!--<pre>{{ ocorrencia | json }}</pre>-->
+        <pre>{{ recursos | json }}</pre>
+        <pre>{{ docentes | json }}</pre>
 
         <form (ngSubmit)="cadastrar()">
             <ui-card-content>
@@ -18,7 +20,7 @@
                     </ui-input-container>
 
                     <ui-input-container style="max-width: 200px; padding-left: 20px">
-                        <select name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput>
+                        <select name="recurso" (ngModel)="ocorrencia.recurso" uiInput>
                             <option *ngFor="let recurso of recursos">{{ recurso.nome }}</option>
                         </select>
                         <label>Recurso</label>

@@ -3,7 +3,7 @@ const config = {
         user: '',
         password: '',
         server: '127.0.0.1',
-        port: '27020',
+        port: '27017',
         database: 'SRRAdev',
         connectionString: () => {
             return `mongodb://${config.mongoDb.server}:${config.mongoDb.port}/${config.mongoDb.database}`

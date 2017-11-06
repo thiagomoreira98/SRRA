@@ -1,108 +1,63 @@
 <div class="ui-s960">
-  <ui-card>
-    <ui-toolbar class="flat">
-      <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
-        <i class="material-icons">arrow_back</i>
-      </button>
-      <span class="title" [ngClass]="{'hide': searchOpen}">Docentes Disponiveis</span>
-      <!-- <div class="align-right">
-          <form #searchForm="ngForm" name="searchForm" class="ui-validate on-dirty" [ngClass]="{'open': searchOpen}">
-              <ui-input-container>
-                  <input #searchFormText="ngModel" type="text" name="searchText" [(ngModel)]="searchText" uiMaxlength="200" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
-                  <div class="ui-messages">
-                      <div *ngIf="searchFormText.errors && searchFormText.dirty">
-                          <div class="ui-message counter error">
-                              {{searchText ? searchText.length : 0}}/200
-                          </div>
-                      </div>
-                  </div>
-              </ui-input-container>
-          </form>
-          <button class="ui-button flat icon" uiRipple (click)="toggleSearch()">
-              <i class="material-icons">search</i>
-          </button>
-      </div> -->
-    </ui-toolbar>
+    <ui-card style="width: 700px; margin: auto;">
+        <ui-toolbar class="flat">
+            <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
+                <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="align-right">
+                <ui-input-container>
+                    <input type="text" name="searchText" [(ngModel)]="filtro.nome" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
+                </ui-input-container>
+                <button class="ui-button flat icon" uiRipple (click)="filtrar()">
+                    <i class="material-icons">search</i>
+                </button>
+            </div>
+        </ui-toolbar>
 
-    <ui-data-table>
-      <tbody>
-      <tr>
-        <th>
-          Matricula
-        </th>
+        <ui-data-table>
+            <tbody>
+                <tr>
+                    <th>Matricula</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Função</th>
+                    <th class="align-right"></th>
+                </tr>
 
-        <th>
-          Nome
-        </th>
+                <tr *ngFor="let docente of docentes">
+                    <td>{{docente.matricula}}</td>
+                    <td>{{docente.nome}}</td>
+                    <td>{{docente.cpf}}</td>
+                    <td>{{docente.funcao}}</td>
+                    <td class="align-right">
+                        <button class="ui-button flat icon" style="cursor: pointer;" uiRipple [routerLink]="['/docentes/info', docente._id]">
+                            <i class="material-icons">edit</i>
+                        </button>
 
-        <th class="align-center">
-          CPF
-        </th>
+                        <button class="ui-button flat icon" style="cursor: pointer;" uiRipple (click)="deletar(docente._id)">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
 
-        <th class="align-right">
-          Função
-        </th>
-
-        <th class="align-right">
-          E-mail
-        </th>
-
-        <th class="align-right">
-
-        </th>
-      </tr>
-
-      <tr *ngFor="let docente of docentes">
-        <td>
-          {{docente.matricula}}
-        </td>
-
-        <td>
-          {{docente.nome}}
-        </td>
-
-        <td class="align-center">
-          {{docente.cpf}}
-        </td>
-
-        <td class="align-right">
-          {{docente.funcao}}
-        </td>
-
-        <td class="align-right">
-          {{docente.email}}
-        </td>
-
-        <td class="align-right">
-          <button class="ui-button flat icon" uiRipple
-                  [routerLink]="['/docentes/info', docente._id]">
-            <i class="material-icons">edit</i>
-          </button>
-
-          <button class="ui-button flat icon" uiRipple (click)="deletar(docente._id)">
-            <i class="material-icons">delete</i>
-          </button>
-        </td>
-      </tr>
-      </tbody>
-
-      <tfoot>
-      <tr>
-        <td colspan="4" class="align-right">
-          <div class="ui-button-container align-right">
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="align-right">
+                        <div class="ui-button-container align-right">
                             <span class="pagination">
                                 1-10 de 10
                             </span>
-            <button class="ui-button flat icon" uiRipple disabled>
-              <i class="material-icons">keyboard_arrow_left</i>
-            </button>
-            <button class="ui-button flat icon" uiRipple disabled>
-              <i class="material-icons">keyboard_arrow_right</i>
-            </button>
-          </div>
-        </td>
-      </tr>
-      </tfoot>
-    </ui-data-table>
-  </ui-card>
+                            <button class="ui-button flat icon" uiRipple disabled>
+                                <i class="material-icons">keyboard_arrow_left</i>
+                            </button>
+                            <button class="ui-button flat icon" uiRipple disabled>
+                                <i class="material-icons">keyboard_arrow_right</i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </ui-data-table>
+    </ui-card>
 </div>

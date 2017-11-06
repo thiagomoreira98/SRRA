@@ -1,37 +1,52 @@
 <div class="ui-s960">
-	<ui-card>
+	<ui-card style="max-width: 800px; margin: auto;">
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/recursos" href="/recursos" uiRipple>
 				<i class="material-icons">arrow_back</i>
 			</button>
-			<span class="title">Cadastro de Recurso</span>
 		</ui-toolbar>
 
 		<!-- <pre>{{ recurso | json }}</pre> -->
 
-		<form (ngSubmit)="cadastrar()">
+		<form (ngSubmit)="cadastrar()" #recursoForm="ngForm">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
-						<input type="number" [(ngModel)]="recurso.codigo" name="codigo" uiInput>
+					<ui-input-container style="max-width: 200px;">
+						<input type="number" [(ngModel)]="recurso.codigo" name="codigo" uiInput required>
 						<label>Codigo</label>
 					</ui-input-container>
 
 					<ui-input-container>
-						<input type="text" [(ngModel)]="recurso.nome" name="nome" uiInput>
+						<input type="text" [(ngModel)]="recurso.nome" name="nome" uiInput required>
 						<label>Nome</label>
 					</ui-input-container>
 				</div>
 
+
+				<div class="ui-flex-container break-on-s960">
+					<ui-input-container style="max-width: 300px;">
+						<input type="text" [(ngModel)]="item" name="item" uiInput>
+						<label>itens</label>
+					</ui-input-container>
+					<button type="button" style="cursor: pointer;" class="ui-button primary raised icon" (click)="adicionarItem(item)" uiRipple
+					 [disabled]="!item">
+						<i class="material-icons">add</i>
+					</button>
+				</div>
+
+				<div *ngIf="recurso.itens.length > 0" class="ui-flex-container break-on-s960" style="margin-bottom: 15px;">
+					<div *ngFor="let item of recurso.itens; let i = index" style="background-color: rgba(63, 81, 181, 0.61); border-radius: 30%; padding-top: 5px; margin-bottom: 5px; margin-right: 10px; padding-left: 10px;">
+						<span><strong>{{ item }}</strong></span>
+						<button style="cursor: pointer; margin-top: -10px;" type="button" class="ui-button flat icon" (click)="recurso.itens.splice(i, 1)">
+							<i class="material-icons">delete</i>
+						</button>
+					</div>
+				</div>
+
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
-						<input type="text" [(ngModel)]="recurso.descricao" name="descricao" uiInput>
+						<input type="text" [(ngModel)]="recurso.descricao" name="descricao" uiInput required>
 						<label>Descrição</label>
-					</ui-input-container>
-
-					<ui-input-container>
-						<input type="text" [(ngModel)]="recurso.itens" name="itens" uiInput>
-						<label>itens</label>
 					</ui-input-container>
 				</div>
 
@@ -41,17 +56,17 @@
 							Status
 						</div>
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Disponivel'">
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Disponivel'" required>
 							<span>Disponivel</span>
 						</ui-option>
 
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Em Manutenção'">
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Em Manutenção'" required>
 							<span>Em Manutenção</span>
 						</ui-option>
 
 						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Inativo'">
+							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Inativo'" required>
 							<span>Inativo</span>
 						</ui-option>
 					</ui-option-container>
@@ -60,33 +75,56 @@
 
 			<div *ngIf="recurso.status === 'Em Manutenção' || recurso.status === 'Inativo'">
 				<ui-toolbar class="flat">
-					<span class="title">Manutenção</span>
+					<span class="title">{{ recurso.status }}</span>
 				</ui-toolbar>
 
 				<ui-card-content>
 					<div class="ui-flex-container break-on-s960">
 						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivo" uiInput>
+							<input type="text" [(ngModel)]="recurso.motivo" name="motivo" uiInput required>
 							<label>Motivo</label>
 						</ui-input-container>
 
-						<ui-input-container>
-							<input type="text" uiInput [(ngModel)]="recurso.data" name="date" uiDatePicker="tested" uiMaskDate #date="ngModel">
+						<ui-input-container style="max-width: 200px; padding-left: 20px;">
+							<input uiInput [matDatepicker]="picker" name="data" [(ngModel)]="recurso.data" required>
 							<label>Data</label>
-							<div class="icon">
-								<button type="button" class="ui-button icon flat" uiDatePickerCaller="tested">
-                  					<i class="material-icons">today</i>
-                				</button>
-							</div>
 						</ui-input-container>
+
+						<mat-datepicker-toggle matSuffix [for]="picker" style="margin-top: 20px;"></mat-datepicker-toggle>
+						<mat-datepicker #picker></mat-datepicker>
 					</div>
 				</ui-card-content>
 			</div>
 
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised success" uiRipple>SALVAR</button>
-				<button type="button" mat-button color="warn" routerLink="/home" href="/home">CANCELAR</button>
+				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!recursoForm.valid">SALVAR</button>
+				<button type="button" mat-button color="warn" routerLink="/recursos" href="/recursos">CANCELAR</button>
 			</div>
 		</form>
 	</ui-card>
+
+	<!-- itens -->
+	<!-- <div *ngIf="recurso.itens.length > 0">
+		<ui-card style="width: 300px; float: right; margin-right: -80px; margin-top: -442px;">
+			<ui-card-header>
+				<h3 style="text-align: center;">ITENS</h3>
+			</ui-card-header>
+
+			<ui-card-content>
+				<ui-data-table>
+					<tbody>
+						<tr *ngFor="let item of recurso.itens; let i = index">
+							<td style="text-align: center;">
+								<span>{{ item }}</span>
+								<button style="cursor: pointer;" type="button" class="ui-button flat icon" (click)="recurso.itens.splice(i, 1)">
+									<i class="material-icons">delete</i>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</ui-data-table>
+				<!-- <pre>{{ recurso.itens | json}}</pre>
+			</ui-card-content>
+		</ui-card>
+	</div> -->
 </div>

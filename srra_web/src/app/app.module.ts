@@ -44,6 +44,9 @@ import { OcorrenciaService } from './ocorrencia/ocorrencia.service';
     LaboratorioModule,
     OcorrenciaModule
   ],
+  exports: [
+    NavComponent
+  ],
   providers: [
     RecursoService,
     DocenteService,

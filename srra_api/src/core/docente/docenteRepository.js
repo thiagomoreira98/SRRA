@@ -10,8 +10,8 @@ module.exports = {
 }
 
 function selecionar(callback) {
-    Schema.find( (err, data) => {
-        if(err)
+    Schema.find((err, data) => {
+        if (err)
             return callback(err);
 
         callback(null, data);
@@ -20,7 +20,7 @@ function selecionar(callback) {
 
 function buscar(id, callback) {
     Schema.findById(id, (err, data) => {
-        if(err)
+        if (err)
             return callback(err);
 
         callback(null, data);
@@ -28,8 +28,8 @@ function buscar(id, callback) {
 }
 
 function inserir(docente, callback) {
-    new Schema(docente).save( (err, data) => {
-        if(err)
+    new Schema(docente).save((err, data) => {
+        if (err)
             return callback(err);
 
         callback(null, data);
@@ -38,16 +38,16 @@ function inserir(docente, callback) {
 
 function alterar(id, docenteNew, callback) {
     Schema.findByIdAndUpdate(id, docenteNew, (err, data) => {
-        if(err)
+        if (err)
             return callback(err);
 
         callback(null, data);
-    })  
+    })
 }
 
 function deletar(id, callback) {
     Schema.findByIdAndRemove(id, (err, data) => {
-        if(err)
+        if (err)
             return callback(err);
 
         callback(null, data);
