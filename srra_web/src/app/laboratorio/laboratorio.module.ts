@@ -2,6 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material';
 
 import { SMNUIModule } from 'ng-smn-ui';
 import { AppRoutingModule } from '../app-routing.module';
@@ -11,11 +12,12 @@ import { LaboratorioGridComponent } from './laboratorio-grid/laboratorio-grid.co
 
 @NgModule({
   imports: [
-    CommonModule,
+    SMNUIModule,
+    AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    SMNUIModule,
-    AppRoutingModule
+    CommonModule,
+    MatButtonModule
   ],
   declarations: [
     LaboratorioFormComponent,

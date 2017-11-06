@@ -7,13 +7,13 @@ import { LaboratorioService } from '../laboratorio.service';
 import { NavComponent } from '../../nav/nav.component';
 
 @Component({
-  selector: 'app-laboratorio-form',
-  templateUrl: './laboratorio-form.component.html',
-  styleUrls: ['./laboratorio-form.component.scss']
+    selector: 'app-laboratorio-form',
+    templateUrl: './laboratorio-form.component.html',
+    styleUrls: ['./laboratorio-form.component.scss']
 })
 export class LaboratorioFormComponent implements OnInit {
 
-  laboratorio: any = {};
+    laboratorio: any = {};
 
   constructor(
     private laboratorioService: LaboratorioService,

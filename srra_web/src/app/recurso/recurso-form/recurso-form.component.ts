@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
+import { NavComponent } from '../../nav/nav.component';
 import { RecursoService } from '../recurso.service';
 import { NavComponent } from '../../nav/nav.component';
 
@@ -16,6 +17,7 @@ export class RecursoFormComponent implements OnInit {
   item: String;
 
   constructor(
+    private navComponent: NavComponent,
     private recursoService: RecursoService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
@@ -23,6 +25,8 @@ export class RecursoFormComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.navComponent.setTitle('Cadastrar Recurso');
+
     this.activatedRoute.params.subscribe((params: Params) => {
       this.recursoService.buscar(params.id).subscribe( data => {
         this.recurso = data;
@@ -43,13 +47,14 @@ export class RecursoFormComponent implements OnInit {
     this.item = '';
   }
 
-  cadastrar() {
+  onSubmit() {
     if(this.recurso._id) {
-      this.recursoService.alterar(this.recurso._id, this.recurso).then( () => {
-        this.snackbar.open('Alterado com Sucesso!', 'Fechar', { duration: 3000 });
+      this.recursoService.alterar(this.recurso._id, this.recurso).then( (data) => {
+        this.recurso = data;
+        this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
       })
       .catch( (err) => {
-        this.snackbar.open('Erro ao Alterar!', 'Fechar', { duration: 3000 });
+        this.snackbar.open('Erro ao Salvar!', 'Fechar', { duration: 3000 });
       });
     }
     else{

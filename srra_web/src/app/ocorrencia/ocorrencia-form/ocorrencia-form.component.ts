@@ -18,19 +18,19 @@ export class OcorrenciaFormComponent implements OnInit {
   ocorrencia: any = {};
   recursos: any = [];
   docentes: any = [];
-  today: Date;
-
 
   constructor(
+    private navComponent: NavComponent,
     private recursoService: RecursoService,
     private docenteService: DocenteService,
     private ocorrenciaService: OcorrenciaService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private navComponent: NavComponent
   ) { }
 
   ngOnInit() {
+    this.navComponent.setTitle('Cadastrar Ocorrência');
+
     this.activatedRoute.params.subscribe((params: Params) => {
       this.ocorrenciaService.buscar(params.id).subscribe(data => {
         this.ocorrencia = data;
@@ -44,7 +44,6 @@ export class OcorrenciaFormComponent implements OnInit {
       this.navComponent.setTitle('Cadastrar Ocorrência');
     }
 
-    this.today = new Date();
     this.recursosDropdown();
     this.docentesDropdown();
   }
@@ -62,13 +61,23 @@ export class OcorrenciaFormComponent implements OnInit {
     });
   }
 
-  cadastrar() {
-    this.ocorrenciaService.inserir(this.ocorrencia).then(() => {
-      this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
-    })
-      .catch(() => {
+  onSubmit() {
+    if(this.ocorrencia._id) {
+      this.ocorrenciaService.alterar(this.ocorrencia._id, this.ocorrencia).then( (data) => {
+        this.ocorrencia = data;
+        this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
+      })
+      .catch( (err) => {
+        this.snackbar.open('Erro ao Salvar!', 'Fechar', { duration: 3000 })
+      })
+    }
+    else {
+      this.ocorrenciaService.inserir(this.ocorrencia).then( () => {
+        this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
+      })
+      .catch( () => {
         this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });
       });
+    }
   }
-
 }

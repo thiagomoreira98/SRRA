@@ -14,6 +14,9 @@ import { RecursoGridComponent } from './recurso-grid/recurso-grid.component';
 
 @NgModule({
   imports: [
+    SMNUIModule,
+    AppRoutingModule,
+    HttpClientModule,
     CommonModule,
     SMNUIModule,
     AppRoutingModule,

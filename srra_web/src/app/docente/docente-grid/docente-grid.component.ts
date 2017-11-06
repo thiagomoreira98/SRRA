@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 
-import { DocenteService } from '../docente.service';
 import { NavComponent } from '../../nav/nav.component';
+import { DocenteService } from '../docente.service';
 
 @Component({
   selector: 'app-docente-grid',
@@ -15,9 +15,9 @@ export class DocenteGridComponent implements OnInit {
   filtro: any = {};
 
   constructor(
+    private navComponent: NavComponent,
     private docenteService: DocenteService,
     private snackbar: MatSnackBar,
-    private navComponent: NavComponent
   ) { }
 
   ngOnInit() {
