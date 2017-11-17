@@ -37,13 +37,13 @@ function inserir(recurso, callback) {
     });
 }
 
-function alterar(id, recursoNew, callback) {
-    Schema.findByIdAndUpdate(id, recursoNew, (err, data) => {
+function alterar(id, recurso, callback) {
+    Schema.findOneAndUpdate({_id: id}, recurso, (err, data) => {
         if(err)
             return callback(err);
 
         callback(null, data);
-    }) 
+    });
 }
 
 function deletar(id, callback) {

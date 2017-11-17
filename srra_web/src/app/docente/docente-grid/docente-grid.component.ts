@@ -39,6 +39,7 @@ export class DocenteGridComponent implements OnInit {
     this.docenteService.deletar(id)
       .then(() => {
         this.snackbar.open('Deletado Com Sucesso!', 'Fechar', { duration: 3000 });
+        this.selecionar();
       })
       .catch(() => {
         this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });

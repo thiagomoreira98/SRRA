@@ -12,6 +12,7 @@ import { LaboratorioService } from '../laboratorio.service';
 export class LaboratorioGridComponent implements OnInit {
 
   laboratorios: any = [];
+  filtro: any = {};
 
   constructor(
     private navComponent: NavComponent,
@@ -33,6 +34,7 @@ export class LaboratorioGridComponent implements OnInit {
   deletar(id): any {
     this.laboratorioService.deletar(id).then( () => {
       this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 });
+      this.selecionar();
     })
     .catch( () => {
       this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });

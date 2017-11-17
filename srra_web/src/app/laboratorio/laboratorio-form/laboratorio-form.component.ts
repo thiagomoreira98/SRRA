@@ -7,13 +7,13 @@ import { LaboratorioService } from '../laboratorio.service';
 import { NavComponent } from '../../nav/nav.component';
 
 @Component({
-    selector: 'app-laboratorio-form',
-    templateUrl: './laboratorio-form.component.html',
-    styleUrls: ['./laboratorio-form.component.scss']
+  selector: 'app-laboratorio-form',
+  templateUrl: './laboratorio-form.component.html',
+  styleUrls: ['./laboratorio-form.component.scss']
 })
 export class LaboratorioFormComponent implements OnInit {
 
-    laboratorio: any = {};
+  laboratorio: any = {};
 
   constructor(
     private laboratorioService: LaboratorioService,
@@ -37,14 +37,24 @@ export class LaboratorioFormComponent implements OnInit {
     }
   }
 
-  cadastar() {
-    this.laboratorioService.inserir(this.laboratorio)
-      .then(() => {
+  onSubmit() {
+    if (this.laboratorio._id) {
+      this.laboratorioService.alterar(this.laboratorio).then((data) => {
+        this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
+        this.laboratorio = data;
+      })
+      .catch(() => {
+        this.snackbar.open('Erro ao Salvar!', 'Fechar', { duration: 3000 });
+      });
+    }
+    else {
+      this.laboratorioService.inserir(this.laboratorio).then(() => {
         this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
       })
       .catch(() => {
         this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });
       });
+    }
   }
 
 }

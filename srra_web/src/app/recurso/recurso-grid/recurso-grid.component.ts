@@ -39,6 +39,7 @@ export class RecursoGridComponent implements OnInit {
   deletar(id): any {
     this.recursoService.deletar(id).then( () => {
       this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 });
+      this.selecionar();
     })
     .catch( () => {
       this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });

@@ -20,8 +20,8 @@ export class LaboratorioService {
     return this.http.post(`${environment.urlApi}/api/laboratorio`, laboratorio).toPromise();
   }
 
-  alterar(id: any, laboratorio: any) {
-    return this.http.put(`${environment.urlApi}/api/laboratorio/${id}`, laboratorio).toPromise();
+  alterar(laboratorio: any) {
+    return this.http.put(`${environment.urlApi}/api/laboratorio/${laboratorio._id}`, laboratorio).toPromise();
   }
 
   deletar(id: any) {

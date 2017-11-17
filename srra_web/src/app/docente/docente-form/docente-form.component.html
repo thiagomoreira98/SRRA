@@ -6,62 +6,62 @@
 			</button>
 		</ui-toolbar>
 
-		<!--<pre>{{ docente | json }}</pre>-->
+		<!-- <pre>{{ docente | json }}</pre> -->
 
-		<form (ngSubmit)="onSubmit()">
+		<form (ngSubmit)="onSubmit()" #docenteForm="ngForm">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container style="max-width: 250px;">
-						<input type="number" [(ngModel)]="docente.matricula" name="matricula" uiInput>
+						<input type="number" [(ngModel)]="docente.matricula" name="matricula" uiInput required>
 						<label>Matricula</label>
 					</ui-input-container>
 
-					<ui-input-container style="">
-						<input type="text" [(ngModel)]="docente.nome" name="nome" uiInput>
+					<ui-input-container>
+						<input type="text" [(ngModel)]="docente.nome" name="nome" uiInput required>
 						<label>Nome</label>
 					</ui-input-container>
 				</div>
 
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
-						<input type="text" [(ngModel)]="docente.email" name="email" uiInput>
+						<input type="text" [(ngModel)]="docente.email" name="email" uiInput required>
 						<label>Email</label>
 					</ui-input-container>
 
 					<ui-input-container>
-						<input type="text" [(ngModel)]="docente.senha" name="senha" uiInput>
+						<input type="text" [(ngModel)]="docente.senha" name="senha" uiInput required>
 						<label>Senha</label>
 					</ui-input-container>
 				</div>
 
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container style="max-width: 150px;">
-						<input type="text" [(ngModel)]="docente.cpf" name="cpf" uiInput uiMaskCpf>
+						<input type="text" [(ngModel)]="docente.cpf" name="cpf" uiInput uiMaskCpf required>
 						<label>CPF</label>
 					</ui-input-container>
 
 					<ui-option-container class="v-space-4 b-space-16">
 						<ui-option>
-							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Administrador'">
+							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Administrador'" required>
+							<span>Administrador</span>
+						</ui-option>
+
+						<ui-option>
+							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Professor'" required>
 							<span>Professor</span>
 						</ui-option>
 
 						<ui-option>
-							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Professor'">
+							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Funcionario'" required>
 							<span>Funcionario</span>
-						</ui-option>
-
-						<ui-option>
-							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Funcionario'">
-							<span>Administrador</span>
 						</ui-option>
 					</ui-option-container>
 				</div>
 			</ui-card-content>
 
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised success" uiRipple>SALVAR</button>
-				<button mat-button color="warn" routerLink="/docentes" href="/docentes">CANCELAR</button>
+				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!docenteForm.valid">SALVAR</button>
+				<button type="button" mat-button color="warn" routerLink="/docentes" href="/docentes">CANCELAR</button>
 			</div>
 		</form>
 	</ui-card>

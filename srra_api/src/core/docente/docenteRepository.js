@@ -32,12 +32,12 @@ function inserir(docente, callback) {
         if (err)
             return callback(err);
 
-        callback(null, data);
+        callback(null, data);                
     });
 }
 
-function alterar(id, docenteNew, callback) {
-    Schema.findByIdAndUpdate(id, docenteNew, (err, data) => {
+function alterar(id, docente, callback) {
+    Schema.findOneAndUpdate({_id: id}, docente, (err, data) => {
         if (err)
             return callback(err);
 

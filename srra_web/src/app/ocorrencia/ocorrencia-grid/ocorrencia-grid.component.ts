@@ -13,6 +13,7 @@ import { OcorrenciaService } from '../ocorrencia.service';
 export class OcorrenciaGridComponent implements OnInit {
 
   ocorrencias: any = [];
+  filtro: any = {};
 
   constructor(
     private navComponent: NavComponent,
@@ -34,6 +35,7 @@ export class OcorrenciaGridComponent implements OnInit {
   deletar(id): any {
     this.ocorrenciaService.deletar(id).then( () => {
       this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 })
+      this.selecionar();
     })
     .catch( (err) => {
       this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 })

@@ -20,8 +20,8 @@ export class RecursoService {
     return this.http.post(`${environment.urlApi}/api/recurso`, recurso).toPromise();
   }
 
-  alterar(id: any, recurso: any) {
-    return this.http.put(`${environment.urlApi}/api/recurso/${id}`, recurso).toPromise();
+  alterar(recurso: any) {
+    return this.http.put(`${environment.urlApi}/api/recurso/${recurso._id}`, recurso).toPromise();
   }
 
   deletar(id: any) {

@@ -1,77 +1,42 @@
 <div class="ui-s960">
-	<ui-card>
+	<ui-card style="max-width: 800px; margin: auto;">
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
-                <i class="material-icons">arrow_back</i>
-            </button>
-			<!-- <div class="align-right">
-                <form #searchForm="ngForm" name="searchForm" class="ui-validate on-dirty" [ngClass]="{'open': searchOpen}">
-                    <ui-input-container>
-                        <input #searchFormText="ngModel" type="text" name="searchText" [(ngModel)]="searchText" uiMaxlength="200" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
-                        <div class="ui-messages">
-                            <div *ngIf="searchFormText.errors && searchFormText.dirty">
-                                <div class="ui-message counter error">
-                                    {{searchText ? searchText.length : 0}}/200
-                                </div>
-                            </div>
-                        </div>
-                    </ui-input-container>
-                </form>
-                <button class="ui-button flat icon" uiRipple (click)="toggleSearch()">
-                    <i class="material-icons">search</i>
-                </button>
-            </div> -->
+				<i class="material-icons">arrow_back</i>
+			</button>
+			<div class="align-right">
+				<ui-input-container>
+					<input type="text" name="searchText" [(ngModel)]="filtro.codigo" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
+				</ui-input-container>
+				<button class="ui-button flat icon" uiRipple (click)="search()">
+					<i class="material-icons">search</i>
+				</button>
+			</div>
 		</ui-toolbar>
 
 		<ui-data-table>
 			<tbody>
 				<tr>
-					<th>
-						Codigo
-					</th>
-
-					<th>
-						Recurso
-					</th>
-
-					<th>
-						Docente
-					</th>
-
-					<th>
-						Data
-					</th>
-
-					<th class="align-right">
-
-					</th>
+					<th>Codigo</th>
+					<th>Recurso</th>
+					<th>Docente</th>
+					<th>Data</th>
+					<th class="align-right"></th>
 				</tr>
 
 				<tr *ngFor="let ocorrencia of ocorrencias">
-					<td>
-						{{ocorrencia.codigo}}
-					</td>
-
-					<td>
-						{{ocorrencia.recurso}}
-					</td>
-
-					<td>
-						{{ocorrencia.docente}}
-					</td>
-
-					<td>
-						{{ocorrencia.data}}
-					</td>
-
+					<td>{{ocorrencia.codigo }}</td>
+					<td>{{ocorrencia.recurso.nome }}</td>
+					<td>{{ocorrencia.docente.nome }}</td>
+					<td>{{ocorrencia.data | date: ddMMyyyy }}</td>
 					<td class="align-right">
 						<button class="ui-button flat icon" uiRipple [routerLink]="['/ocorrencias/info', ocorrencia._id]">
-                            <i class="material-icons">edit</i>
-                        </button>
+							<i class="material-icons">edit</i>
+						</button>
 
 						<button class="ui-button flat icon" uiRipple (click)="deletar(ocorrencia._id)">
-                            <i class="material-icons">delete</i>
-                        </button>
+							<i class="material-icons">delete</i>
+						</button>
 					</td>
 				</tr>
 			</tbody>
@@ -81,14 +46,14 @@
 					<td colspan="4" class="align-right">
 						<div class="ui-button-container align-right">
 							<span class="pagination">
-                                1-10 de 10
-                            </span>
+								1-10 de 10
+							</span>
 							<button class="ui-button flat icon" uiRipple disabled>
-                                <i class="material-icons">keyboard_arrow_left</i>
-                            </button>
+								<i class="material-icons">keyboard_arrow_left</i>
+							</button>
 							<button class="ui-button flat icon" uiRipple disabled>
-                                <i class="material-icons">keyboard_arrow_right</i>
-                            </button>
+								<i class="material-icons">keyboard_arrow_right</i>
+							</button>
 						</div>
 					</td>
 				</tr>

@@ -33,7 +33,7 @@ export class DocenteFormComponent implements OnInit {
 
   onSubmit() {
     if(this.docente._id) {
-      this.docenteService.alterar(this.docente._id, this.docente).then( (data) => {
+      this.docenteService.alterar(this.docente).then( (data) => {
         this.docente = data;
         this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
       })

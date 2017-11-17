@@ -1,14 +1,14 @@
 <div class="ui-s960">
-	<ui-card>
+	<ui-card style="width: 600px; margin: auto;">
 		<ui-toolbar class="flat">
-			<button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
+			<button class="ui-button flat icon" routerLink="/laboratorios" href="/laboratorios" uiRipple>
 				<i class="material-icons">arrow_back</i>
 			</button>
 		</ui-toolbar>
 
 		<!--<pre>{{ laboratorio | json }}</pre>-->
 
-		<form (ngSubmit)="cadastar()" #laboratorioForm>
+		<form (ngSubmit)="onSubmit()" #laboratorioForm>
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container style="max-width: 200px;">
@@ -17,21 +17,21 @@
 					</ui-input-container>
 
 					<ui-input-container>
-						<input type="text" [(ngModel)]="laboratorio.nome" name="nome" uiInput>
+						<input type="text" [(ngModel)]="laboratorio.nome" name="nome" uiInput required>
 						<label>Nome</label>
 					</ui-input-container>
 				</div>
 
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container>
-						<input type="text" [(ngModel)]="laboratorio.descricao" name="descricao" uiInput>
+						<input type="text" [(ngModel)]="laboratorio.descricao" name="descricao" uiInput required>
 						<label>Descrição</label>
 					</ui-input-container>
 				</div>
 			</ui-card-content>
 
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised success" uiRipple>SALVAR</button>
+				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!laboratorioForm.valid">SALVAR</button>
 				<button mat-button color="warn" routerLink="/laboratorios" href="/laboratorios">CANCELAR</button>
 			</div>
 		</form>

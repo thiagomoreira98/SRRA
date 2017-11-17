@@ -20,8 +20,8 @@ export class DocenteService {
     return this.http.post(`${environment.urlApi}/api/docente`, docente).toPromise();
   }
 
-  alterar(id: any, docente: any) {
-    return this.http.put(`${environment.urlApi}/api/docente/${id}`, docente).toPromise();
+  alterar(docente: any) {
+    return this.http.put(`${environment.urlApi}/api/docente/${docente._id}`, docente).toPromise();
   }
 
   deletar(id: any) {

@@ -8,7 +8,7 @@
 
 		<!-- <pre>{{ recurso | json }}</pre> -->
 
-		<form (ngSubmit)="onSubmit()">
+		<form (ngSubmit)="onSubmit()" #recursoForm="ngForm">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container style="max-width: 200px;">

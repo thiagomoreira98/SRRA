@@ -10,7 +10,7 @@ module.exports = {
 }
 
 function selecionar(callback) {
-    Schema.find((err, data) => {
+    Schema.find().populate('recurso').populate('docente').exec((err, data) => {
         if (err)
             return callback(err);
 
@@ -36,8 +36,8 @@ function inserir(ocorrencia, callback) {
     });
 }
 
-function alterar(id, ocorrenciaNew, callback) {
-    Schema.findByIdAndUpdate(id, ocorrenciaNew, (err, data) => {
+function alterar(id, ocorrencia, callback) {
+    Schema.findOneAndUpdate({_id: id}, ocorrencia, (err, data) => {
         if (err)
             return callback(err);
 

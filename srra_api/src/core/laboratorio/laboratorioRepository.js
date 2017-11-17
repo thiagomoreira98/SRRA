@@ -36,10 +36,10 @@ function inserir(laboratorio, callback) {
     });
 }
 
-function alterar(id, laboratorioNew, callback) {
-    Schema.findByIdAndUpdate(id, laboratorioNew, (err, data) => {
+function alterar(id, laboratorio, callback) {
+    Schema.findOneAndUpdate({_id: id}, laboratorio, (err, data) => {
         if (err)
-            return callback(err)
+            return callback(err);
 
         callback(null, data);
     });

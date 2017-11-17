@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material';
 
 import { NavComponent } from '../../nav/nav.component';
 import { RecursoService } from '../recurso.service';
-import { NavComponent } from '../../nav/nav.component';
 
 @Component({
   selector: 'app-recurso-form',
@@ -21,19 +20,18 @@ export class RecursoFormComponent implements OnInit {
     private recursoService: RecursoService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private navComponent: NavComponent
   ) { }
 
   ngOnInit() {
     this.navComponent.setTitle('Cadastrar Recurso');
 
     this.activatedRoute.params.subscribe((params: Params) => {
-      this.recursoService.buscar(params.id).subscribe( data => {
+      this.recursoService.buscar(params.id).subscribe(data => {
         this.recurso = data;
       });
     });
 
-    if(!this.recurso._id) {
+    if (!this.recurso._id) {
       this.recurso.itens = [];
       this.navComponent.setTitle('Cadastrar Recurso');
     }
@@ -48,24 +46,23 @@ export class RecursoFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.recurso._id) {
-      this.recursoService.alterar(this.recurso._id, this.recurso).then( (data) => {
+    if (this.recurso._id) {
+      this.recursoService.alterar(this.recurso).then((data) => {
         this.recurso = data;
         this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
       })
-      .catch( (err) => {
+      .catch((err) => {
         this.snackbar.open('Erro ao Salvar!', 'Fechar', { duration: 3000 });
       });
     }
-    else{
-      this.recursoService.inserir(this.recurso)
-      .then( () => {
+    else {
+      this.recursoService.inserir(this.recurso).then(() => {
         this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
       })
-      .catch( (err) => {
+      .catch((err) => {
         this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });
       });
-    }    
+    }
   }
 
 }

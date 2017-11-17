@@ -1,5 +1,5 @@
 <div class="ui-s960">
-    <ui-card>
+    <ui-card style="width: 750px; margin: auto;">
         <ui-toolbar class="flat">
             <button class="ui-button flat icon" routerLink="/ocorrencias" href="/ocorrencias" uiRipple>
                 <i class="material-icons">arrow_back</i>
@@ -7,50 +7,50 @@
         </ui-toolbar>
 
         <!--<pre>{{ ocorrencia | json }}</pre>-->
-        <pre>{{ recursos | json }}</pre>
-        <pre>{{ docentes | json }}</pre>
+        <!-- <pre>{{ recursos | json }}</pre> -->
+        <!-- <pre>{{ docentes | json }}</pre> -->
 
-        <form (ngSubmit)="onSubmit()">
+        <form (ngSubmit)="onSubmit()" #ocorrenciaForm="ngForm">
             <ui-card-content>
                 <div class="ui-flex-container break-on-s960">
                     <ui-input-container style="max-width: 150px;">
-                        <input type="number" [(ngModel)]="ocorrencia.codigo" name="codigo" uiInput>
+                        <input type="number" [(ngModel)]="ocorrencia.codigo" name="codigo" uiInput required>
                         <label>Codigo</label>
                     </ui-input-container>
 
                     <ui-input-container style="max-width: 200px; padding-left: 20px">
-                        <select name="recurso" (ngModel)="ocorrencia.recurso" uiInput>
-                            <option *ngFor="let recurso of recursos">{{ recurso.nome }}</option>
+                        <select name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput required>
+                            <option *ngFor="let recurso of recursos" [ngValue]="recurso._id">{{ recurso.nome }}</option>
                         </select>
                         <label>Recurso</label>
                     </ui-input-container>
 
                     <ui-input-container style="max-width: 250px; padding-left: 20px;">
-                        <select name="docente" [(ngModel)]="ocorrencia.docente" uiInput>
-                            <option *ngFor="let docente of docentes">{{ docente.nome }}</option>
+                        <select name="docente" [(ngModel)]="ocorrencia.docente" uiInput required>
+                            <option *ngFor="let docente of docentes" [ngValue]="docente._id">{{ docente.nome }}</option>
                         </select>
                         <label>Docente</label>
                     </ui-input-container>
+                </div>
 
-                    <ui-input-container style="max-width: 200px; padding-left: 20px;">
-                        <input uiInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data">
+                <div class="ui-flex-container break-on-s960">
+                    <ui-input-container style="max-width: 200px;">
+                        <input uiInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data" required>
                         <label>Data</label>
                     </ui-input-container>
 
                     <mat-datepicker-toggle matSuffix [for]="picker" style="margin-top: 20px;"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                </div>
 
-                <div class="ui-flex-container break-on-s960">
-                    <ui-input-container>
-                        <input type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" uiInput>
+                    <ui-input-container style="padding-left: 20px; max-width: 375px;">
+                        <input type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" uiInput required>
                         <label>Detalhes</label>
                     </ui-input-container>
                 </div>
             </ui-card-content>
 
             <div class="ui-button-container cover">
-                <button type="submit" class="ui-button raised success" uiRipple>SALVAR</button>
+                <button type="submit" class="ui-button raised success" uiRipple [disabled]="!ocorrenciaForm.valid">SALVAR</button>
                 <button type="button" mat-button color="warn" routerLink="/ocorrencias" href="/ocorrencias">CANCELAR</button>
             </div>
         </form>
