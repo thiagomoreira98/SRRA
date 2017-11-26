@@ -13,7 +13,7 @@ import { RecursoService } from '../recurso.service';
 export class RecursoGridComponent implements OnInit {
 
   recursos: any = [];
-  filtro: any = {};
+  filtro: String;
 
   constructor(
     private navComponent: NavComponent,
@@ -31,7 +31,7 @@ export class RecursoGridComponent implements OnInit {
   }
 
   selecionar(): any {
-    this.recursoService.selecionar().subscribe(data => {
+    this.recursoService.selecionar(this.filtro).subscribe(data => {
       this.recursos = data;
     });
   }

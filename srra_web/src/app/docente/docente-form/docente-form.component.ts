@@ -25,16 +25,17 @@ export class DocenteFormComponent implements OnInit {
     this.navComponent.setTitle('Cadastrar Docente');
 
     this.activatedRoute.params.subscribe((params: Params) => {
-      this.docenteService.buscar(params.id).subscribe( data => {
-        this.docente = data;
-      });
+      if(params.id) {
+        this.docenteService.buscar(params.id).subscribe( data => {
+          this.docente = data;
+        });
+      }
     });
   }
 
   onSubmit() {
     if(this.docente._id) {
       this.docenteService.alterar(this.docente).then( (data) => {
-        this.docente = data;
         this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
       })
       .catch( () => {
@@ -44,6 +45,7 @@ export class DocenteFormComponent implements OnInit {
     else {
       this.docenteService.inserir(this.docente).then( () => {
         this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
+        this.docente = {};
       })
       .catch( () => {
         this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });

@@ -4,11 +4,15 @@
             <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
                 <i class="material-icons">arrow_back</i>
             </button>
+
+            <button mat-mini-fab color="primary" routerLink="/laboratorios/cadastrar">
+		        <i class="material-icons">add</i>
+            </button>
             <div class="align-right">
                 <ui-input-container>
-                    <input type="text" name="searchText" [(ngModel)]="filtro.nome" uiInput [persistPlaceholder]="true" placeholder="Laboratorio">
+                    <input type="text" name="searchText" [(ngModel)]="filtro" uiInput [persistPlaceholder]="true" placeholder="Laboratorio">
                 </ui-input-container>
-                <button class="ui-button flat icon" uiRipple (click)="filtrar()">
+                <button class="ui-button flat icon" uiRipple (click)="selecionar()">
                     <i class="material-icons">search</i>
                 </button>
             </div>
@@ -60,9 +64,9 @@
         </ui-data-table>
     </ui-card>
 
-    <div class="ui-fab-container">
+    <!-- <div class="ui-fab-container">
 		<button class="ui-button primary fab" uiRipple routerLink="/laboratorios/cadastrar">
 			<i class="material-icons">add</i>
 		</button>
-	</div>
+	</div> -->
 </div>

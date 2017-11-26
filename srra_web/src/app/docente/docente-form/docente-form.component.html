@@ -60,7 +60,7 @@
 			</ui-card-content>
 
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!docenteForm.valid">SALVAR</button>
+				<button class="ui-button raised success" uiRipple [disabled]="!docenteForm.valid">{{ docente._id ? 'ALTERAR' : 'CADASTRAR' }}</button>
 				<button type="button" mat-button color="warn" routerLink="/docentes" href="/docentes">CANCELAR</button>
 			</div>
 		</form>

@@ -32,16 +32,16 @@ function inserir(docente, callback) {
         if (err)
             return callback(err);
 
-        callback(null, data);                
+        callback(null);                
     });
 }
 
 function alterar(id, docente, callback) {
-    Schema.findOneAndUpdate({_id: id}, docente, (err, data) => {
+    Schema.findOneAndUpdate({ _id: id }, docente, (err, docenteUp) => {
         if (err)
             return callback(err);
 
-        callback(null, data);
+        callback(null);
     })
 }
 
@@ -50,6 +50,6 @@ function deletar(id, callback) {
         if (err)
             return callback(err);
 
-        callback(null, data);
+        callback(null);
     });
 }

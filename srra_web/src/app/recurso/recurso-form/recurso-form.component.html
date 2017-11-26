@@ -97,7 +97,7 @@
 			</div>
 
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!recursoForm.valid">SALVAR</button>
+				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!recursoForm.valid">{{ recurso._id ? 'ALTERAR' : 'CADASTRAR' }}</button>
 				<button type="button" mat-button color="warn" routerLink="/recursos" href="/recursos">CANCELAR</button>
 			</div>
 		</form>

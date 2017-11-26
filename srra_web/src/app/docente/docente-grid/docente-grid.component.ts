@@ -31,10 +31,6 @@ export class DocenteGridComponent implements OnInit {
     });
   }
 
-  filtrar(nome: any) {
-    
-  }
-
   deletar(id): any {
     this.docenteService.deletar(id)
       .then(() => {

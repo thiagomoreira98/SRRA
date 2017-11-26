@@ -12,7 +12,7 @@ import { LaboratorioService } from '../laboratorio.service';
 export class LaboratorioGridComponent implements OnInit {
 
   laboratorios: any = [];
-  filtro: any = {};
+  filtro: String;
 
   constructor(
     private navComponent: NavComponent,
@@ -26,7 +26,7 @@ export class LaboratorioGridComponent implements OnInit {
   }
 
   selecionar(): any {
-    this.laboratorioService.selecionar().subscribe( data => {
+    this.laboratorioService.selecionar(this.filtro).subscribe( data => {
       this.laboratorios = data;
     });
   }

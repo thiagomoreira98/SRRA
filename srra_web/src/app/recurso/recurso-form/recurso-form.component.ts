@@ -26,17 +26,19 @@ export class RecursoFormComponent implements OnInit {
     this.navComponent.setTitle('Cadastrar Recurso');
 
     this.activatedRoute.params.subscribe((params: Params) => {
-      this.recursoService.buscar(params.id).subscribe(data => {
-        this.recurso = data;
-      });
+      if (params.id) {
+        this.recursoService.buscar(params.id).subscribe(data => {
+          this.recurso = data;
+        });
+      }
     });
 
-    if (!this.recurso._id) {
-      this.recurso.itens = [];
-      this.navComponent.setTitle('Cadastrar Recurso');
+    if (this.recurso._id) {
+      this.navComponent.setTitle('Alterar Recurso');
     }
     else {
-      this.navComponent.setTitle('Alterar Recurso');
+      this.recurso.itens = [];
+      this.navComponent.setTitle('Cadastrar Recurso');
     }
   }
 
@@ -46,9 +48,9 @@ export class RecursoFormComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.recurso);
     if (this.recurso._id) {
       this.recursoService.alterar(this.recurso).then((data) => {
-        this.recurso = data;
         this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
       })
       .catch((err) => {
@@ -58,6 +60,7 @@ export class RecursoFormComponent implements OnInit {
     else {
       this.recursoService.inserir(this.recurso).then(() => {
         this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
+        this.recurso = {};
       })
       .catch((err) => {
         this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });

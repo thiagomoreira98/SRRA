@@ -8,7 +8,7 @@
 
 		<!--<pre>{{ laboratorio | json }}</pre>-->
 
-		<form (ngSubmit)="onSubmit()" #laboratorioForm>
+		<form (ngSubmit)="onSubmit()" #laboratorioForm="ngForm">
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s960">
 					<ui-input-container style="max-width: 200px;">
@@ -31,8 +31,8 @@
 			</ui-card-content>
 
 			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!laboratorioForm.valid">SALVAR</button>
-				<button mat-button color="warn" routerLink="/laboratorios" href="/laboratorios">CANCELAR</button>
+				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!laboratorioForm.valid">{{ laboratorio._id ? 'ALTERAR' : 'CADASTRAR' }}</button>
+				<button type="button" mat-button color="warn" routerLink="/laboratorios" href="/laboratorios">CANCELAR</button>
 			</div>
 		</form>
 	</ui-card>

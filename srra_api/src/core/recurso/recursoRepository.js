@@ -9,8 +9,8 @@ module.exports = {
     deletar
 }
 
-function selecionar(callback) {
-    Schema.find( (err, data) => {
+function selecionar(filtro, callback) {
+    Schema.find(filtro ? { nome: filtro } : {}, (err, data) => {
         if(err)
             return callback(err);
 
@@ -33,7 +33,7 @@ function inserir(recurso, callback) {
         if(err)
             return callback(err);
 
-        callback(null, data);
+        callback(null);
     });
 }
 
@@ -42,7 +42,7 @@ function alterar(id, recurso, callback) {
         if(err)
             return callback(err);
 
-        callback(null, data);
+        callback(null);
     });
 }
 
@@ -51,6 +51,6 @@ function deletar(id, callback) {
         if(err)
             return callback(err);
 
-        callback(null, data);
+        callback(null);
     });
 }

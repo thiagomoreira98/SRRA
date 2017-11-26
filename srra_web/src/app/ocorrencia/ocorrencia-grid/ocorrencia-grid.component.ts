@@ -13,7 +13,7 @@ import { OcorrenciaService } from '../ocorrencia.service';
 export class OcorrenciaGridComponent implements OnInit {
 
   ocorrencias: any = [];
-  filtro: any = {};
+  filtro: Number;
 
   constructor(
     private navComponent: NavComponent,

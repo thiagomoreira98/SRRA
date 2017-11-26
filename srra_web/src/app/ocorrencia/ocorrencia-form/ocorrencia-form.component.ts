@@ -33,9 +33,11 @@ export class OcorrenciaFormComponent implements OnInit {
 
     if (this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
-        this.ocorrenciaService.buscar(params.id).subscribe(data => {
-          this.ocorrencia = data;
-        });
+        if(params.id) {
+          this.ocorrenciaService.buscar(params.id).subscribe(data => {
+            this.ocorrencia = data;
+          });
+        }
       });
     }
 
@@ -52,7 +54,7 @@ export class OcorrenciaFormComponent implements OnInit {
 
 
   recursosDropdown() {
-    this.recursoService.selecionar().subscribe(data => {
+    this.recursoService.selecionar(null).subscribe(data => {
       this.recursos = data;
     });
   }
@@ -66,7 +68,6 @@ export class OcorrenciaFormComponent implements OnInit {
   onSubmit() {
     if (this.ocorrencia._id) {
       this.ocorrenciaService.alterar(this.ocorrencia._id, this.ocorrencia).then((data) => {
-        this.ocorrencia = data;
         this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
       })
         .catch((err) => {
@@ -76,6 +77,7 @@ export class OcorrenciaFormComponent implements OnInit {
     else {
       this.ocorrenciaService.inserir(this.ocorrencia).then(() => {
         this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
+        this.ocorrencia = {};
       })
         .catch(() => {
           this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });

@@ -8,7 +8,10 @@ export class RecursoService {
 
   constructor(private http: HttpClient) { }
 
-  selecionar(): any {
+  selecionar(filtro): any {
+    if(filtro)
+      return this.http.get(`${environment.urlApi}/api/recurso?nome=${filtro}`);
+      
     return this.http.get(`${environment.urlApi}/api/recurso`);
   }
 

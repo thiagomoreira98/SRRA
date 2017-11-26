@@ -8,7 +8,10 @@ export class LaboratorioService {
 
   constructor(private http: HttpClient) { }
 
-  selecionar(): any {
+  selecionar(filtro): any {
+    if(filtro)
+      return this.http.get(`${environment.urlApi}/api/laboratorio?nome=${filtro}`);
+
     return this.http.get(`${environment.urlApi}/api/laboratorio`);
   }
 

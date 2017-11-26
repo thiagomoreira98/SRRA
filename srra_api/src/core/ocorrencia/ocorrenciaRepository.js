@@ -9,8 +9,8 @@ module.exports = {
     deletar
 }
 
-function selecionar(callback) {
-    Schema.find().populate('recurso').populate('docente').exec((err, data) => {
+function selecionar(filtro, callback) {
+    Schema.find(filtro ? { nome: filtro } : {}).populate('recurso').populate('docente').exec((err, data) => {
         if (err)
             return callback(err);
 
@@ -32,16 +32,16 @@ function inserir(ocorrencia, callback) {
         if (err)
             return callback(err);
 
-        callback(null, data);
+        callback(null);
     });
 }
 
 function alterar(id, ocorrencia, callback) {
-    Schema.findOneAndUpdate({_id: id}, ocorrencia, (err, data) => {
+    Schema.findOneAndUpdate({ _id: id }, ocorrencia, (err, data) => {
         if (err)
             return callback(err);
 
-        callback(null, data);
+        callback(null);
     });
 }
 
@@ -50,6 +50,6 @@ function deletar(id, callback) {
         if (err)
             return callback(err);
 
-        callback(null, data);
+        callback(null);
     });
 }

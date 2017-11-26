@@ -4,11 +4,15 @@
             <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
                 <i class="material-icons">arrow_back</i>
             </button>
+
+            <button mat-mini-fab color="primary" routerLink="/recursos/cadastrar">
+		        <i class="material-icons">add</i>
+            </button>
             <div class="align-right">
                 <ui-input-container>
-                    <input type="text" name="filtroNome" [(ngModel)]="filtro.nome" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
+                    <input type="text" name="filtroNome" [(ngModel)]="filtro" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
                 </ui-input-container>
-                <button class="ui-button flat icon" uiRipple (click)="filtrar()">
+                <button class="ui-button flat icon" uiRipple (click)="selecionar()">
                     <i class="material-icons">search</i>
                 </button>
             </div>
@@ -59,18 +63,18 @@
         </ui-data-table>
     </ui-card>
 
-    <div class="ui-fab-container" style="float: right; margin-top: -300px; margin-right: 65px; position: relative;">
+    <!-- <div class="ui-fab-container" style="float: right; margin-top: -370px; margin-right: 110px; position: relative;">
 		<button class="ui-button primary fab" uiRipple routerLink="/recursos/cadastrar" href="/recursos/cadastrar">
 			<i class="material-icons">add</i>
 		</button>
-	</div>
+	</div> -->
 </div>
 
-<style>
+<!-- <style>
     .ui-float-container {
         right: calc(50% - (700px / 2) - 79px);
         float: right;
         margin-top: -200px;
         margin-right: 50px;
     }
-</style>
+</style> -->

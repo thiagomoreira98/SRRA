@@ -4,11 +4,15 @@
 			<button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
 				<i class="material-icons">arrow_back</i>
 			</button>
+
+			<button mat-mini-fab color="primary" routerLink="/ocorrencias/cadastrar">
+		        <i class="material-icons">add</i>
+            </button>
 			<div class="align-right">
 				<ui-input-container>
-					<input type="text" name="searchText" [(ngModel)]="filtro.codigo" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
+					<input type="number" name="searchText" [(ngModel)]="filtro" uiInput [persistPlaceholder]="true" placeholder="codigo">
 				</ui-input-container>
-				<button class="ui-button flat icon" uiRipple (click)="search()">
+				<button class="ui-button flat icon" uiRipple (click)="selecionar()">
 					<i class="material-icons">search</i>
 				</button>
 			</div>
@@ -61,9 +65,9 @@
 		</ui-data-table>
 	</ui-card>
 
-	<div class="ui-fab-container">
+	<!-- <div class="ui-fab-container">
 		<button class="ui-button primary fab" uiRipple routerLink="/ocorrencias/cadastrar">
 			<i class="material-icons">add</i>
 		</button>
-	</div>
+	</div> -->
 </div>

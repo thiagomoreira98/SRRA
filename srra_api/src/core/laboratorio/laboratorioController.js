@@ -10,7 +10,7 @@ module.exports = {
 }
 
 function selecionar(req, res) {
-    repository.selecionar((err, data) => {
+    repository.selecionar(req.query.nome, (err, data) => {
         if (err)
             return res.status(500).json(err);
 
