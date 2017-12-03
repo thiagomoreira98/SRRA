@@ -6,46 +6,43 @@
             </button>
         </ui-toolbar>
 
-        <!--<pre>{{ ocorrencia | json }}</pre>-->
-        <!-- <pre>{{ recursos | json }}</pre> -->
-        <!-- <pre>{{ docentes | json }}</pre> -->
-
         <form (ngSubmit)="onSubmit()" #ocorrenciaForm="ngForm">
             <ui-card-content>
-                <div class="ui-flex-container break-on-s960">
-                    <ui-input-container style="max-width: 150px;">
-                        <input type="number" [(ngModel)]="ocorrencia.codigo" name="codigo" uiInput required>
-                        <label>Codigo</label>
-                    </ui-input-container>
+                <div>
+                    <mat-form-field style="max-width: 300px; width: 100%;">
+                        <input matInput placeholder="Recurso" aria-label="Recurso" [matAutocomplete]="autoRecurso" [formControl]="recursoCtrl" name="recurso"
+                            [(ngModel)]="ocorrencia.recurso" required>
+                        <mat-autocomplete #autoRecurso="matAutocomplete">
+                            <mat-option *ngFor="let recurso of filteredRecursos | async" [value]="recurso.nome" (onSelectionChange)="changeRecurso(recurso)">
+                                <span>{{ recurso.nome }}</span>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
 
-                    <ui-input-container style="max-width: 200px; padding-left: 20px">
-                        <select name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput required>
-                            <option *ngFor="let recurso of recursos" [ngValue]="recurso._id">{{ recurso.nome }}</option>
-                        </select>
-                        <label>Recurso</label>
-                    </ui-input-container>
-
-                    <ui-input-container style="max-width: 250px; padding-left: 20px;">
-                        <select name="docente" [(ngModel)]="ocorrencia.docente" uiInput required>
-                            <option *ngFor="let docente of docentes" [ngValue]="docente._id">{{ docente.nome }}</option>
-                        </select>
-                        <label>Docente</label>
-                    </ui-input-container>
+                    <mat-form-field style="max-width: 300px; width: 100%;">
+                        <input matInput placeholder="Docente" aria-label="Docente" [matAutocomplete]="autoDocente" [formControl]="docenteCtrl" name="docente"
+                            [(ngModel)]="ocorrencia.docente" required>
+                        <mat-autocomplete #autoDocente="matAutocomplete">
+                            <mat-option *ngFor="let docente of filteredDocentes | async" [value]="docente.nome" (onSelectionChange)="changeDocente(docente)">
+                                <span>{{ docente.nome }}</span>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
                 </div>
 
-                <div class="ui-flex-container break-on-s960">
-                    <ui-input-container style="max-width: 200px;">
-                        <input uiInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data" required>
-                        <label>Data</label>
-                    </ui-input-container>
+                <div>
+                    <mat-form-field style="max-width: 150px; width: 100%;">
+                        <input matInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data" placeholder="Data" required>
+                    </mat-form-field>
 
-                    <mat-datepicker-toggle matSuffix [for]="picker" style="margin-top: 20px;"></mat-datepicker-toggle>
+                    <mat-datepicker-toggle matSuffix [for]="picker" style="max-width: 40px;"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
+                </div>
 
-                    <ui-input-container style="padding-left: 20px; max-width: 375px;">
-                        <input type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" uiInput required>
-                        <label>Detalhes</label>
-                    </ui-input-container>
+                <div>
+                    <mat-form-field style="max-width: 500px; width: 100%;">
+                        <input matInput type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" placeholder="Detalhes" required>
+                    </mat-form-field>
                 </div>
             </ui-card-content>
 

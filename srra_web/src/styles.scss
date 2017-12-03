@@ -19,3 +19,13 @@ $theme-dark: ui-theme($primary, $accent, true);
 .light {
     @include ui-build-theme($theme);
 }
+
+body {
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.ui-s960 {
+    min-height: 800px;
+    max-height: 1200px;
+}

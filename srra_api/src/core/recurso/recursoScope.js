@@ -2,10 +2,9 @@ function verificarDados(req) {
     let response = new global.responseScope(406);
 
     response
-        .field(req.body.recurso, 'Recurso').isNotNull()
-        .field(req.body.data, 'Recurso').isNotNull()
-        .field(req.body.detalhes, 'Recurso').isNotNull()
-        .field(req.body.docente, 'Docente').isNotNull();
+        .field(req.body.nome, 'Nome').isNotNull()
+        .field(req.body.status, 'Status').isNotNull()
+        .field(req.body.descricao, 'Descrição').isNotNull();
 
     if (!response.isSuccess) {
         req.errors = response.get();

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
+import { FormControl } from '@angular/forms';
 
 import { RecursoService } from '../../recurso/recurso.service';
 import { DocenteService } from '../../docente/docente.service';
@@ -19,6 +23,11 @@ export class OcorrenciaFormComponent implements OnInit {
   recursos: any = [];
   docentes: any = [];
 
+  recursoCtrl: FormControl;
+  docenteCtrl: FormControl;
+  filteredRecursos: Observable<any[]>;
+  filteredDocentes: Observable<any[]>;
+
   constructor(
     private navComponent: NavComponent,
     private recursoService: RecursoService,
@@ -26,14 +35,39 @@ export class OcorrenciaFormComponent implements OnInit {
     private ocorrenciaService: OcorrenciaService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-  ) { }
+  ) {
+
+    this.recursoCtrl = new FormControl();
+    this.filteredRecursos = this.recursoCtrl.valueChanges.pipe(
+      startWith(''),
+      map(recurso => recurso ? this.filterRecursos(recurso) : this.recursos.slice())
+    );
+
+    this.docenteCtrl = new FormControl();
+    this.filteredDocentes = this.docenteCtrl.valueChanges.pipe(
+      startWith(''),
+      map(docente => docente ? this.filterDocentes(docente) : this.docentes.slice())
+    );
+
+  }
+
+  filterRecursos(nome: any) {
+    return this.recursos.filter(recurso =>
+      recurso.nome.toLowerCase().indexOf(nome.toLowerCase()) === 0);
+  }
+
+  filterDocentes(nome: any) {
+    return this.docentes.filter(docente =>
+      docente.nome.toLowerCase().indexOf(nome.toLowerCase()) === 0);
+  }
 
   ngOnInit() {
-    this.navComponent.setTitle('Cadastrar Ocorrência');
+    this.recursosDropdown();
+    this.docentesDropdown();
 
     if (this.activatedRoute.params) {
       this.activatedRoute.params.subscribe((params: Params) => {
-        if(params.id) {
+        if (params.id) {
           this.ocorrenciaService.buscar(params.id).subscribe(data => {
             this.ocorrencia = data;
           });
@@ -45,13 +79,9 @@ export class OcorrenciaFormComponent implements OnInit {
       this.navComponent.setTitle('Alterar Ocorrência');
     }
     else {
-      this.navComponent.setTitle('Cadastrar Ocorrência');
+      this.navComponent.setTitle('Registrar Ocorrência');
     }
-
-    this.recursosDropdown();
-    this.docentesDropdown();
   }
-
 
   recursosDropdown() {
     this.recursoService.selecionar(null).subscribe(data => {
@@ -65,13 +95,28 @@ export class OcorrenciaFormComponent implements OnInit {
     });
   }
 
+  idRecurso: any;
+  changeRecurso(recurso: any) {
+    this.idRecurso = recurso._id;
+    console.log(this.idRecurso);
+  }
+
+  idDocente: any;
+  changeDocente(docente: any) {
+    this.idDocente = docente._id;
+    console.log(this.idDocente);
+  }
+
   onSubmit() {
+    this.ocorrencia.recurso = this.idRecurso;
+    this.ocorrencia.docente = this.idDocente;
+    console.log(this.ocorrencia);
     if (this.ocorrencia._id) {
       this.ocorrenciaService.alterar(this.ocorrencia._id, this.ocorrencia).then((data) => {
         this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
       })
-        .catch((err) => {
-          this.snackbar.open('Erro ao Salvar!', 'Fechar', { duration: 3000 })
+        .catch((res) => {
+          this.snackbar.open(res.error.errorMessages ? res.error.errorMessages[0] : res.error, 'Fechar', { duration: 3000 })
         })
     }
     else {
@@ -79,8 +124,9 @@ export class OcorrenciaFormComponent implements OnInit {
         this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
         this.ocorrencia = {};
       })
-        .catch(() => {
-          this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });
+        .catch((res) => {
+          console.log(res);
+          this.snackbar.open(res.error.errorMessages ? res.error.errorMessages[0] : res.error, 'Fechar', { duration: 3000 });
         });
     }
   }

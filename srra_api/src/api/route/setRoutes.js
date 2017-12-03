@@ -1,20 +1,5 @@
 const getFiles = require('../../helpers/findRoutes');
 
-module.exports = (app) => {
-
-const files = getFiles('./src/core', ['Route.js']);
-
-    files.map(file => {
-        let routes = require('../.' + file.route.replace('src/', ''));
-
-        routes.map(x => {
-            x.routes.map(y => {
-                app[y.method](x.url, trycatch(y.controller));
-            });
-        });
-    });
-};
-
 function trycatch(controller) {
     return async (req, res) => {
         try {
@@ -29,3 +14,18 @@ function trycatch(controller) {
         }
     }
 }
+
+module.exports = (app) => {
+
+    const files = getFiles('./src/core', ['Route.js']);
+
+    files.map(file => {
+        let routes = require('../.' + file.route.replace('src/', ''));
+
+        routes.map(x => {
+            x.routes.map(y => {
+                app[y.method](x.url, trycatch(y.controller));
+            });
+        });
+    });
+};
