@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let recursoSchema = mongoose.Schema({
-    "codigo": Number,
+    "codigoPatrimonio": Number,
     "nome": String,
     "descricao": String,
     "status": String,

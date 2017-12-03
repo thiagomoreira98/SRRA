@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 let ocorrenciaSchema = mongoose.Schema({
-    "codigo": Number,
     "recurso": {
         type: mongoose.Schema.ObjectId,
         ref: "srra-recurso",

@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 let docenteSchema = mongoose.Schema({
     "matricula": Number,
-    "cpf": Number,
+    "cpf": String,
     "nome": String,
     "email": String,
-    "senha": Number,
+    "senha": String,
     "funcao": String
 })
 

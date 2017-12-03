@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const db = require('./config/database');
 
+require('devbox-response');
 require('./config/config.js');
 
 db(global.config.mongoDb.connectionString());
@@ -13,16 +14,13 @@ db(global.config.mongoDb.connectionString());
     app.use(bodyParser.json());
 })();
 
-(function loadMiddleware() {
+(function loadMiddlewareCors() {
     app.use(cors());
 })();
 
 (function loadRoutes() {
     require('./src/api/route/pingRoute.js')(app);
-    require('./src/api/route/docenteRoute.js')(app);
-    require('./src/api/route/recursoRoute.js')(app);
-    require('./src/api/route/laboratorioRoute.js')(app);
-    require('./src/api/route/ocorrenciaRoute.js')(app);
+    require('./src/api/route/setRoutes.js')(app);
 })();
 
 app.listen(global.config.port, () => {
