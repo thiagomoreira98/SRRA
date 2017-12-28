@@ -35,20 +35,20 @@ export class DocenteFormComponent implements OnInit {
 
   onSubmit() {
     if(this.docente._id) {
-      this.docenteService.alterar(this.docente).then( (data) => {
-        this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
+      this.docenteService.alterar(this.docente).then( (res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
       })
-      .catch( () => {
-        this.snackbar.open('Erro ao Salvar!', 'Fechar', { duration: 3000 });
+      .catch( (res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
     else {
-      this.docenteService.inserir(this.docente).then( () => {
-        this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
+      this.docenteService.inserir(this.docente).then( (res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
         this.docente = {};
       })
-      .catch( () => {
-        this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });
+      .catch( (res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
   }

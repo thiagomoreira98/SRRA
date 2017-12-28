@@ -42,28 +42,25 @@ export class RecursoFormComponent implements OnInit {
     }
   }
 
-  adicionarItem(item) {
-    this.recurso.itens.push(item);
+  adicionarItem() {
+    this.recurso.itens.push(this.item);
     this.item = '';
   }
 
   onSubmit() {
-    console.log(this.recurso);
     if (this.recurso._id) {
-      this.recursoService.alterar(this.recurso).then((data) => {
-        this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
-      })
-      .catch((err) => {
-        this.snackbar.open('Erro ao Salvar!', 'Fechar', { duration: 3000 });
+      this.recursoService.alterar(this.recurso).then((res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
+      }).catch((res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
     else {
-      this.recursoService.inserir(this.recurso).then(() => {
-        this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
+      this.recursoService.inserir(this.recurso).then((res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
         this.recurso = {};
-      })
-      .catch((err) => {
-        this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });
+      }).catch((res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
   }

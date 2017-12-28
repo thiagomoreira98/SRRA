@@ -1,55 +1,54 @@
-<div class="ui-s960">
+<form (ngSubmit)="onSubmit()" #ocorrenciaForm="ngForm">
     <ui-card style="width: 750px; margin: auto;">
         <ui-toolbar class="flat">
-            <button class="ui-button flat icon" routerLink="/ocorrencias" href="/ocorrencias" uiRipple>
+            <button type="button" class="ui-button flat icon" routerLink="/ocorrencias" uiRipple>
                 <i class="material-icons">arrow_back</i>
             </button>
         </ui-toolbar>
 
-        <form (ngSubmit)="onSubmit()" #ocorrenciaForm="ngForm">
-            <ui-card-content>
-                <div>
-                    <mat-form-field style="max-width: 300px; width: 100%;">
-                        <input matInput placeholder="Recurso" aria-label="Recurso" [matAutocomplete]="autoRecurso" [formControl]="recursoCtrl" name="recurso"
-                            [(ngModel)]="ocorrencia.recurso" required>
-                        <mat-autocomplete #autoRecurso="matAutocomplete">
-                            <mat-option *ngFor="let recurso of filteredRecursos | async" [value]="recurso.nome" (onSelectionChange)="changeRecurso(recurso)">
-                                <span>{{ recurso.nome }}</span>
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
+        <ui-card-content>
+            <div>
+                <mat-form-field style="max-width: 300px; width: 100%;">
+                    <input matInput placeholder="Recurso" aria-label="Recurso" [matAutocomplete]="autoRecurso" [formControl]="recursoCtrl" name="recurso"
+                        [(ngModel)]="ocorrencia.recurso" required>
+                    <mat-autocomplete #autoRecurso="matAutocomplete">
+                        <mat-option *ngFor="let recurso of filteredRecursos | async" [value]="recurso.nome" (onSelectionChange)="changeRecurso(recurso)">
+                            <span>{{ recurso.nome }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
 
-                    <mat-form-field style="max-width: 300px; width: 100%;">
-                        <input matInput placeholder="Docente" aria-label="Docente" [matAutocomplete]="autoDocente" [formControl]="docenteCtrl" name="docente"
-                            [(ngModel)]="ocorrencia.docente" required>
-                        <mat-autocomplete #autoDocente="matAutocomplete">
-                            <mat-option *ngFor="let docente of filteredDocentes | async" [value]="docente.nome" (onSelectionChange)="changeDocente(docente)">
-                                <span>{{ docente.nome }}</span>
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-
-                <div>
-                    <mat-form-field style="max-width: 150px; width: 100%;">
-                        <input matInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data" placeholder="Data" required>
-                    </mat-form-field>
-
-                    <mat-datepicker-toggle matSuffix [for]="picker" style="max-width: 40px;"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </div>
-
-                <div>
-                    <mat-form-field style="max-width: 500px; width: 100%;">
-                        <input matInput type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" placeholder="Detalhes" required>
-                    </mat-form-field>
-                </div>
-            </ui-card-content>
-
-            <div class="ui-button-container cover">
-                <button type="submit" class="ui-button raised success" uiRipple [disabled]="!ocorrenciaForm.valid">SALVAR</button>
-                <button type="button" mat-button color="warn" routerLink="/ocorrencias" href="/ocorrencias">CANCELAR</button>
+                <mat-form-field style="max-width: 300px; width: 100%;">
+                    <input matInput placeholder="Docente" aria-label="Docente" [matAutocomplete]="autoDocente" [formControl]="docenteCtrl" name="docente"
+                        [(ngModel)]="ocorrencia.docente" required>
+                    <mat-autocomplete #autoDocente="matAutocomplete">
+                        <mat-option *ngFor="let docente of filteredDocentes | async" [value]="docente.nome" (onSelectionChange)="changeDocente(docente)">
+                            <span>{{ docente.nome }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
             </div>
-        </form>
+
+            <div>
+                <mat-form-field style="max-width: 150px; width: 100%;">
+                    <input matInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data" placeholder="Data" required>
+                </mat-form-field>
+
+                <mat-datepicker-toggle matSuffix [for]="picker" style="max-width: 40px;"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </div>
+
+            <div>
+                <mat-form-field style="max-width: 500px; width: 100%;">
+                    <input matInput type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" placeholder="Detalhes" required>
+                </mat-form-field>
+            </div>
+        </ui-card-content>
     </ui-card>
-</div>
+
+    <div class="ui-fab-container">
+        <button type="submit" class="ui-button primary fab" uiRipple [disabled]="!ocorrenciaForm.form.valid">
+            <i class="material-icons">{{ ocorrenciaForm.form.valid ? 'save' : 'block' }}</i>
+        </button>
+    </div>
+</form>

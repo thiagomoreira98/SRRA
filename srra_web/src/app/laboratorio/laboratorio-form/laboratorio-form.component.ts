@@ -24,7 +24,7 @@ export class LaboratorioFormComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.params.subscribe((params: Params) => {
-      if(params.id) {
+      if (params.id) {
         this.laboratorioService.buscar(params.id).subscribe(data => {
           this.laboratorio = data;
         });
@@ -41,20 +41,18 @@ export class LaboratorioFormComponent implements OnInit {
 
   onSubmit() {
     if (this.laboratorio._id) {
-      this.laboratorioService.alterar(this.laboratorio).then((data) => {
-        this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
-      })
-      .catch(() => {
-        this.snackbar.open('Erro ao Salvar!', 'Fechar', { duration: 3000 });
+      this.laboratorioService.alterar(this.laboratorio).then((res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
+      }).catch((res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
     else {
-      this.laboratorioService.inserir(this.laboratorio).then(() => {
-        this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
+      this.laboratorioService.inserir(this.laboratorio).then((res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
         this.laboratorio = {};
-      })
-      .catch(() => {
-        this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000 });
+      }).catch((res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
   }

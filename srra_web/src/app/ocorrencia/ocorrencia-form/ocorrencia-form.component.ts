@@ -98,36 +98,30 @@ export class OcorrenciaFormComponent implements OnInit {
   idRecurso: any;
   changeRecurso(recurso: any) {
     this.idRecurso = recurso._id;
-    console.log(this.idRecurso);
   }
 
   idDocente: any;
   changeDocente(docente: any) {
     this.idDocente = docente._id;
-    console.log(this.idDocente);
   }
 
   onSubmit() {
     this.ocorrencia.recurso = this.idRecurso;
     this.ocorrencia.docente = this.idDocente;
-    console.log(this.ocorrencia);
     if (this.ocorrencia._id) {
-      this.ocorrenciaService.alterar(this.ocorrencia._id, this.ocorrencia).then((data) => {
-        this.snackbar.open('Salvo com Sucesso!', 'Fechar', { duration: 3000 });
+      this.ocorrenciaService.alterar(this.ocorrencia._id, this.ocorrencia).then((res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
+      }).catch((res) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })
       })
-        .catch((res) => {
-          this.snackbar.open(res.error.errorMessages ? res.error.errorMessages[0] : res.error, 'Fechar', { duration: 3000 })
-        })
     }
     else {
-      this.ocorrenciaService.inserir(this.ocorrencia).then(() => {
-        this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000 });
+      this.ocorrenciaService.inserir(this.ocorrencia).then((res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
         this.ocorrencia = {};
-      })
-        .catch((res) => {
-          console.log(res);
-          this.snackbar.open(res.error.errorMessages ? res.error.errorMessages[0] : res.error, 'Fechar', { duration: 3000 });
-        });
+      }).catch((res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
+      });
     }
   }
 }

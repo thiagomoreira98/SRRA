@@ -1,4 +1,4 @@
-<div class="ui-s960">
+<form (ngSubmit)="onSubmit()" #laboratorioForm="ngForm">
 	<ui-card style="width: 600px; margin: auto;">
 		<ui-toolbar class="flat">
 			<button class="ui-button flat icon" routerLink="/laboratorios" href="/laboratorios" uiRipple>
@@ -6,34 +6,31 @@
 			</button>
 		</ui-toolbar>
 
-		<!--<pre>{{ laboratorio | json }}</pre>-->
+		<ui-card-content>
+			<div class="ui-flex-container break-on-s960">
+				<ui-input-container style="max-width: 200px;">
+					<input type="number" [(ngModel)]="laboratorio.codigo" name="codigo" uiInput autocomplete="off" required>
+					<label>Codigo</label>
+				</ui-input-container>
 
-		<form (ngSubmit)="onSubmit()" #laboratorioForm="ngForm">
-			<ui-card-content>
-				<div class="ui-flex-container break-on-s960">
-					<ui-input-container style="max-width: 200px;">
-						<input type="number" [(ngModel)]="laboratorio.codigo" name="codigo" uiInput required>
-						<label>Codigo</label>
-					</ui-input-container>
-
-					<ui-input-container>
-						<input type="text" [(ngModel)]="laboratorio.nome" name="nome" uiInput required>
-						<label>Nome</label>
-					</ui-input-container>
-				</div>
-
-				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
-						<input type="text" [(ngModel)]="laboratorio.descricao" name="descricao" uiInput required>
-						<label>Descrição</label>
-					</ui-input-container>
-				</div>
-			</ui-card-content>
-
-			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised success" uiRipple [disabled]="!laboratorioForm.valid">{{ laboratorio._id ? 'ALTERAR' : 'CADASTRAR' }}</button>
-				<button type="button" mat-button color="warn" routerLink="/laboratorios" href="/laboratorios">CANCELAR</button>
+				<ui-input-container>
+					<input type="text" [(ngModel)]="laboratorio.nome" name="nome" uiInput autocomplete="off" required>
+					<label>Nome</label>
+				</ui-input-container>
 			</div>
-		</form>
+
+			<div class="ui-flex-container break-on-s960">
+				<ui-input-container>
+					<input type="text" [(ngModel)]="laboratorio.descricao" name="descricao" autocomplete="off" uiInput required>
+					<label>Descrição</label>
+				</ui-input-container>
+			</div>
+		</ui-card-content>
 	</ui-card>
-</div>
+
+	<div class="ui-fab-container">
+		<button type="submit" class="ui-button primary fab" uiRipple [disabled]="!laboratorioForm.form.valid">
+			<i class="material-icons">{{ laboratorioForm.form.valid ? 'save' : 'block' }}</i>
+		</button>
+	</div>
+</form>

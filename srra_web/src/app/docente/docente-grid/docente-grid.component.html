@@ -1,73 +1,67 @@
-<div class="ui-s960">
-    <ui-card style="width: 700px; margin: auto;">
-        <ui-toolbar class="flat">
-            <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
-                <i class="material-icons">arrow_back</i>
+<ui-card style="width: 700px; margin: auto;">
+    <ui-toolbar class="flat">
+        <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
+            <i class="material-icons">arrow_back</i>
+        </button>
+        <div class="align-right">
+            <ui-input-container>
+                <input type="text" name="searchText" [(ngModel)]="filtro.nome" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
+            </ui-input-container>
+            <button class="ui-button flat icon" uiRipple (click)="selecionar()">
+                <i class="material-icons">search</i>
             </button>
+        </div>
+    </ui-toolbar>
 
-            <button mat-mini-fab color="primary" routerLink="/docentes/cadastrar">
-		        <i class="material-icons">add</i>
-            </button>
-            <div class="align-right">
-                <ui-input-container>
-                    <input type="text" name="searchText" [(ngModel)]="filtro.nome" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
-                </ui-input-container>
-                <button class="ui-button flat icon" uiRipple (click)="selecionar()">
-                    <i class="material-icons">search</i>
-                </button>
-            </div>
-        </ui-toolbar>
+    <ui-data-table>
+        <tbody>
+            <tr>
+                <th>Matricula</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Função</th>
+                <th class="align-right"></th>
+            </tr>
 
-        <ui-data-table>
-            <tbody>
-                <tr>
-                    <th>Matricula</th>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Função</th>
-                    <th class="align-right"></th>
-                </tr>
+            <tr *ngFor="let docente of docentes">
+                <td>{{docente.matricula}}</td>
+                <td>{{docente.nome}}</td>
+                <td>{{docente.cpf}}</td>
+                <td>{{docente.funcao}}</td>
+                <td class="align-right">
+                    <button class="ui-button flat icon" style="cursor: pointer;" uiRipple [routerLink]="['/docentes/info', docente._id]">
+                        <i class="material-icons">edit</i>
+                    </button>
 
-                <tr *ngFor="let docente of docentes">
-                    <td>{{docente.matricula}}</td>
-                    <td>{{docente.nome}}</td>
-                    <td>{{docente.cpf}}</td>
-                    <td>{{docente.funcao}}</td>
-                    <td class="align-right">
-                        <button class="ui-button flat icon" style="cursor: pointer;" uiRipple [routerLink]="['/docentes/info', docente._id]">
-                            <i class="material-icons">edit</i>
+                    <button class="ui-button flat icon" style="cursor: pointer;" uiRipple (click)="deletar(docente._id)">
+                        <i class="material-icons">delete</i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="4" class="align-right">
+                    <div class="ui-button-container align-right">
+                        <span class="pagination">
+                            1-10 de 10
+                        </span>
+                        <button class="ui-button flat icon" uiRipple disabled>
+                            <i class="material-icons">keyboard_arrow_left</i>
                         </button>
-
-                        <button class="ui-button flat icon" style="cursor: pointer;" uiRipple (click)="deletar(docente._id)">
-                            <i class="material-icons">delete</i>
+                        <button class="ui-button flat icon" uiRipple disabled>
+                            <i class="material-icons">keyboard_arrow_right</i>
                         </button>
-                    </td>
-                </tr>
-            </tbody>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </ui-data-table>
+</ui-card>
 
-            <tfoot>
-                <tr>
-                    <td colspan="4" class="align-right">
-                        <div class="ui-button-container align-right">
-                            <span class="pagination">
-                                1-10 de 10
-                            </span>
-                            <button class="ui-button flat icon" uiRipple disabled>
-                                <i class="material-icons">keyboard_arrow_left</i>
-                            </button>
-                            <button class="ui-button flat icon" uiRipple disabled>
-                                <i class="material-icons">keyboard_arrow_right</i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </ui-data-table>
-    </ui-card>
-
-    <!-- <div class="ui-fab-container" style="float: right; margin-top: -300px; margin-right: 65px; position: relative;">
-		<button class="ui-button primary fab" uiRipple routerLink="/docentes/cadastrar" href="/docentes/cadastrar">
-			<i class="material-icons">add</i>
-		</button>
-	</div> -->
+<div class="ui-fab-container">
+    <button class="ui-button primary fab" uiRipple routerLink="/docentes/cadastrar">
+        <i class="material-icons">add</i>
+    </button>
 </div>

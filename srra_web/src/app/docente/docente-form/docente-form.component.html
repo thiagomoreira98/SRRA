@@ -1,68 +1,56 @@
-<div class="ui-s960">
-	<ui-card>
+<form (ngSubmit)="onSubmit()" #docenteForm="ngForm">
+	<ui-card style="max-width: 650px; margin: auto;">
 		<ui-toolbar class="flat">
-			<button class="ui-button flat icon" routerLink="/docentes" href="/docentes" uiRipple>
+			<button type="button" class="ui-button flat icon" routerLink="/docentes" uiRipple>
 				<i class="material-icons">arrow_back</i>
 			</button>
 		</ui-toolbar>
 
-		<!-- <pre>{{ docente | json }}</pre> -->
+		<ui-card-content>
+			<mat-form-field style="width: 150px; margin-right: 10px;">
+				<input matInput type="number" [(ngModel)]="docente.matricula" name="matricula" placeholder="Matricula" autocomplete="off"
+				 required>
+			</mat-form-field>
 
-		<form (ngSubmit)="onSubmit()" #docenteForm="ngForm">
-			<ui-card-content>
-				<div class="ui-flex-container break-on-s960">
-					<ui-input-container style="max-width: 250px;">
-						<input type="number" [(ngModel)]="docente.matricula" name="matricula" uiInput required>
-						<label>Matricula</label>
-					</ui-input-container>
+			<mat-form-field style="width: 450px;">
+				<input matInput type="text" [(ngModel)]="docente.nome" name="nome" placeholder="Nome" autocomplete="off" required>
+			</mat-form-field>
 
-					<ui-input-container>
-						<input type="text" [(ngModel)]="docente.nome" name="nome" uiInput required>
-						<label>Nome</label>
-					</ui-input-container>
-				</div>
+			<mat-form-field style="width: 350px; margin-right: 10px;">
+				<input matInput type="text" [(ngModel)]="docente.email" name="email" placeholder="E-mail" autocomplete="off" required>
+			</mat-form-field>
 
-				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
-						<input type="text" [(ngModel)]="docente.email" name="email" uiInput required>
-						<label>Email</label>
-					</ui-input-container>
+			<mat-form-field style="width: 250px;">
+				<input matInput type="password" [(ngModel)]="docente.senha" name="senha" placeholder="Senha" autocomplete="off" required>
+			</mat-form-field>
 
-					<ui-input-container>
-						<input type="text" [(ngModel)]="docente.senha" name="senha" uiInput required>
-						<label>Senha</label>
-					</ui-input-container>
-				</div>
+			<mat-form-field style="width: 200px;">
+				<input matInput type="text" [(ngModel)]="docente.cpf" name="cpf" placeholder="CPF" autocomplete="off" required maxlength="11"
+				 pattern="^\d{11}">
+			</mat-form-field>
 
-				<div class="ui-flex-container break-on-s960">
-					<ui-input-container style="max-width: 150px;">
-						<input type="text" [(ngModel)]="docente.cpf" name="cpf" uiInput uiMaskCpf required>
-						<label>CPF</label>
-					</ui-input-container>
+			<ui-option-container class="v-space-4 b-space-16">
+				<ui-option>
+					<input type="radio" name="funcao" [(ngModel)]="docente.funcao" value="Administrador" required>
+					<span>Administrador</span>
+				</ui-option>
 
-					<ui-option-container class="v-space-4 b-space-16">
-						<ui-option>
-							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Administrador'" required>
-							<span>Administrador</span>
-						</ui-option>
+				<ui-option>
+					<input type="radio" name="funcao" [(ngModel)]="docente.funcao" value="Professor" required>
+					<span>Professor</span>
+				</ui-option>
 
-						<ui-option>
-							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Professor'" required>
-							<span>Professor</span>
-						</ui-option>
-
-						<ui-option>
-							<input type="radio" name="funcao" [(ngModel)]="docente.funcao" [value]="'Funcionario'" required>
-							<span>Funcionario</span>
-						</ui-option>
-					</ui-option-container>
-				</div>
-			</ui-card-content>
-
-			<div class="ui-button-container cover">
-				<button class="ui-button raised success" uiRipple [disabled]="!docenteForm.valid">{{ docente._id ? 'ALTERAR' : 'CADASTRAR' }}</button>
-				<button type="button" mat-button color="warn" routerLink="/docentes" href="/docentes">CANCELAR</button>
-			</div>
-		</form>
+				<ui-option>
+					<input type="radio" name="funcao" [(ngModel)]="docente.funcao" value="Funcionario" required>
+					<span>Funcionario</span>
+				</ui-option>
+			</ui-option-container>
+		</ui-card-content>
 	</ui-card>
-</div>
+
+	<div class="ui-fab-container">
+		<button type="submit" class="ui-button primary fab" uiRipple [disabled]="!docenteForm.form.valid">
+			<i class="material-icons">{{ docenteForm.form.valid ? 'save' : 'block' }}</i>
+		</button>
+	</div>
+</form>

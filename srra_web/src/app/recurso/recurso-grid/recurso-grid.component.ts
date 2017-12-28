@@ -26,10 +26,6 @@ export class RecursoGridComponent implements OnInit {
     this.selecionar();
   }
 
-  filtrar() {
-
-  }
-
   selecionar(): any {
     this.recursoService.selecionar(this.filtro).subscribe(data => {
       this.recursos = data;
@@ -37,12 +33,11 @@ export class RecursoGridComponent implements OnInit {
   }
 
   deletar(id): any {
-    this.recursoService.deletar(id).then( () => {
-      this.snackbar.open('Deletado com Sucesso!', 'Fechar', { duration: 3000 });
+    this.recursoService.deletar(id).then((res: any) => {
+      this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
       this.selecionar();
-    })
-    .catch( () => {
-      this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });
+    }).catch((res: any) => {
+      this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
     });
   }
 }

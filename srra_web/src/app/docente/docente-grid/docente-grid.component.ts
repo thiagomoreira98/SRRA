@@ -32,14 +32,12 @@ export class DocenteGridComponent implements OnInit {
   }
 
   deletar(id): any {
-    this.docenteService.deletar(id)
-      .then(() => {
-        this.snackbar.open('Deletado Com Sucesso!', 'Fechar', { duration: 3000 });
-        this.selecionar();
-      })
-      .catch(() => {
-        this.snackbar.open('Erro ao Deletar!', 'Fechar', { duration: 3000 });
-      });
+    this.docenteService.deletar(id).then((res: any) => {
+      this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
+      this.selecionar();
+    }).catch((res: any) => {
+      this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
+    });
   }
 
 }
