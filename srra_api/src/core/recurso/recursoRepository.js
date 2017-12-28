@@ -2,23 +2,23 @@ const mongoose = require('mongoose');
 const Schema = require('./recursoSchema');
 
 async function selecionar() {
-    return Schema.find();
+    return await Schema.find();
 }
 
 async function buscar(id) {
-    return Schema.findById(id);
+    return await Schema.findById(id);
 }
 
-async function inserir(recurso) {
-    return Schema.create(recurso);
+async function inserir(docente) {
+    await Schema.create(docente);
 }
 
-async function alterar(id, recurso) {
-    return Schema.findOneAndUpdate({ _id: id }, recurso);
+async function alterar(id, docente) {
+    await Schema.findOneAndUpdate({ _id: id }, docente);
 }
 
 async function deletar(id) {
-    return Schema.findByIdAndRemove(id);
+    await Schema.findByIdAndRemove(id);
 }
 
 module.exports = {

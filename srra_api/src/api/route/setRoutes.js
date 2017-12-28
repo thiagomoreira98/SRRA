@@ -3,14 +3,9 @@ const getFiles = require('../../helpers/findRoutes');
 function trycatch(controller) {
     return async (req, res) => {
         try {
-            // if (!public) {
-            //     let retorno = token(req);
-            //     if (retorno)
-            //         return res.status(retorno.code).json(retorno);
-            // }
             await controller(req, res);
         } catch (err) {
-            res.status(500).send(err.message);
+            res.status(500).json({ message: err.message });
         }
     }
 }
