@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.0" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<database name="srra">
+</database>
+
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="Seguranca" rect-visible="true" fill-color="#e1e1e1">
+	<role name="postgres"/>
+</schema>
+
+<table name="Funcao">
+	<schema name="&quot;Seguranca&quot;"/>
+	<role name="postgres"/>
+	<position x="80" y="83"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="pk_id_funcao" type="pk-constr" table="&quot;Seguranca&quot;.&quot;Funcao&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Docente">
+	<schema name="&quot;Seguranca&quot;"/>
+	<role name="postgres"/>
+	<position x="80" y="200"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="varchar" length="250"/>
+	</column>
+	<column name="matricula" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="cpf" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="email" not-null="true">
+		<type name="varchar" length="250"/>
+	</column>
+	<column name="senha" not-null="true">
+		<type name="varchar" length="12"/>
+	</column>
+	<column name="idFuncao" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<constraint name="pk_id_docente" type="pk-constr" table="&quot;Seguranca&quot;.&quot;Docente&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="TipoRecurso">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="900" y="80"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="varchar" length="50"/>
+	</column>
+	<constraint name="pk_id_tipoRecurso" type="pk-constr" table="public.&quot;TipoRecurso&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Recurso">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="900" y="260"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="idTipoRecurso" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="varchar" length="50"/>
+	</column>
+	<column name="descricao" not-null="true">
+		<type name="text" length="250"/>
+	</column>
+	<column name="dataMotivo">
+		<type name="date" length="0"/>
+	</column>
+	<column name="motivo">
+		<type name="text" length="0"/>
+	</column>
+	<column name="itens">
+		<type name="json" length="0"/>
+	</column>
+	<column name="idStatusRecurso" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<constraint name="pk_id_recurso" type="pk-constr" table="public.&quot;Recurso&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="StatusRecurso">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="900" y="500"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="pk_id_statusRecurso" type="pk-constr" table="public.&quot;StatusRecurso&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Ocorrencia">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="460" y="80"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="idRecurso" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="idDocente" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="data" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="detalhes" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="pk_id_ocorrencia" type="pk-constr" table="public.&quot;Ocorrencia&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="Reserva">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="460" y="300"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="idRecurso" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="idDocente" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="data" not-null="true">
+		<type name="date" length="0"/>
+	</column>
+	<column name="idStatusReserva" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<constraint name="pk_id_reserva" type="pk-constr" table="public.&quot;Reserva&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="StatusReserva">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="460" y="520"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="varchar" length="20"/>
+	</column>
+	<constraint name="pk_id_statusReserva" type="pk-constr" table="public.&quot;StatusReserva&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="OpcaoMenu">
+	<schema name="&quot;Seguranca&quot;"/>
+	<role name="postgres"/>
+	<position x="80" y="420"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="varchar" length="30"/>
+	</column>
+	<constraint name="pk_id_opcaoMenu" type="pk-constr" table="&quot;Seguranca&quot;.&quot;OpcaoMenu&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="opcaoMenuFuncao">
+	<schema name="&quot;Seguranca&quot;"/>
+	<role name="postgres"/>
+	<position x="40" y="620"/>
+	<column name="id" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="idFuncao" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<column name="idOpcaoMenu" not-null="true">
+		<type name="smallint" length="0"/>
+	</column>
+	<constraint name="pk_id_opcaoMenuFuncao" type="pk-constr" table="&quot;Seguranca&quot;.&quot;opcaoMenuFuncao&quot;">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_idFuncao_funcao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;Seguranca&quot;.&quot;Funcao&quot;" table="&quot;Seguranca&quot;.&quot;Docente&quot;">
+	<columns names="idFuncao" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idTipoRecurso_recurso" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;TipoRecurso&quot;" table="public.&quot;Recurso&quot;">
+	<columns names="idTipoRecurso" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idStatusRecurso_recurso" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;StatusRecurso&quot;" table="public.&quot;Recurso&quot;">
+	<columns names="idStatusRecurso" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idRecurso_ocorrencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;Recurso&quot;" table="public.&quot;Ocorrencia&quot;">
+	<columns names="idRecurso" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idDocente_ocorrencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;Seguranca&quot;.&quot;Docente&quot;" table="public.&quot;Ocorrencia&quot;">
+	<columns names="idDocente" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idRecurso_reserva" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;Recurso&quot;" table="public.&quot;Reserva&quot;">
+	<columns names="idRecurso" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idDocente_reserva" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;Seguranca&quot;.&quot;Docente&quot;" table="public.&quot;Reserva&quot;">
+	<columns names="idDocente" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idStatusReserva_reserva" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.&quot;StatusReserva&quot;" table="public.&quot;Reserva&quot;">
+	<columns names="idStatusReserva" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idFuncao_opcaoMenuFuncao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;Seguranca&quot;.&quot;Funcao&quot;" table="&quot;Seguranca&quot;.&quot;opcaoMenuFuncao&quot;">
+	<columns names="idFuncao" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_idOpcaoMenu_opcaoMenuFuncao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="&quot;Seguranca&quot;.&quot;OpcaoMenu&quot;" table="&quot;Seguranca&quot;.&quot;opcaoMenuFuncao&quot;">
+	<columns names="idOpcaoMenu" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="&quot;rel_Docente_Funcao&quot;" type="relfk"
+	 src-table="&quot;Seguranca&quot;.&quot;Docente&quot;"
+	 dst-table="&quot;Seguranca&quot;.&quot;Funcao&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Recurso_TipoRecurso&quot;" type="relfk"
+	 src-table="public.&quot;Recurso&quot;"
+	 dst-table="public.&quot;TipoRecurso&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Recurso_Status&quot;" type="relfk"
+	 src-table="public.&quot;Recurso&quot;"
+	 dst-table="public.&quot;StatusRecurso&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Ocorrencia_Recurso&quot;" type="relfk"
+	 src-table="public.&quot;Ocorrencia&quot;"
+	 dst-table="public.&quot;Recurso&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Ocorrencia_Docente&quot;" type="relfk"
+	 src-table="public.&quot;Ocorrencia&quot;"
+	 dst-table="&quot;Seguranca&quot;.&quot;Docente&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Reserva_Recurso&quot;" type="relfk"
+	 src-table="public.&quot;Reserva&quot;"
+	 dst-table="public.&quot;Recurso&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Reserva_Docente&quot;" type="relfk"
+	 src-table="public.&quot;Reserva&quot;"
+	 dst-table="&quot;Seguranca&quot;.&quot;Docente&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_Reserva_StatusReserva&quot;" type="relfk"
+	 src-table="public.&quot;Reserva&quot;"
+	 dst-table="public.&quot;StatusReserva&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_opcaoMenuFuncao_Funcao&quot;" type="relfk"
+	 src-table="&quot;Seguranca&quot;.&quot;opcaoMenuFuncao&quot;"
+	 dst-table="&quot;Seguranca&quot;.&quot;Funcao&quot;"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="&quot;rel_opcaoMenuFuncao_OpcaoMenu&quot;" type="relfk"
+	 src-table="&quot;Seguranca&quot;.&quot;opcaoMenuFuncao&quot;"
+	 dst-table="&quot;Seguranca&quot;.&quot;OpcaoMenu&quot;"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
