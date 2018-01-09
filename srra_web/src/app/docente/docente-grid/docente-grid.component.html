@@ -29,11 +29,11 @@
                 <td>{{docente.cpf}}</td>
                 <td>{{docente.funcao}}</td>
                 <td class="align-right">
-                    <button class="ui-button flat icon" style="cursor: pointer;" uiRipple [routerLink]="['/docentes/info', docente._id]">
+                    <button class="ui-button flat icon" style="cursor: pointer;" uiRipple [routerLink]="['/docentes/info', docente.id]">
                         <i class="material-icons">edit</i>
                     </button>
 
-                    <button class="ui-button flat icon" style="cursor: pointer;" uiRipple (click)="deletar(docente._id)">
+                    <button class="ui-button flat icon" style="cursor: pointer;" uiRipple (click)="deletar(docente.id)">
                         <i class="material-icons">delete</i>
                     </button>
                 </td>
@@ -61,7 +61,7 @@
 </ui-card>
 
 <div class="ui-fab-container">
-    <button class="ui-button primary fab" uiRipple routerLink="/docentes/cadastrar">
+    <button mat-fab color="primary" routerLink="/docentes/novo">
         <i class="material-icons">add</i>
     </button>
 </div>

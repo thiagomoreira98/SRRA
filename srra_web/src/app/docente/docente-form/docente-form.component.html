@@ -1,12 +1,10 @@
 <form (ngSubmit)="onSubmit()" #docenteForm="ngForm">
-	<ui-card style="max-width: 650px; margin: auto;">
-		<ui-toolbar class="flat">
-			<button type="button" class="ui-button flat icon" routerLink="/docentes" uiRipple>
-				<i class="material-icons">arrow_back</i>
-			</button>
-		</ui-toolbar>
+	<mat-card style="max-width: 700px; margin: auto;">
+		<button type="button" mat-icon-button routerLink="/docentes">
+			<i class="material-icons">arrow_back</i>
+		</button>
 
-		<ui-card-content>
+		<mat-card-content>
 			<mat-form-field style="width: 150px; margin-right: 10px;">
 				<input matInput type="number" [(ngModel)]="docente.matricula" name="matricula" placeholder="Matricula" autocomplete="off"
 				 required>
@@ -29,27 +27,18 @@
 				 pattern="^\d{11}">
 			</mat-form-field>
 
-			<ui-option-container class="v-space-4 b-space-16">
-				<ui-option>
-					<input type="radio" name="funcao" [(ngModel)]="docente.funcao" value="Administrador" required>
-					<span>Administrador</span>
-				</ui-option>
-
-				<ui-option>
-					<input type="radio" name="funcao" [(ngModel)]="docente.funcao" value="Professor" required>
-					<span>Professor</span>
-				</ui-option>
-
-				<ui-option>
-					<input type="radio" name="funcao" [(ngModel)]="docente.funcao" value="Funcionario" required>
-					<span>Funcionario</span>
-				</ui-option>
-			</ui-option-container>
-		</ui-card-content>
-	</ui-card>
+			<mat-form-field style="margin-left: 10px; top: -2px;">
+				<mat-select placeholder="Selecione uma função" name="funcao" [(ngModel)]="docente.funcao" required>
+					<mat-option *ngFor="let funcao of funcoes" [value]="funcao.id">
+						{{ funcao.nome }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</mat-card-content>
+	</mat-card>
 
 	<div class="ui-fab-container">
-		<button type="submit" class="ui-button primary fab" uiRipple [disabled]="!docenteForm.form.valid">
+		<button type="submit" mat-fab color="primary" [disabled]="!docenteForm.form.valid">
 			<i class="material-icons">{{ docenteForm.form.valid ? 'save' : 'block' }}</i>
 		</button>
 	</div>

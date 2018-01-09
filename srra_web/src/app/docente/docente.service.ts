@@ -27,4 +27,8 @@ export class DocenteService {
   deletar(id: any) {
     return this.http.delete(`${environment.urlApi}/api/docente/${id}`).toPromise();
   }
+
+  selecionarFuncao() {
+    return this.http.get(`${environment.urlApi}/api/funcao`);
+  }
 }

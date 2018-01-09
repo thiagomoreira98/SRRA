@@ -13,10 +13,11 @@ import { DocenteService } from '../docente.service';
 export class DocenteFormComponent implements OnInit {
 
   docente: any = {};
+  funcoes: any = [];
 
   constructor(
     private navComponent: NavComponent,
-    private docenteService: DocenteService,
+    private service: DocenteService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute
   ) { }
@@ -24,18 +25,29 @@ export class DocenteFormComponent implements OnInit {
   ngOnInit() {
     this.navComponent.setTitle('Cadastrar Docente');
 
+    this.funcaoDropdown();
+
     this.activatedRoute.params.subscribe((params: Params) => {
       if(params.id) {
-        this.docenteService.buscar(params.id).subscribe( data => {
-          this.docente = data;
+        this.service.buscar(params.id).subscribe( (data: any) => {
+          this.docente = data.content;
         });
       }
     });
   }
 
+  funcaoDropdown() {
+    this.service.selecionarFuncao().subscribe((data: any) => {
+      this.funcoes = data.content;
+    }, (res: any) => {
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });  
+    });
+  }
+
   onSubmit() {
-    if(this.docente._id) {
-      this.docenteService.alterar(this.docente).then( (res: any) => {
+    console.log(this.docente);
+    if(this.docente.id) {
+      this.service.alterar(this.docente).then( (res: any) => {
         this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
       })
       .catch( (res: any) => {
@@ -43,11 +55,12 @@ export class DocenteFormComponent implements OnInit {
       });
     }
     else {
-      this.docenteService.inserir(this.docente).then( (res: any) => {
+      this.service.inserir(this.docente).then( (res: any) => {
         this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
         this.docente = {};
       })
       .catch( (res: any) => {
+        console.log(res);
         this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
