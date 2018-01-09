@@ -2,12 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
-const db = require('./config/database');
 
-require('devbox-response');
 require('./config/config.js');
-
-db(global.config.mongoDb.connectionString());
+require('devbox-response');
 
 (function loadBodyParser() {
     app.use(bodyParser.urlencoded({extended: true}));
@@ -16,6 +13,7 @@ db(global.config.mongoDb.connectionString());
 
 (function loadMiddlewareCors() {
     app.use(cors());
+    app.use(require('./src/api/middleware/response.js'));
 })();
 
 (function loadRoutes() {

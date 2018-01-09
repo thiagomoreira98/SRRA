@@ -5,6 +5,7 @@ srra_web/node_modules
 
 srra_api/.vscode
 srra_web/.vscode
+srra_docs/.vscode
 
 srra_api/.idea
 srra_web/.idea

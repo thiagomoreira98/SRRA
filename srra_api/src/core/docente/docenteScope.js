@@ -3,7 +3,7 @@ function verificarDados(req) {
 
     response
         .field(req.body.matricula, 'Matricula').isNotNull()
-        .field(req.body.cpf, 'CPF').isNotNull()//.isCpf()
+        .field(req.body.cpf, 'CPF').isCpf()
         .field(req.body.nome, 'Nome').isNotNull()
         .field(req.body.email, 'Email').isNotNull()
         .field(req.body.senha, 'Senha').isNotNull()
