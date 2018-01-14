@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 import { NavComponent } from '../../nav/nav.component';
@@ -13,32 +13,61 @@ import { OcorrenciaService } from '../ocorrencia.service';
 export class OcorrenciaGridComponent implements OnInit {
 
   ocorrencias: any = [];
-  filtro: Number;
+  filtro: any = {};
+  totalPaginas: number;
+  totalRegistros: number;
+  buscando: boolean = true;
 
   constructor(
     private navComponent: NavComponent,
-    private ocorrenciaService: OcorrenciaService, 
-    private snackbar: MatSnackBar
+    private service: OcorrenciaService,
+    private snackbar: MatSnackBar,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.navComponent.setTitle('Ocorrências');
-    this.selecionar();
-  }
-
-  selecionar(): any {
-    this.ocorrenciaService.selecionar().subscribe( data => {
-      this.ocorrencias = data;
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.filtro = params;
+      this.selecionar();
     });
   }
 
+  selecionar(): any {
+    this.service.selecionar(this.filtro).subscribe((data: any) => {
+      this.ocorrencias = data.content.registros;
+      this.totalRegistros = data.content.totalRegistros;
+      this.totalPaginas = this.calcularTotalPaginas((this.totalRegistros / this.filtro.quantidade).toString());
+      this.buscando = false;
+    }, (res: any) => {
+      this.buscando = false;
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })
+    });
+  }
+
+  proximaPagina() {
+    this.filtro.pagina += 1;
+    this.selecionar();
+  }
+
+  voltarPagina() {
+    this.filtro.pagina -= 1;
+    this.selecionar();
+  }
+
+  calcularTotalPaginas(paginas): any {
+    if (paginas.length > 1)
+      return parseInt(paginas) + 1;
+
+    return parseInt(paginas);
+  }
+
   deletar(id): any {
-    this.ocorrenciaService.deletar(id).then( (res: any) => {
+    this.service.deletar(id).then((res: any) => {
       this.snackbar.open(res.message, 'Fechar', { duration: 3000 })
       this.selecionar();
-    })
-    .catch( (res: any) => {
-      this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })
+    }).catch((res: any) => {
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })
     })
   }
 }

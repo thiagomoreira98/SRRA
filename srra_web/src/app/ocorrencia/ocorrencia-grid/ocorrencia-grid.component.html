@@ -1,17 +1,8 @@
-<ui-card style="max-width: 800px; margin: auto;">
+<ui-card style="max-width: 700px; margin: auto;">
 	<ui-toolbar class="flat">
-		<button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
+		<button mat-icon-button routerLink="/ocorrencias/filtro">
 			<i class="material-icons">arrow_back</i>
 		</button>
-
-		<div class="align-right">
-			<ui-input-container>
-				<input type="number" name="searchText" [(ngModel)]="filtro" uiInput [persistPlaceholder]="true" placeholder="codigo">
-			</ui-input-container>
-			<button class="ui-button flat icon" uiRipple (click)="selecionar()">
-				<i class="material-icons">search</i>
-			</button>
-		</div>
 	</ui-toolbar>
 
 	<ui-data-table>
@@ -30,11 +21,11 @@
 				<td>{{ocorrencia.docente.nome }}</td>
 				<td>{{ocorrencia.data | date: ddMMyyyy }}</td>
 				<td class="align-right">
-					<button class="ui-button flat icon" uiRipple [routerLink]="['/ocorrencias/info', ocorrencia._id]">
+					<button class="ui-button flat icon" uiRipple [routerLink]="['/ocorrencias/info', ocorrencia.id]">
 						<i class="material-icons">edit</i>
 					</button>
 
-					<button class="ui-button flat icon" uiRipple (click)="deletar(ocorrencia._id)">
+					<button class="ui-button flat icon" uiRipple (click)="deletar(ocorrencia.id)">
 						<i class="material-icons">delete</i>
 					</button>
 				</td>
@@ -46,12 +37,12 @@
 				<td colspan="4" class="align-right">
 					<div class="ui-button-container align-right">
 						<span class="pagination">
-							1-10 de 10
+							{{ filtro.pagina }} - {{ totalPaginas }} - REGISTROS: {{ totalRegistros }}
 						</span>
-						<button class="ui-button flat icon" uiRipple disabled>
+						<button class="ui-button flat icon" uiRipple (click)="voltarPagina()" [disabled]="filtro.pagina == 1">
 							<i class="material-icons">keyboard_arrow_left</i>
 						</button>
-						<button class="ui-button flat icon" uiRipple disabled>
+						<button class="ui-button flat icon" uiRipple (click)="proximaPagina()" [disabled]="filtro.pagina == totalPaginas">
 							<i class="material-icons">keyboard_arrow_right</i>
 						</button>
 					</div>
@@ -62,7 +53,7 @@
 </ui-card>
 
 <div class="ui-fab-container">
-	<button class="ui-button primary fab" uiRipple routerLink="/ocorrencias/cadastrar">
+	<button mat-fab color="primary" routerLink="/ocorrencias/novo">
 		<i class="material-icons">add</i>
 	</button>
 </div>

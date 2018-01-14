@@ -2,8 +2,8 @@ SELECT seguranca.excluirFuncao('public', 'selecionarTipoRecurso');
 CREATE OR REPLACE FUNCTION public.selecionarTipoRecurso()
 
     RETURNS TABLE(
-        id public."tipoRecurso".id%TYPE,
-        nome public."tipoRecurso".nome%TYPE
+        id public.tipoRecurso.id%TYPE,
+        nome public.tipoRecurso.nome%TYPE
     ) AS $$
 
     /*
@@ -19,7 +19,7 @@ CREATE OR REPLACE FUNCTION public.selecionarTipoRecurso()
     BEGIN
 
         RETURN QUERY
-            SELECT * FROM public."tipoRecurso";
+            SELECT * FROM public.tipoRecurso;
 
     END;
 $$

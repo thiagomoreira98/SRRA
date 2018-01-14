@@ -3,7 +3,7 @@ const scope = require('./docenteScope');
 
 async function selecionar(req, res) {
     let retorno = await repository.selecionar(req.query);
-    res.status(200).json(retorno);
+    res.ok(200, retorno);
 }
 
 async function buscar(req, res) {

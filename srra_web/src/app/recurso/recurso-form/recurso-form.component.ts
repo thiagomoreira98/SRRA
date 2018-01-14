@@ -14,26 +14,22 @@ export class RecursoFormComponent implements OnInit {
 
   recurso: any = {};
   item: String;
-
+  tipoRecurso: any = [];
+  statusRecurso: any = [];
+  
   constructor(
     private navComponent: NavComponent,
-    private recursoService: RecursoService,
+    private service: RecursoService,
     private snackbar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    this.navComponent.setTitle('Cadastrar Recurso');
+    this.buscar();
+    this.selecionarTipoRecurso();
+    this.selecionarStatusRecurso();
 
-    this.activatedRoute.params.subscribe((params: Params) => {
-      if (params.id) {
-        this.recursoService.buscar(params.id).subscribe(data => {
-          this.recurso = data;
-        });
-      }
-    });
-
-    if (this.recurso._id) {
+    if (this.recurso.id) {
       this.navComponent.setTitle('Alterar Recurso');
     }
     else {
@@ -42,21 +38,47 @@ export class RecursoFormComponent implements OnInit {
     }
   }
 
+  buscar() {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      if (params.id) {
+        this.service.buscar(params.id).subscribe(data => {
+          this.recurso = data.content;
+        });
+      }
+    });
+  }
+
+  selecionarTipoRecurso() {
+    this.service.selecionarTipoRecurso().subscribe((data: any) => {
+      this.tipoRecurso = data.content;
+    }, (res: any) => {
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
+    });
+  }
+
+  selecionarStatusRecurso() {
+    this.service.selecionarStatusRecurso().subscribe((data: any) => {
+      this.statusRecurso = data.content;
+    }, (res: any) => {
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
+    });
+  }
+
   adicionarItem() {
     this.recurso.itens.push(this.item);
     this.item = '';
   }
 
   onSubmit() {
-    if (this.recurso._id) {
-      this.recursoService.alterar(this.recurso).then((res: any) => {
+    if (this.recurso.id) {
+      this.service.alterar(this.recurso).then((res: any) => {
         this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
       }).catch((res: any) => {
         this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
     else {
-      this.recursoService.inserir(this.recurso).then((res: any) => {
+      this.service.inserir(this.recurso).then((res: any) => {
         this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
         this.recurso = {};
       }).catch((res: any) => {

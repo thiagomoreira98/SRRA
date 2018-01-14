@@ -1,16 +1,8 @@
 <ui-card style="width: 700px; margin: auto;">
     <ui-toolbar class="flat">
-        <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
+        <button mat-icon-button routerLink="/docentes/filtro">
             <i class="material-icons">arrow_back</i>
         </button>
-        <div class="align-right">
-            <ui-input-container>
-                <input type="text" name="searchText" [(ngModel)]="filtro.nome" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
-            </ui-input-container>
-            <button class="ui-button flat icon" uiRipple (click)="selecionar()">
-                <i class="material-icons">search</i>
-            </button>
-        </div>
     </ui-toolbar>
 
     <ui-data-table>
@@ -24,10 +16,10 @@
             </tr>
 
             <tr *ngFor="let docente of docentes">
-                <td>{{docente.matricula}}</td>
-                <td>{{docente.nome}}</td>
-                <td>{{docente.cpf}}</td>
-                <td>{{docente.funcao}}</td>
+                <td>{{ docente.matricula }}</td>
+                <td>{{ docente.nome }}</td>
+                <td>{{ docente.cpf }}</td>
+                <td>{{ docente.funcao }}</td>
                 <td class="align-right">
                     <button class="ui-button flat icon" style="cursor: pointer;" uiRipple [routerLink]="['/docentes/info', docente.id]">
                         <i class="material-icons">edit</i>
@@ -38,6 +30,14 @@
                     </button>
                 </td>
             </tr>
+            <tr *ngIf="buscando">
+                <td colspan="5">
+                    <ui-progress-radial class="indeterminate"></ui-progress-radial>
+                </td>
+            </tr>
+            <tr *ngIf="!docentes">
+                <td colspan="5">Nenhum registro encontrado...</td>
+            </tr>
         </tbody>
 
         <tfoot>
@@ -45,12 +45,12 @@
                 <td colspan="4" class="align-right">
                     <div class="ui-button-container align-right">
                         <span class="pagination">
-                            1-10 de 10
+                            {{ filtro.pagina }} - {{ totalPaginas }} - REGISTROS: {{ totalRegistros }}
                         </span>
-                        <button class="ui-button flat icon" uiRipple disabled>
+                        <button class="ui-button flat icon" uiRipple (click)="voltarPagina()" [disabled]="filtro.pagina == 1">
                             <i class="material-icons">keyboard_arrow_left</i>
                         </button>
-                        <button class="ui-button flat icon" uiRipple disabled>
+                        <button class="ui-button flat icon" uiRipple (click)="proximaPagina()" [disabled]="filtro.pagina == totalPaginas">
                             <i class="material-icons">keyboard_arrow_right</i>
                         </button>
                     </div>

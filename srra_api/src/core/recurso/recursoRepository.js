@@ -8,36 +8,45 @@ const procedures = {
     deletar: 'public.deletarRecurso'
 }
 
-async function selecionar() {
+async function selecionar(filtro) {
     return await pg.request()
-        .asyncExecute(procedures.selecionar);
+        .input('pNome', filtro.nome)
+        .input('pCodigoPatrimonio', filtro.codigoPatrimonio)
+        .input('pIdStatusRecurso', filtro.status == 'Todos' ? null : filtro.status)
+        .input('pIdTipoRecurso', filtro.tipo == 'Todos' ? null : filtro.tipo)
+        .input('pPagina', filtro.pagina)
+        .input('pQuantidade', filtro.quantidade)
+        .asyncExecuteOne(procedures.selecionar);
 }
 
 async function buscar(id) {
     return await pg.request()
+        .input('pId', id)
         .asyncExecuteOne(procedures.buscar);
 }
 
 async function inserir(recurso) {
     await pg.request()
+        .input('pcodigoPatrimonio', recurso.codigoPatrimonio)
         .input('pNome', recurso.nome)
         .input('pDescricao', recurso.descricao)
-        .input('pIdStatus', recurso.status)
-        .input('pIdTipoRecurso', recurso.tipoRecurso)
-        .input('pDataMotivo', recurso.dataMotivo || null)
-        .input('pItens', JSON.stringify(recurso.itens) || '[]')
+        .input('pIdStatusRecurso', recurso.status)
+        .input('pIdTipoRecurso', recurso.tipo)
+        .input('pMotivo', recurso.motivo)
+        .input('pDataMotivo', recurso.dataMotivo)
         .asyncExecute(procedures.inserir);
 }
 
 async function alterar(id, recurso) {
     await pg.request()
         .input('pId', id)
+        .input('pcodigoPatrimonio', recurso.codigoPatrimonio)
         .input('pNome', recurso.nome)
         .input('pDescricao', recurso.descricao)
-        .input('pIdStatus', recurso.status)
-        .input('pIdTipoRecurso', recurso.tipoRecurso)
-        .input('pDataMotivo', recurso.dataMotivo || null)
-        .input('pItens', JSON.stringify(recurso.itens) || '[]')
+        .input('pIdStatusRecurso', recurso.status)
+        .input('pIdTipoRecurso', recurso.tipo)
+        .input('pMotivo', recurso.motivo)
+        .input('pDataMotivo', recurso.dataMotivo)
         .asyncExecute(procedures.alterar);
 }
 

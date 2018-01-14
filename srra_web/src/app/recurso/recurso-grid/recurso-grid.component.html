@@ -1,41 +1,42 @@
 <ui-card style="max-width: 700px; margin: auto;">
     <ui-toolbar class="flat">
-        <button class="ui-button flat icon" routerLink="/home" href="/home" uiRipple>
+        <button mat-icon-button routerLink="/recursos/filtro">
             <i class="material-icons">arrow_back</i>
         </button>
-
-        <div class="align-right">
-            <ui-input-container>
-                <input type="text" name="filtroNome" [(ngModel)]="filtro" uiInput [persistPlaceholder]="true" placeholder="Pesquisa">
-            </ui-input-container>
-            <button class="ui-button flat icon" uiRipple (click)="selecionar()">
-                <i class="material-icons">search</i>
-            </button>
-        </div>
     </ui-toolbar>
 
     <ui-data-table>
         <tbody>
             <tr>
-                <th>Código</th>
+                <th>Código Patrimônio</th>
                 <th>Nome</th>
+                <th>Tipo de Recurso</th>
                 <th>Status</th>
                 <th class="align-right"></th>
             </tr>
 
             <tr *ngFor="let recurso of recursos">
-                <td>{{recurso.codigo}}</td>
-                <td>{{recurso.nome}}</td>
-                <td>{{recurso.status}}</td>
+                <td>{{ recurso.codigoPatrimonio || 'não possui' }}</td>
+                <td>{{ recurso.nome }}</td>
+                <td>{{ recurso.tipo }}</td>
+                <td>{{ recurso.status }}</td>
                 <td class="align-right">
-                    <button style="cursor: pointer;" class="ui-button flat icon" uiRipple [routerLink]="['/recursos/info', recurso._id]">
+                    <button style="cursor: pointer;" class="ui-button flat icon" uiRipple [routerLink]="['/recursos/info', recurso.id]">
                         <i class="material-icons">edit</i>
                     </button>
 
-                    <button style="cursor: pointer;" class="ui-button flat icon" uiRipple (click)="deletar(recurso._id)">
+                    <button style="cursor: pointer;" class="ui-button flat icon" uiRipple (click)="deletar(recurso.id)">
                         <i class="material-icons">delete</i>
                     </button>
                 </td>
+            </tr>
+            <tr *ngIf="buscando">
+                <td colspan="5">
+                    <ui-progress-radial class="indeterminate"></ui-progress-radial>
+                </td>
+            </tr>
+            <tr *ngIf="!recursos">
+                <td colspan="5">Nenhum registro encontrado...</td>
             </tr>
         </tbody>
 
@@ -44,12 +45,12 @@
                 <td colspan="4" class="align-right">
                     <div class="ui-button-container align-right">
                         <span class="pagination">
-                            1-10 de 10
+                            {{ filtro.pagina }} - {{ totalPaginas }} - REGISTROS: {{ totalRegistros }}
                         </span>
-                        <button class="ui-button flat icon" uiRipple disabled>
+                        <button class="ui-button flat icon" uiRipple (click)="voltarPagina()" [disabled]="filtro.pagina == 1">
                             <i class="material-icons">keyboard_arrow_left</i>
                         </button>
-                        <button class="ui-button flat icon" uiRipple disabled>
+                        <button class="ui-button flat icon" uiRipple (click)="proximaPagina()" [disabled]="filtro.pagina == totalPaginas">
                             <i class="material-icons">keyboard_arrow_right</i>
                         </button>
                     </div>
@@ -60,7 +61,7 @@
 </ui-card>
 
 <div class="ui-fab-container">
-    <button class="ui-button primary fab" uiRipple routerLink="/recursos/cadastrar">
+    <button class="ui-button primary fab" uiRipple routerLink="/recursos/novo">
         <i class="material-icons">add</i>
     </button>
 </div>

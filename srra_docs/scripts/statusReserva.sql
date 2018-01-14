@@ -2,8 +2,8 @@ SELECT seguranca.excluirFuncao('public', 'selecionarStatusReserva');
 CREATE OR REPLACE FUNCTION public.selecionarStatusReserva()
 
     RETURNS TABLE(
-        id public."statusReserva".id%TYPE,
-        nome public."statusReserva".nome%TYPE
+        id public.statusReserva.id%TYPE,
+        nome public.statusReserva.nome%TYPE
     ) AS $$
 
     /*
@@ -19,7 +19,7 @@ CREATE OR REPLACE FUNCTION public.selecionarStatusReserva()
     BEGIN
 
         RETURN QUERY
-            SELECT * FROM public."statusReserva";
+            SELECT * FROM public.statusReserva;
 
     END;
 $$

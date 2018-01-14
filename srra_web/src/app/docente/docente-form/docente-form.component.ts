@@ -14,6 +14,7 @@ export class DocenteFormComponent implements OnInit {
 
   docente: any = {};
   funcoes: any = [];
+  showPassword: Boolean = false;
 
   constructor(
     private navComponent: NavComponent,
@@ -24,12 +25,14 @@ export class DocenteFormComponent implements OnInit {
 
   ngOnInit() {
     this.navComponent.setTitle('Cadastrar Docente');
-
     this.funcaoDropdown();
+    this.buscar();
+  }
 
+  buscar() {
     this.activatedRoute.params.subscribe((params: Params) => {
-      if(params.id) {
-        this.service.buscar(params.id).subscribe( (data: any) => {
+      if (params.id) {
+        this.service.buscar(params.id).subscribe((data: any) => {
           this.docente = data.content;
         });
       }
@@ -40,27 +43,33 @@ export class DocenteFormComponent implements OnInit {
     this.service.selecionarFuncao().subscribe((data: any) => {
       this.funcoes = data.content;
     }, (res: any) => {
-      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });  
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
     });
   }
 
+  // showHidePassword() {
+  //   this.showPassword = !this.showPassword;
+
+  //   if(this.showPassword)
+  //     this.typeField = 'text';
+
+  //   else
+  //     this.typeField = 'password';
+  // }
+
   onSubmit() {
-    console.log(this.docente);
-    if(this.docente.id) {
-      this.service.alterar(this.docente).then( (res: any) => {
+    if (this.docente.id) {
+      this.service.alterar(this.docente).then((res: any) => {
         this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
-      })
-      .catch( (res: any) => {
+      }).catch((res: any) => {
         this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }
     else {
-      this.service.inserir(this.docente).then( (res: any) => {
+      this.service.inserir(this.docente).then((res: any) => {
         this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
         this.docente = {};
-      })
-      .catch( (res: any) => {
-        console.log(res);
+      }).catch((res: any) => {
         this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
     }

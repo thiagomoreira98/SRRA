@@ -1,30 +1,57 @@
-// const mongoose = require('mongoose');
-// const Schema = require('./ocorrenciaSchema');
+const pg = require('smn-pg')(global.config.pgSQL);
 
-// async function selecionar() {
-//     return await Schema.find();
-// }
+const procedures = {
+    selecionar: 'public.selecionarOcorrencia',
+    buscar: 'public.buscarOcorrencia',
+    inserir: 'public.inserirOcorrencia',
+    alterar: 'public.alterarOcorrencia',
+    deletar: 'public.deletarOcorrencia'
+}
 
-// async function buscar(id) {
-//     return await Schema.findById(id);
-// }
+async function selecionar(filtro) {
+    return await pg.request()
+        .input('pRecurso', filtro.recurso)
+        .input('pDocente', filtro.docente)
+        .input('pDataInicio', filtro.dataInicio)
+        .input('pDataFim', filtro.dataFim)
+        .asyncExecuteOne(procedures.selecionar);
+}
 
-// async function inserir(docente) {
-//     await Schema.create(docente);
-// }
+async function buscar(id) {
+    return await pg.request()
+        .input('pId', id)
+        .asyncExecuteOne(procedures.buscar);
+}
 
-// async function alterar(id, docente) {
-//     await Schema.findOneAndUpdate({ _id: id }, docente);
-// }
+async function inserir(ocorrencia) {
+    await pg.request()
+        .input('pIdDocente', ocorencia.docente)
+        .input('pIdRecurso', ocorencia.recurso)
+        .input('pData', ocorencia.data)
+        .input('pDetalhes', ocorencia.detalhes)
+        .asyncExecute(procedures.inserir);
+}
 
-// async function deletar(id) {
-//     await Schema.findByIdAndRemove(id);
-// }
+async function alterar(id, ocorencia) {
+    await pg.request()
+        .input('pId', id)
+        .input('pIdDocente', ocorencia.docente)
+        .input('pIdRecurso', ocorencia.recurso)
+        .input('pData', ocorencia.data)
+        .input('pDetalhes', ocorencia.detalhes)
+        .asyncExecute(procedures.alterar);
+}
 
-// module.exports = {
-//     selecionar,
-//     buscar,
-//     inserir,
-//     alterar,
-//     deletar
-// }
+async function deletar(id) {
+    await pg.request()
+        .input('pId', id)
+        .asyncExecute(procedures.deletar);
+}
+
+module.exports = {
+    selecionar,
+    buscar,
+    inserir,
+    alterar,
+    deletar
+}

@@ -90,7 +90,7 @@ export class OcorrenciaFormComponent implements OnInit {
   }
 
   docentesDropdown() {
-    this.docenteService.selecionar().subscribe(data => {
+    this.docenteService.selecionar(null).subscribe(data => {
       this.docentes = data;
     });
   }

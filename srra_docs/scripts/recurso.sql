@@ -1,16 +1,16 @@
 SELECT seguranca.excluirFuncao('public', 'selecionarRecurso');
 CREATE OR REPLACE FUNCTION public.selecionarRecurso(
     pNome public.recurso.nome%TYPE,
-    pIdStatusRecurso public.recurso."idStatusRecurso"%TYPE,
-    pIdTipoRecurso public.recurso."idTipoRecurso"%TYPE,
-    pPagina SMALLINT,
-    pQuantidade SMALLINT
+    pCodigoPatrimonio public.recurso.codigoPatrimonio%TYPE,
+    pIdStatusRecurso public.recurso.idStatusRecurso%TYPE,
+    pIdTipoRecurso public.recurso.idTipoRecurso%TYPE,
+    pPagina INTEGER,
+    pQuantidade INTEGER
 )
 
     RETURNS TABLE(
         "registros" JSON,
-        "totalRegistros" INTEGER,
-        "paginas" REAL
+        "totalRegistros" INTEGER
     )AS $$
 
     /*
@@ -20,52 +20,51 @@ CREATE OR REPLACE FUNCTION public.selecionarRecurso(
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM public.selecionarRecurso(null, null, null, '1', '10');
+			SELECT * FROM public.selecionarRecurso(null, null, null, null, '1', '10');
 	*/
 
     DECLARE vRegistros JSON;
 		vTotalRegistros INTEGER;
-        vPaginas REAL;
 
     BEGIN
 
         vRegistros := json_agg(regs) FROM (
             SELECT  r.id,
+                    r.codigoPatrimonio AS "codigoPatrimonio",
                     r.nome,
-                    s.nome,
-                    tr.nome,
+                    tr.nome AS "tipo",
+                    sr.nome AS "status"
             FROM public.recurso r
-                INNER JOIN public."statusRecurso" s
-                    ON r."idStatusRecurso" = s.id
-                INNER JOIN public."tipoRecurso" tr
-                    ON r."idTipoRecurso" = tr.id
-            WHERE (pNome IS NULL OR d.nome ILIKE '%' || pNome || '%')
-				AND (pIdTipoRecurso IS NULL OR tr.id = pIdTipoRecurso)
-                AND (pIdStatusRecurso IS NULL OR s.id = pIdStatusRecurso)
+                INNER JOIN public.statusRecurso sr
+                    ON r.idStatusRecurso = sr.id
+                INNER JOIN public.tipoRecurso tr
+                    ON r.idTipoRecurso = tr.id
+            WHERE (pNome IS NULL OR r.nome ILIKE '%' || pNome || '%')
+                AND (pCodigoPatrimonio IS NULL OR r.codigoPatrimonio = pCodigoPatrimonio)
+		AND (pIdTipoRecurso IS NULL OR tr.id = pIdTipoRecurso)
+                AND (pIdStatusRecurso IS NULL OR sr.id = pIdStatusRecurso)
             
-            ORDER BY d.nome
+            ORDER BY r.nome
             LIMIT pQuantidade OFFSET ((pPagina - 1) * pQuantidade)
         ) regs;
 
         vTotalRegistros := (
 			SELECT COUNT(*) 
             FROM public.recurso r
-                INNER JOIN public."statusRecurso" s
-                    ON r."idStatusRecurso" = s.id
-                INNER JOIN public."tipoRecurso" tr
-                    ON r."idTipoRecurso" = tr.id
-            WHERE (pNome IS NULL OR d.nome ILIKE '%' || pNome || '%')
-				AND (pIdTipoRecurso IS NULL OR tr.id = pIdTipoRecurso)
-                AND (pIdStatusRecurso IS NULL OR s.id = pIdStatusRecurso)
+                INNER JOIN public.statusRecurso sr
+                    ON r.idStatusRecurso = sr.id
+                INNER JOIN public.tipoRecurso tr
+                    ON r.idTipoRecurso = tr.id
+            WHERE (pNome IS NULL OR r.nome ILIKE '%' || pNome || '%')
+                AND (pCodigoPatrimonio IS NULL OR r.codigoPatrimonio = pCodigoPatrimonio)
+		AND (pIdTipoRecurso IS NULL OR tr.id = pIdTipoRecurso)
+                AND (pIdStatusRecurso IS NULL OR sr.id = pIdStatusRecurso)
 		);
-
-        vPaginas := (vTotalRegistros / pQuantidade);
 
         RETURN QUERY
 
 			SELECT vRegistros AS registros,
-				vTotalRegistros AS totalRegistros,
-                vPaginas AS paginas;
+				vTotalRegistros AS totalRegistros;
 
     END;
 $$
@@ -79,13 +78,13 @@ CREATE OR REPLACE FUNCTION public.buscarRecurso(
 
     RETURNS TABLE(
         "id" public.recurso.id%TYPE,
+        "codigoPatrimonio" public.recurso.codigoPatrimonio%TYPE,
         "nome" public.recurso.nome%TYPE,
         "descricao" public.recurso.descricao%TYPE,
-        "statusRecurso" public.recurso."idStatusRecurso"%TYPE,
-        "tipoRecurso" public.recurso."idTipoRecurso"%TYPE,
-        "dataMotivo" public.recurso."dataMotivo"%TYPE,
-        "motivo" public.recurso.motivo%TYPE,
-        "itens" JSON
+        "status" public.recurso.idStatusRecurso%TYPE,
+        "tipo" public.recurso.idTipoRecurso%TYPE,
+        "dataMotivo" public.recurso.dataMotivo%TYPE,
+        "motivo" public.recurso.motivo%TYPE
     )AS $$
 
     /*
@@ -103,13 +102,13 @@ CREATE OR REPLACE FUNCTION public.buscarRecurso(
         RETURN QUERY
 
 			SELECT  r.id,
+                    r.codigoPatrimonio,
                     r.nome,
                     r.descricao,
-                    r."idStatusRecurso" AS "statusRecurso",
-                    r."idTipoRecurso" AS "tipoRecurso",
+                    r.idStatusRecurso,
+                    r.idTipoRecurso,
                     r.dataMotivo,
-                    r.motivo,
-                    -- r.itens
+                    r.motivo
             FROM public.recurso r
             WHERE r.id = pId;
 
@@ -120,13 +119,13 @@ LANGUAGE plpgsql;
 -----------------------------------------------------------------------------------------------------------
 SELECT seguranca.excluirFuncao('public', 'inserirRecurso');
 CREATE OR REPLACE FUNCTION public.inserirRecurso(
+    pCodigoPatrimonio public.recurso.codigoPatrimonio%TYPE,
     pNome public.recurso.nome%TYPE,
-    pDescricao public.recurso.cpf%TYPE,
-    pIdStatusRecurso public.recurso."idStatusRecurso"%TYPE,
-    pIdTipoRecurso public.recurso."idTipoRecurso"%TYPE,
-    pmotivo public.recurso.motivo%TYPE,
-    pDataMotivo public.recurso."dataMotivo"%TYPE,
-    pItens JSON
+    pDescricao public.recurso.descricao%TYPE,
+    pIdStatusRecurso public.recurso.idStatusRecurso%TYPE,
+    pIdTipoRecurso public.recurso.idTipoRecurso%TYPE,
+    pMotivo public.recurso.motivo%TYPE,
+    pDataMotivo public.recurso.dataMotivo%TYPE
 )
 
     RETURNS VOID AS $$
@@ -138,107 +137,94 @@ CREATE OR REPLACE FUNCTION public.inserirRecurso(
 		Autor.............: Thiago Moreira
 		Data..............: 07/01/2018
 		Ex................: 
-			SELECT * FROM public.inserirRecurso("teste recurso 1", "descricao recurso 1", 1, 2, "algum motivo", "07/01/2018", "[{ "nome": "item 1", "ativo": true }, { "nome": "item 2", "ativo": true }]");
+			SELECT * FROM public.inserirRecurso(1, "recurso 1", "não contem extras", 1, 2, null, null);
 	*/
-
-    DECLARE 
-        vId INTEGER;
 
     BEGIN
 
-        INSERT INTO public.docente (
+        INSERT INTO public.recurso (
+            codigoPatrimonio,
             nome,
             descricao,
-            "idStatusRecurso",
-            "idTipoRecurso",
+            idStatusRecurso,
+            idTipoRecurso,
             motivo,
-            "dataMotivo"
+            dataMotivo
         )
         VALUES (
+            pCodigoPatrimonio,
             pNome,
             pDescricao,
             pIdStatusRecurso,
             pIdTipoRecurso,
             pMotivo,
             pDataMotivo
-        )
-
-        RETURNING id INTO vId;
-
-        INSERT INTO public.item (idRecurso, nome, ativo)
-            SELECT
-                vId,
-                "nome",
-                "ativo"
-            FROM json_to_recordset(pItens)
-            AS itens_json(
-                "nome" VARCHAR,
-                "ativo" BOOLEAN
-            );
+        );
 
     END;
 $$
 LANGUAGE plpgsql;
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'alterarDocente');
-CREATE OR REPLACE FUNCTION public.alterarDocente(
-    pId public.docente.id%TYPE,
-    pNome public.docente.nome%TYPE,
-    pCpf public.docente.cpf%TYPE,
-    pMatricula public.docente.matricula%TYPE,
-    pIdFuncao public.docente."idFuncao"%TYPE,
-    pEmail public.docente.email%TYPE,
-    pSenha public.docente.senha%TYPE
+SELECT seguranca.excluirFuncao('public', 'alterarRecurso');
+CREATE OR REPLACE FUNCTION public.alterarRecurso(
+    pId public.recurso.id%TYPE,
+    pCodigoPatrimonio public.recurso.codigoPatrimonio%TYPE,
+    pNome public.recurso.nome%TYPE,
+    pDescricao public.recurso.descricao%TYPE,
+    pIdStatusRecurso public.recurso.idStatusRecurso%TYPE,
+    pIdTipoRecurso public.recurso.idTipoRecurso%TYPE,
+    pMotivo public.recurso.motivo%TYPE,
+    pDataMotivo public.recurso.dataMotivo%TYPE
 )
 
     RETURNS VOID AS $$
 
     /*
 		Documentação
-		Arquivo Fonte.....: docente.sql
-		Objetivo..........: Alterar um docente
+		Arquivo Fonte.....: recurso.sql
+		Objetivo..........: Alterar um recurso
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM public.alterarDocente(1, "teste docente 1", 12345678901, 1234, 1, "teste@docente.com", "1234");
+			SELECT * FROM public.alterarRecurso(1, "recurso alterar 1", "sofreu alteração", 1, 2, null, null);
 	*/
 
     BEGIN
 
-        UPDATE public.docente SET
+        UPDATE public.recurso SET
+            codigoPatrimonio = pCodigoPatrimonio,
             nome = pNome,
-            cpf = pCpf,
-            matricula = pMatricula,
-            "idFuncao" = pIdFuncao,
-            email = pEmail,
-            senha = pSenha
+            descricao = pDescricao,
+            idStatusRecurso = pIdStatusRecurso,
+            idTipoRecurso = pIdTipoRecurso,
+            motivo = pMotivo,
+            dataMotivo = pDataMotivo
         WHERE id = pId;
 
     END;
 $$
 LANGUAGE plpgsql;
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'deletarDocente');
-CREATE OR REPLACE FUNCTION public.deletarDocente(
-    pId public.docente.id%TYPE
+SELECT seguranca.excluirFuncao('public', 'deletarRecurso');
+CREATE OR REPLACE FUNCTION public.deletarRecurso(
+    pId public.recurso.id%TYPE
 )
 
     RETURNS VOID AS $$
 
     /*
 		Documentação
-		Arquivo Fonte.....: docente.sql
-		Objetivo..........: deletar um docente
+		Arquivo Fonte.....: recurso.sql
+		Objetivo..........: deletar um recurso
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM public.deletarDocente(1);
+			SELECT * FROM public.deletarRecurso('1');
 	*/
 
     BEGIN
 
-        DELETE FROM public.docente
-        WHERE id = pId;
+        DELETE FROM public.recurso WHERE id = pId;
 
     END;
 $$

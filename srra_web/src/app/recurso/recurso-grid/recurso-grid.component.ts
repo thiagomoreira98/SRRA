@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 import { NavComponent } from '../../nav/nav.component';
@@ -13,31 +14,61 @@ import { RecursoService } from '../recurso.service';
 export class RecursoGridComponent implements OnInit {
 
   recursos: any = [];
-  filtro: String;
+  filtro: any = {};
+  totalPaginas: number;
+  totalRegistros: number;
+  buscando: boolean = true;
 
   constructor(
     private navComponent: NavComponent,
-    private recursoService: RecursoService,
+    private service: RecursoService,
     private snackbar: MatSnackBar,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.navComponent.setTitle('Recursos');
-    this.selecionar();
+    this.activatedRoute.params.subscribe((params: Params) => {
+      this.filtro = params;
+      this.selecionar();
+  });
   }
 
-  selecionar(): any {
-    this.recursoService.selecionar(this.filtro).subscribe(data => {
-      this.recursos = data;
+  selecionar() {
+    this.service.selecionar(this.filtro).subscribe((data: any) => {
+      this.recursos = data.content.registros;
+      this.totalRegistros = data.content.totalRegistros;
+      this.totalPaginas = this.calcularTotalPaginas((this.totalRegistros / this.filtro.quantidade).toString());
+      this.buscando = false;
+    }, (res: any) => {
+      this.buscando = false;
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
     });
   }
 
+  proximaPagina() {
+    this.filtro.pagina += 1;
+    this.selecionar();
+  }
+
+  voltarPagina() {
+    this.filtro.pagina -= 1;
+    this.selecionar();
+  }
+
+  calcularTotalPaginas(paginas): any {
+    if (paginas.length > 1)
+      return parseInt(paginas) + 1;
+
+    return parseInt(paginas);
+  }
+
   deletar(id): any {
-    this.recursoService.deletar(id).then((res: any) => {
+    this.service.deletar(id).then((res: any) => {
       this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
       this.selecionar();
     }).catch((res: any) => {
-      this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
     });
   }
 }

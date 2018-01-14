@@ -3,14 +3,14 @@ CREATE OR REPLACE FUNCTION public.selecionarDocente(
     pNome public.docente.nome%TYPE,
     pMatricula public.docente.matricula%TYPE,
     pCpf public.docente.cpf%TYPE,
-    pPagina SMALLINT,
-    pQuantidade SMALLINT
+    pIdFuncao public.docente.idFuncao%TYPE,
+    pPagina INTEGER,
+    pQuantidade INTEGER
 )
 
     RETURNS TABLE(
         "registros" JSON,
-        "totalRegistros" INTEGER,
-        "paginas" REAL
+        "totalRegistros" INTEGER
     )AS $$
 
     /*
@@ -31,16 +31,17 @@ CREATE OR REPLACE FUNCTION public.selecionarDocente(
 
         vRegistros := json_agg(regs) FROM (
             SELECT  d.id,
-                    d.nome,
                     d.matricula,
+                    d.nome,
                     d.cpf,
                     f.nome AS "funcao"
             FROM public.docente d
                 INNER JOIN public.funcao f
-                    ON d."idFuncao" = f.id
+                    ON d.idFuncao = f.id
             WHERE (pNome IS NULL OR d.nome ILIKE '%' || pNome || '%')
 				AND (pMatricula IS NULL OR d.matricula = pMatricula)
                 AND (pCpf IS NULL OR d.cpf = pCpf)
+                AND (pIdFuncao IS NULL OR d.idFuncao = pIdFuncao)
             
             ORDER BY d.nome
             LIMIT pQuantidade OFFSET ((pPagina - 1) * pQuantidade)
@@ -50,19 +51,17 @@ CREATE OR REPLACE FUNCTION public.selecionarDocente(
 			SELECT COUNT(*) 
 			FROM public.docente AS d
                 INNER JOIN public.funcao AS f
-                    ON d."idFuncao" = f.id
+                    ON d.idFuncao = f.id
             WHERE (pNome IS NULL OR d.nome ILIKE '%' || pNome || '%')
 				AND (pMatricula IS NULL OR d.matricula = pMatricula)
                 AND (pCpf IS NULL OR d.cpf = pCpf)
+                AND (pIdFuncao IS NULL OR d.idFuncao = pIdFuncao)
 		);
-
-        vPaginas := vTotalRegistros / pQuantidade;
 
         RETURN QUERY
 
 			SELECT vRegistros AS registros,
-				vTotalRegistros AS totalRegistros,
-                vPaginas AS paginas;
+				vTotalRegistros AS totalRegistros;
 
     END;
 $$
@@ -79,7 +78,7 @@ CREATE OR REPLACE FUNCTION public.buscarDocente(
         "nome" public.docente.nome%TYPE,
         "cpf" public.docente.cpf%TYPE,
         "matricula" public.docente.matricula%TYPE,
-        "funcao" public.docente."idFuncao"%TYPE,
+        "funcao" public.docente.idFuncao%TYPE,
         "email" public.docente.email%TYPE,
         "senha" public.docente.senha%TYPE
     )AS $$
@@ -102,7 +101,7 @@ CREATE OR REPLACE FUNCTION public.buscarDocente(
                     d.nome,
                     d.cpf,
                     d.matricula,
-                    d."idFuncao" AS "funcao",
+                    d.idFuncao AS "funcao",
                     d.email,
                     d.senha
             FROM public.docente d
@@ -118,7 +117,7 @@ CREATE OR REPLACE FUNCTION public.inserirDocente(
     pNome public.docente.nome%TYPE,
     pCpf public.docente.cpf%TYPE,
     pMatricula public.docente.matricula%TYPE,
-    pIdFuncao public.docente."idFuncao"%TYPE,
+    pIdFuncao public.docente.idFuncao%TYPE,
     pEmail public.docente.email%TYPE,
     pSenha public.docente.senha%TYPE
 )
@@ -141,7 +140,7 @@ CREATE OR REPLACE FUNCTION public.inserirDocente(
             nome,
             cpf,
             matricula,
-            "idFuncao",
+            idFuncao,
             email,
             senha
         )
@@ -157,6 +156,7 @@ CREATE OR REPLACE FUNCTION public.inserirDocente(
     END;
 $$
 LANGUAGE plpgsql;
+
 -----------------------------------------------------------------------------------------------------------
 SELECT seguranca.excluirFuncao('public', 'alterarDocente');
 CREATE OR REPLACE FUNCTION public.alterarDocente(
@@ -164,7 +164,7 @@ CREATE OR REPLACE FUNCTION public.alterarDocente(
     pNome public.docente.nome%TYPE,
     pCpf public.docente.cpf%TYPE,
     pMatricula public.docente.matricula%TYPE,
-    pIdFuncao public.docente."idFuncao"%TYPE,
+    pIdFuncao public.docente.idFuncao%TYPE,
     pEmail public.docente.email%TYPE,
     pSenha public.docente.senha%TYPE
 )
@@ -187,7 +187,7 @@ CREATE OR REPLACE FUNCTION public.alterarDocente(
             nome = pNome,
             cpf = pCpf,
             matricula = pMatricula,
-            "idFuncao" = pIdFuncao,
+            idFuncao = pIdFuncao,
             email = pEmail,
             senha = pSenha
         WHERE id = pId;
@@ -195,6 +195,7 @@ CREATE OR REPLACE FUNCTION public.alterarDocente(
     END;
 $$
 LANGUAGE plpgsql;
+
 -----------------------------------------------------------------------------------------------------------
 SELECT seguranca.excluirFuncao('public', 'deletarDocente');
 CREATE OR REPLACE FUNCTION public.deletarDocente(
@@ -215,8 +216,7 @@ CREATE OR REPLACE FUNCTION public.deletarDocente(
 
     BEGIN
 
-        DELETE FROM public.docente
-        WHERE id = pId;
+        DELETE FROM public.docente WHERE id = pId;
 
     END;
 $$

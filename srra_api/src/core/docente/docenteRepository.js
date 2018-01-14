@@ -13,6 +13,7 @@ async function selecionar(filtro) {
         .input('pNome', filtro.nome)
         .input('pMatricula', filtro.matricula)
         .input('pCpf', filtro.cpf)
+        .input('pIdFuncao', filtro.funcao == 'Todas' ? null : filtro.funcao)
         .input('pPagina', parseInt(filtro.pagina))
         .input('pQuantidade', parseInt(filtro.quantidade))
         .asyncExecuteOne(procedures.selecionar);

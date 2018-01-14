@@ -2,7 +2,7 @@ const repository = require('./ocorrenciaRepository');
 const scope = require('./ocorrenciaScope');
 
 async function selecionar(req, res) {
-    let retorno = await repository.selecionar();
+    let retorno = await repository.selecionar(req.query);
     res.status(200).json(retorno);
 }
 
