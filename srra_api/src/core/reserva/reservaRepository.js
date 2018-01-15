@@ -1,11 +1,11 @@
 const pg = require('smn-pg')(global.config.pgSQL);
 
 const procedures = {
-    selecionar: 'public.selecionarOcorrencia',
-    buscar: 'public.buscarOcorrencia',
-    inserir: 'public.inserirOcorrencia',
-    alterar: 'public.alterarOcorrencia',
-    deletar: 'public.deletarOcorrencia'
+    selecionar: 'public.selecionarReserva',
+    buscar: 'public.buscarReserva',
+    inserir: 'public.inserirReserva',
+    alterar: 'public.alterarReserva',
+    deletar: 'public.deletarReserva'
 }
 
 async function selecionar(filtro) {
@@ -25,22 +25,20 @@ async function buscar(id) {
         .asyncExecuteOne(procedures.buscar);
 }
 
-async function inserir(ocorrencia) {
+async function inserir(reserva) {
     await pg.request()
-        .input('pIdDocente', ocorrencia.docente)
-        .input('pIdRecurso', ocorrencia.recurso)
-        .input('pData', ocorrencia.data)
-        .input('pDetalhes', ocorrencia.detalhes)
+        .input('pIdDocente', reserva.docente)
+        .input('pIdRecurso', reserva.recurso)
+        .input('pData', reserva.data)
         .asyncExecute(procedures.inserir);
 }
 
-async function alterar(id, ocorrencia) {
+async function alterar(id, reserva) {
     await pg.request()
         .input('pId', id)
-        .input('pIdDocente', ocorrencia.docente)
-        .input('pIdRecurso', ocorrencia.recurso)
-        .input('pData', ocorrencia.data)
-        .input('pDetalhes', ocorrencia.detalhes)
+        .input('pIdDocente', reserva.docente)
+        .input('pIdRecurso', reserva.recurso)
+        .input('pData', reserva.data)
         .asyncExecute(procedures.alterar);
 }
 

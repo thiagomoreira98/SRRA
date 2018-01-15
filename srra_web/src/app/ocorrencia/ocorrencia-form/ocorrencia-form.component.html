@@ -7,39 +7,23 @@
         </ui-toolbar>
 
         <ui-card-content>
-
-            
-            <!-- <div class="ui-flex-container break-on-s960"> -->
-                <ui-input-container>
+            <div style="display: inline-flex">
+                <ui-input-container style="max-width: 250px; width: 100%; margin-right: 10px;">
                     <input type="text" #recursoDrop="ngModel" name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput required uiAutocomplete
-                        autocomplete="off" (loadMore)="filtro.pagina = filtro.pagina + 1; recursoDropdown();" [primary]="'nome'" [list]="recursos" [loading]="loading"
-                        [select]="selecionarIdRecurso.bind(this)" maxlength="100">
+                        autocomplete="off" (loadMore)="filtro.pagina = filtro.pagina + 1; recursoDropdown();" [primary]="'nome'"
+                        [list]="recursos" [loading]="loading" [select]="selecionarIdRecurso.bind(this)" maxlength="100">
                     <label>Recurso</label>
                 </ui-input-container>
 
-                <ui-input-container>
+                <ui-input-container style="max-width: 250px; width: 100%;">
                     <input type="text" #docenteDrop="ngModel" name="docente" [(ngModel)]="ocorrencia.docente" uiInput required uiAutocomplete
-                        autocomplete="off" (loadMore)="filtro.pagina = filtro.pagina + 1; docenteDropdown();" [primary]="'nome'" [list]="docentes" [loading]="loading"
-                        [select]="selecionarIdDocente.bind(this)" maxlength="100">
+                        autocomplete="off" (loadMore)="filtro.pagina = filtro.pagina + 1; docenteDropdown();" [primary]="'nome'"
+                        [list]="docentes" [loading]="loading" [select]="selecionarIdDocente.bind(this)" maxlength="100">
                     <label>Docente</label>
                 </ui-input-container>
+            </div>
 
-
-                <div>
-                    <ui-input-container>
-                      <input type="text" 
-                            #ocorencia="ngModel" 
-                            name="motorista" 
-                            [(ngModel)]="ocorrencia.docente" 
-                            uiInput  
-                            uiAutocomplete
-                            [list]="recursos"
-                            [loading]="standalone"
-                            [primary]="'nome'" >
-                      <label>Ocorrência</label>
-                    </ui-input-container>
-                  </div>
-                <!-- <mat-form-field style="max-width: 300px; width: 100%;">
+            <!-- <mat-form-field style="max-width: 300px; width: 100%;">
                     <input matInput placeholder="Recurso" aria-label="Recurso" [matAutocomplete]="autoRecurso" [formControl]="recursoCtrl" name="recurso"
                         [(ngModel)]="ocorrencia.recurso" required>
                     <mat-autocomplete #autoRecurso="matAutocomplete">
@@ -61,13 +45,13 @@
             <!-- </div> -->
 
             <div class="ui-flex-container break-on-s960">
-                <mat-form-field style="width: 590px;">
+                <mat-form-field style="max-width: 590px; width: 100%;">
                     <input matInput type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" placeholder="Detalhes" required>
                 </mat-form-field>
             </div>
 
             <mat-form-field style="max-width: 150px; width: 100%;">
-                <input matInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data" placeholder="Data" maxlength="10" pattern="/^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/" required>
+                <input matInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data" placeholder="Data" maxlength="10" required>
             </mat-form-field>
 
             <mat-datepicker-toggle matSuffix [for]="picker" style="max-width: 40px;"></mat-datepicker-toggle>

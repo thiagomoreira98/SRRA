@@ -95,7 +95,8 @@ export class OcorrenciaFormComponent implements OnInit {
 
   recursosDropdown() {
     this.recursoService.selecionar(this.filtroRecurso).subscribe((data: any) => {
-      this.recursos = data.content;
+      this.recursos = data.content.registros;
+      console.log('recursos: ', this.recursos);
     }, (res: any) => {
       this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })
     });
@@ -103,8 +104,8 @@ export class OcorrenciaFormComponent implements OnInit {
 
   docentesDropdown() {
     this.docenteService.selecionar(this.filtroDocente).subscribe((data: any) => {
-      this.docentes = data.content;
-      console.log(this.docentes);
+      this.docentes = data.content.registros;
+      console.log('docentes: ', this.docentes);
     }, (res: any) => {
       this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })
     });

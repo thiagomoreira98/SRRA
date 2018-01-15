@@ -15,7 +15,7 @@ export class OcorrenciaService {
       params = params.append(property, filtro[property]);
     }
 
-    return this.http.get(`${environment.urlApi}/api/ocorrencia`);
+    return this.http.get(`${environment.urlApi}/api/ocorrencia`, { params: params });
   }
 
   buscar(id: any) {
