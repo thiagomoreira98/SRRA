@@ -10,10 +10,12 @@ const procedures = {
 
 async function selecionar(filtro) {
     return await pg.request()
-        .input('pRecurso', filtro.recurso)
-        .input('pDocente', filtro.docente)
+        .input('pIdRecurso', filtro.recurso)
+        .input('pIdDocente', filtro.docente)
         .input('pDataInicio', filtro.dataInicio)
         .input('pDataFim', filtro.dataFim)
+        .input('pPagina', filtro.pagina)
+        .input('pQuantidade', filtro.quantidade)
         .asyncExecuteOne(procedures.selecionar);
 }
 

@@ -22,6 +22,16 @@ export class OcorrenciaFormComponent implements OnInit {
   ocorrencia: any = {};
   recursos: any = [];
   docentes: any = [];
+  filtroDocente: any = {
+    pagina: 1,
+    quantidade: 10
+  }
+
+  filtroRecurso: any = {
+    pagina: 1,
+    quantidade: 10
+  }
+
 
   // recursoCtrl: FormControl;
   // docenteCtrl: FormControl;
@@ -79,20 +89,33 @@ export class OcorrenciaFormComponent implements OnInit {
       this.navComponent.setTitle('Alterar Ocorrência');
     }
     else {
-      this.navComponent.setTitle('Registrar Ocorrência');
+      this.navComponent.setTitle('Cadastrar Ocorrência');
     }
   }
 
   recursosDropdown() {
-    this.recursoService.selecionar(null).subscribe(data => {
-      this.recursos = data;
+    this.recursoService.selecionar(this.filtroRecurso).subscribe((data: any) => {
+      this.recursos = data.content;
+    }, (res: any) => {
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })
     });
   }
 
   docentesDropdown() {
-    this.docenteService.selecionar(null).subscribe(data => {
-      this.docentes = data;
+    this.docenteService.selecionar(this.filtroDocente).subscribe((data: any) => {
+      this.docentes = data.content;
+      console.log(this.docentes);
+    }, (res: any) => {
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })
     });
+  }
+
+  selecionarIdDocente(docente) {
+    this.ocorrencia.docente = docente.id;
+  }
+
+  selecionarIdRecurso(recurso) {
+    this.ocorrencia.docente = recurso.id;  
   }
 
   // idRecurso: any;
@@ -109,7 +132,7 @@ export class OcorrenciaFormComponent implements OnInit {
     // this.ocorrencia.recurso = this.idRecurso;
     // this.ocorrencia.docente = this.idDocente;
     if (this.ocorrencia._id) {
-      this.ocorrenciaService.alterar(this.ocorrencia._id, this.ocorrencia).then((res: any) => {
+      this.ocorrenciaService.alterar(this.ocorrencia).then((res: any) => {
         this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
       }).catch((res) => {
         this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 })

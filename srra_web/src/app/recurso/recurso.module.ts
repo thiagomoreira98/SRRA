@@ -10,6 +10,8 @@ import { RecursoFormComponent } from './recurso-form/recurso-form.component';
 import { RecursoGridComponent } from './recurso-grid/recurso-grid.component';
 import { RecursoFiltroComponent } from './recurso-filtro/recurso-filtro.component';
 
+import { RecursoService } from './recurso.service';
+
 @NgModule({
   declarations: [
     RecursoFormComponent,
@@ -33,6 +35,7 @@ import { RecursoFiltroComponent } from './recurso-filtro/recurso-filtro.componen
     MatSelectModule,
     MatCardModule
   ],
+  providers: [ RecursoService ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class RecursoModule { }

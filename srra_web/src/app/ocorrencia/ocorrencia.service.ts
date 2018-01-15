@@ -26,8 +26,8 @@ export class OcorrenciaService {
     return this.http.post(`${environment.urlApi}/api/ocorrencia`, ocorrencia).toPromise();
   }
 
-  alterar(id: any, ocorrencia: any) {
-    return this.http.put(`${environment.urlApi}/api/ocorrencia/${id}`, ocorrencia).toPromise();
+  alterar(ocorrencia: any) {
+    return this.http.put(`${environment.urlApi}/api/ocorrencia/${ocorrencia.id}`, ocorrencia).toPromise();
   }
 
   deletar(id: any) {

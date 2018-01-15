@@ -8,7 +8,6 @@
 	<ui-data-table>
 		<tbody>
 			<tr>
-				<th>Codigo</th>
 				<th>Recurso</th>
 				<th>Docente</th>
 				<th>Data</th>
@@ -16,10 +15,9 @@
 			</tr>
 
 			<tr *ngFor="let ocorrencia of ocorrencias">
-				<td>{{ocorrencia.codigo }}</td>
-				<td>{{ocorrencia.recurso.nome }}</td>
-				<td>{{ocorrencia.docente.nome }}</td>
-				<td>{{ocorrencia.data | date: ddMMyyyy }}</td>
+				<td>{{ ocorrencia.recurso }}</td>
+				<td>{{ ocorrencia.docente }}</td>
+				<td>{{ ocorrencia.data | date: ddMMyyyy }}</td>
 				<td class="align-right">
 					<button class="ui-button flat icon" uiRipple [routerLink]="['/ocorrencias/info', ocorrencia.id]">
 						<i class="material-icons">edit</i>
@@ -53,7 +51,7 @@
 </ui-card>
 
 <div class="ui-fab-container">
-	<button mat-fab color="primary" routerLink="/ocorrencias/novo">
+	<button mat-fab color="primary" routerLink="/ocorrencias/nova">
 		<i class="material-icons">add</i>
 	</button>
 </div>
