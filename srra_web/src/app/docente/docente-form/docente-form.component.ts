@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
+import { ActivatedRoute, Params } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
 
+import { NavComponent } from '../../nav/nav.component';
 import { DocenteService } from '../docente.service';
 
 @Component({
@@ -11,22 +13,66 @@ import { DocenteService } from '../docente.service';
 export class DocenteFormComponent implements OnInit {
 
   docente: any = {};
+  funcoes: any = [];
+  showPassword: Boolean = false;
 
   constructor(
-    private docenteService: DocenteService,
-    private snackbar: MdSnackBar
+    private navComponent: NavComponent,
+    private service: DocenteService,
+    private snackbar: MatSnackBar,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.navComponent.setTitle('Cadastrar Docente');
+    this.funcaoDropdown();
+    this.buscar();
   }
 
-  cadastrar() {
-    this.docenteService.inserir(this.docente).then( () => {
-      this.snackbar.open('Cadastrado com Sucesso!', 'Fechar', { duration: 3000});
-    })
-      .catch( () => {
-        this.snackbar.open('Erro ao Cadastrar!', 'Fechar', { duration: 3000});
+  buscar() {
+    this.activatedRoute.params.subscribe((params: Params) => {
+      if (params.id) {
+        this.service.buscar(params.id).subscribe((data: any) => {
+          this.docente = data.content;
+        });
+      }
+    });
+  }
+
+  funcaoDropdown() {
+    this.service.selecionarFuncao().subscribe((data: any) => {
+      this.funcoes = data.content;
+    }, (res: any) => {
+      this.snackbar.open('Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
+    });
+  }
+
+  // showHidePassword() {
+  //   this.showPassword = !this.showPassword;
+
+  //   if(this.showPassword)
+  //     this.typeField = 'text';
+
+  //   else
+  //     this.typeField = 'password';
+  // }
+
+  onSubmit() {
+    if (this.docente.id) {
+      this.service.alterar(this.docente).then((res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
+      }).catch((res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
       });
+    }
+    else {
+      this.service.inserir(this.docente).then((res: any) => {
+        this.snackbar.open(res.message, 'Fechar', { duration: 3000 });
+        this.docente = {};
+      }).catch((res: any) => {
+        this.snackbar.open(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.', 'Fechar', { duration: 3000 });
+      });
+    }
   }
 
 }

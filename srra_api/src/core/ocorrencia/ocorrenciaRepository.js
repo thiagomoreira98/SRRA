@@ -1,5 +1,54 @@
-const mongoose = require('mongoose');
-const Schema = require('./ocorrenciaSchema');
+const pg = require('smn-pg')(global.config.pgSQL);
+
+const procedures = {
+    selecionar: 'public.selecionarOcorrencia',
+    buscar: 'public.buscarOcorrencia',
+    inserir: 'public.inserirOcorrencia',
+    alterar: 'public.alterarOcorrencia',
+    deletar: 'public.deletarOcorrencia'
+}
+
+async function selecionar(filtro) {
+    return await pg.request()
+        .input('pIdRecurso', filtro.recurso)
+        .input('pIdDocente', filtro.docente)
+        .input('pDataInicio', filtro.dataInicio)
+        .input('pDataFim', filtro.dataFim)
+        .input('pPagina', filtro.pagina)
+        .input('pQuantidade', filtro.quantidade)
+        .asyncExecuteOne(procedures.selecionar);
+}
+
+async function buscar(id) {
+    return await pg.request()
+        .input('pId', id)
+        .asyncExecuteOne(procedures.buscar);
+}
+
+async function inserir(ocorrencia) {
+    await pg.request()
+        .input('pIdDocente', ocorrencia.docente)
+        .input('pIdRecurso', ocorrencia.recurso)
+        .input('pData', ocorrencia.data)
+        .input('pDetalhes', ocorrencia.detalhes)
+        .asyncExecute(procedures.inserir);
+}
+
+async function alterar(id, ocorrencia) {
+    await pg.request()
+        .input('pId', id)
+        .input('pIdDocente', ocorrencia.docente)
+        .input('pIdRecurso', ocorrencia.recurso)
+        .input('pData', ocorrencia.data)
+        .input('pDetalhes', ocorrencia.detalhes)
+        .asyncExecute(procedures.alterar);
+}
+
+async function deletar(id) {
+    await pg.request()
+        .input('pId', id)
+        .asyncExecute(procedures.deletar);
+}
 
 module.exports = {
     selecionar,
@@ -7,49 +56,4 @@ module.exports = {
     inserir,
     alterar,
     deletar
-}
-
-function selecionar(callback) {
-    Schema.find( (err, data) => {
-        if(err)
-            return callback(err);
-
-        callback(null, data);
-    });
-}
-
-function buscar(id, callback) {
-    Schema.findById(id, (err, data) => {
-        if(err)
-            return callback(err);
-
-        callback(null, data);
-    });
-}
-
-function inserir(ocorrencia, callback) {
-    new Schema(ocorrencia).save( (err, data) => {
-        if(err)
-            return callback(err);
-
-        callback(null, data);
-    });
-}
-
-function alterar(id, ocorrenciaNew, callback) {
-    Schema.findByIdAndUpdate(id, ocorrenciaNew, (err, data) => {
-        if(err)
-            return callback(err)
-
-        callback(null, data)
-    })  
-}
-
-function deletar(id, callback) {
-    Schema.findByIdAndRemove(id, (err, data) => {
-        if(err)
-            return callback(err);
-
-        callback(null, data);
-    });
 }

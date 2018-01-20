@@ -1,63 +1,41 @@
 const repository = require('./ocorrenciaRepository');
 const scope = require('./ocorrenciaScope');
 
+async function selecionar(req, res) {
+    let retorno = await repository.selecionar(req.query);
+    res.ok(200, retorno);
+}
+
+async function buscar(req, res) {
+    let retorno = await repository.buscar(req.params.id);
+    res.ok(200, retorno);
+}
+
+async function inserir(req, res) {
+    if (!scope(req))
+        return res.error(406, req.errors.errorMessages[0]);
+
+    await repository.inserir(req.body);
+    res.ok(200, { message: 'Salvo com Sucesso.' });
+}
+
+async function alterar(req, res) {
+    if (!scope(req))
+        return res.error(406, req.errors.errorMessages[0]);
+
+    await repository.alterar(req.params.id, req.body);
+    res.ok(200, { message: 'Salvo com Sucesso.' });
+}
+
+async function deletar(req, res) {
+    await repository.deletar(req.params.id);
+    res.ok(200, { message: 'Removido com Sucesso.' });
+}
+
 module.exports = {
     selecionar,
     buscar,
     inserir,
     alterar,
     deletar
-}
-
-function selecionar(req, res) {
-    repository.selecionar( (err, data) => {
-        if(err) {
-            return res.status(500).json(err);
-        }
-
-        res.status(200).json(data);
-    })
-}
-
-function buscar(req, res) {
-    repository.buscar(req.params.id, (err, data) => {
-        if(err) {
-            return res.status(500).json(err)
-        }
-
-        res.status(200).json(data);
-    })
-}
-
-function inserir(req, res) {
-    //if(!scope.verificarDados)
-        //return res.status(406).json(req.errors)
-
-    repository.inserir(req.body, (err, data) => {
-        if(err)
-            return res.status(500).json(err)
-
-        res.status(200).json({message: 'Inserido com Sucesso!'});
-    })
-}
-
-function alterar(req, res) {
-    //if(!scope.verificarDados)
-        //return res.status(406).json(req.errors)
-        
-    repository.alterar(req.params.id, req.body, (err, data) => {
-        if(err)
-            return res.status(500).json(err);
-        
-        res.status(200).json({message: 'Alterado com Sucesso!'});
-    })
-}
-
-function deletar(req, res) {
-    repository.deletar(req.params.id, (err, data) => {
-        if(err)
-            return res.status(500).json(err)
-        
-        res.status(200).json({message: 'Deletado com Sucesso!'});
-    })
 }

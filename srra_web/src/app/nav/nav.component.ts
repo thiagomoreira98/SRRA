@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
+  title: String = '';
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  setTitle(title: String) {
+    this.title = title;
   }
 
 }

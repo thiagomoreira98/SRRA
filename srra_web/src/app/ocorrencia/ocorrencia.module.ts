@@ -1,33 +1,40 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule, MatButtonModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatAutocompleteModule, MatCardModule } from '@angular/material';
 
 import { SMNUIModule } from 'ng-smn-ui';
 import { AppRoutingModule } from '../app-routing.module';
 
 import { OcorrenciaFormComponent } from './ocorrencia-form/ocorrencia-form.component';
 import { OcorrenciaGridComponent } from './ocorrencia-grid/ocorrencia-grid.component';
-import { OcorrenciaInfoComponent } from './ocorrencia-info/ocorrencia-info.component';
+import { OcorrenciaFiltroComponent } from './ocorrencia-filtro/ocorrencia-filtro.component';
+
+import { OcorrenciaService } from './ocorrencia.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    SMNUIModule,
-    AppRoutingModule
-  ],
   declarations: [
     OcorrenciaFormComponent,
     OcorrenciaGridComponent,
-    OcorrenciaInfoComponent
+    OcorrenciaFiltroComponent,
   ],
-  exports: [
-    OcorrenciaFormComponent,
-    OcorrenciaGridComponent,
-    OcorrenciaInfoComponent
+  imports: [
+    SMNUIModule,
+    AppRoutingModule,
+    CommonModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatCardModule
   ],
+  providers: [ OcorrenciaService ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class OcorrenciaModule { }

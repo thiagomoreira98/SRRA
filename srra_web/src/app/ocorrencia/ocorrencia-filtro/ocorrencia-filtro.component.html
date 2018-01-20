@@ -1,0 +1,35 @@
+<mat-card style="max-width: 600px; margin: auto;">
+    <button mat-icon-button routerLink="/home">
+        <i class="material-icons">arrow_back</i>
+    </button>
+
+    <mat-card-content>
+        <div>
+            <mat-form-field style="max-width: 150px; width: 100%;">
+                <input matInput [matDatepicker]="dataInicioPicker" name="dataInicio" [(ngModel)]="filtro.dataInicio" placeholder="Data Inicio">
+            </mat-form-field>
+
+            <mat-datepicker-toggle matSuffix [for]="dataInicioPicker" style="max-width: 40px;"></mat-datepicker-toggle>
+            <mat-datepicker #dataInicioPicker></mat-datepicker>
+
+            <mat-form-field style="max-width: 150px; width: 100%;">
+                <input matInput [matDatepicker]="dataFimPicker" name="dataFim" [(ngModel)]="filtro.dataFim" placeholder="Data Fim">
+            </mat-form-field>
+
+            <mat-datepicker-toggle matSuffix [for]="dataFimPicker" style="max-width: 40px;"></mat-datepicker-toggle>
+            <mat-datepicker #dataFimPicker></mat-datepicker>
+        </div>
+
+        <div style="display: flex; flex-direction: row-reverse;">
+            <button mat-raised-button color="primary" (click)="filtrar()">
+                BUSCAR
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<div class="ui-fab-container">
+    <button class="ui-button primary fab" uiRipple routerLink="/ocorrencias/novo">
+        <i class="material-icons">add</i>
+    </button>
+</div>

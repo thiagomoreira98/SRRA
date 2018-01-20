@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 
@@ -8,11 +8,17 @@ export class OcorrenciaService {
 
   constructor(private http: HttpClient) { }
 
-  selecionar(): any {
-    return this.http.get(`${environment.urlApi}/api/ocorrencia`);
+  selecionar(filtro) {
+    let params = new HttpParams();
+
+    for (let property in filtro) {
+      params = params.append(property, filtro[property]);
+    }
+
+    return this.http.get(`${environment.urlApi}/api/ocorrencia`, { params: params });
   }
 
-  buscar(id: any): any {
+  buscar(id: any) {
     return this.http.get(`${environment.urlApi}/api/ocorrencia/${id}`);
   }
 
@@ -20,8 +26,8 @@ export class OcorrenciaService {
     return this.http.post(`${environment.urlApi}/api/ocorrencia`, ocorrencia).toPromise();
   }
 
-  alterar(id: any, ocorrencia: any) {
-    return this.http.put(`${environment.urlApi}/api/ocorrencia/${id}`, ocorrencia).toPromise();
+  alterar(ocorrencia: any) {
+    return this.http.put(`${environment.urlApi}/api/ocorrencia/${ocorrencia.id}`, ocorrencia).toPromise();
   }
 
   deletar(id: any) {

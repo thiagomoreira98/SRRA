@@ -8,7 +8,10 @@ export class LaboratorioService {
 
   constructor(private http: HttpClient) { }
 
-  selecionar(): any {
+  selecionar(filtro): any {
+    if(filtro)
+      return this.http.get(`${environment.urlApi}/api/laboratorio?nome=${filtro}`);
+
     return this.http.get(`${environment.urlApi}/api/laboratorio`);
   }
 
@@ -20,8 +23,8 @@ export class LaboratorioService {
     return this.http.post(`${environment.urlApi}/api/laboratorio`, laboratorio).toPromise();
   }
 
-  alterar(id: any, laboratorio: any) {
-    return this.http.put(`${environment.urlApi}/api/laboratorio/${id}`, laboratorio).toPromise();
+  alterar(laboratorio: any) {
+    return this.http.put(`${environment.urlApi}/api/laboratorio/${laboratorio._id}`, laboratorio).toPromise();
   }
 
   deletar(id: any) {

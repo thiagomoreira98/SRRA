@@ -1,107 +1,75 @@
-<div class="ui-s960">
-	<ui-card>
-		<ui-toolbar class="flat">
-			<button class="ui-button flat icon" routerLink="/recursos" href="/recursos" uiRipple>
-				<i class="material-icons">arrow_back</i>
-			</button>
-			<span class="title">Cadastro de Recurso</span>
-		</ui-toolbar>
+<form (ngSubmit)="onSubmit()" #recursoForm="ngForm">
+	<mat-card style="max-width: 600px; margin: auto;">
+		<button mat-icon-button routerLink="/recursos/filtro">
+			<i class="material-icons">arrow_back</i>
+		</button>
 
-		<pre>{{ recurso | json }}</pre>
+		<mat-card-content>
+			<div style="display: flex; justify-content: center; align-items: center">
+				<mat-form-field style="width: 200px; margin-right: 10px;">
+					<mat-select placeholder="Tipo de Recurso" name="tipoRecurso" [(ngModel)]="recurso.tipo" required>
+						<mat-option *ngFor="let tipo of tipoRecurso" [value]="tipo.id">
+							{{ tipo.nome }}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
 
-		<form (ngSubmit)="cadastrar()">
-			<ui-card-content>
-				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
-						<input type="number" [(ngModel)]="recurso.codigo" name="codigo" uiInput>
-						<label>Codigo</label>
-					</ui-input-container>
-
-					<ui-input-container>
-						<input type="text" [(ngModel)]="recurso.nome" name="nome" uiInput>
-						<label>Nome</label>
-					</ui-input-container>
-				</div>
-
-				<div class="ui-flex-container break-on-s960">
-					<ui-input-container>
-						<input type="text" [(ngModel)]="recurso.descricao" name="descricao" uiInput>
-						<label>Descrição</label>
-					</ui-input-container>
-
-					<ui-input-container>
-						<input type="text" [(ngModel)]="recurso.itens" name="itens" uiInput>
-						<label>itens</label>
-					</ui-input-container>
-				</div>
-
-				<div class="ui-flex-container break-on-s960">
-					<ui-option-container class="v-space-4 b-space-16">
-						<div class="info">
-							Status
-						</div>
-						<ui-option>
-							<input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Disponivel'">
-							<span>Disponivel</span>
-						</ui-option>
-
-            <ui-option>
-              <input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Em Manutenção'">
-              <span>Em Manutenção</span>
-            </ui-option>
-
-            <ui-option>
-              <input type="radio" name="recursoStatus" [(ngModel)]="recurso.status" [value]="'Inativo'">
-              <span>Inativo</span>
-            </ui-option>
-					</ui-option-container>
-				</div>
-			</ui-card-content>
-
-			<div *ngIf="recurso.status === 'Em Manutenção'">
-				<ui-toolbar class="flat">
-					<span class="title">Manutenção</span>
-				</ui-toolbar>
-
-				<ui-card-content>
-					<div class="ui-flex-container break-on-s960">
-						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivoManutencao" uiInput>
-							<label>Motivo</label>
-						</ui-input-container>
-
-						<ui-input-container>
-							<input type="date" [(ngModel)]="recurso.data" name="dataManutencao" uiInput>
-							<label>Data</label>
-						</ui-input-container>
-					</div>
-				</ui-card-content>
+				<mat-form-field style="width: 200px;">
+					<mat-select placeholder="Status do Recurso" name="statusRecurso" [(ngModel)]="recurso.status" required>
+						<mat-option *ngFor="let status of statusRecurso" [value]="status.id">
+							{{ status.nome }}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
 			</div>
 
-			<div *ngIf="recurso.status === 'Inativo'">
-				<ui-toolbar class="flat">
-					<span class="title">Inativo</span>
-				</ui-toolbar>
+			<mat-form-field style="width: 150px; margin-right: 10px;">
+				<input matInput type="number" [(ngModel)]="recurso.codigoPatrimonio" name="codigoPatrimonio" placeholder="Codigo do Patrimônio"
+				 autocomplete="off">
+			</mat-form-field>
 
-				<ui-card-content>
-					<div class="ui-flex-container break-on-s960">
-						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.motivo" name="motivoInativo" uiInput>
-							<label>Motivo</label>
-						</ui-input-container>
+			<mat-form-field style="width: 380px;">
+				<input matInput type="text" [(ngModel)]="recurso.nome" name="nome" placeholder="Nome" autocomplete="off" required>
+			</mat-form-field>
 
-						<ui-input-container>
-							<input type="text" [(ngModel)]="recurso.data" name="dataInativo" uiInput>
-							<label>Data</label>
-						</ui-input-container>
-					</div>
-				</ui-card-content>
+			<mat-form-field style="width: 550px;">
+				<input matInput type="text" [(ngModel)]="recurso.descricao" name="descricao" placeholder="Descrição" autocomplete="off">
+			</mat-form-field>
+
+			<!-- <div *ngIf="recurso.tipo == 2">
+				<mat-form-field style="width: 250px; margin-right: 5px;">
+					<input matInput type="text" [(ngModel)]="item" name="item" placeholder="Itens" autocomplete="off">
+				</mat-form-field>
+				<button type="button" mat-mini-fab color="primary" (click)="adicionarItem()" [disabled]="!item">
+					<i class="material-icons">add</i>
+				</button>
 			</div>
 
-			<div class="ui-button-container cover">
-				<button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-				<button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
+			<mat-chip-list class="mat-chip-list-stacked" *ngIf="recurso.itens.length > 0">
+				<mat-chip *ngFor="let item of recurso.itens" selected="true" color="primary" style="max-width: 150px;">
+					{{item}}
+					<i class="material-icons" style="font-size: 20px; cursor: pointer;" (click)="recurso.itens.splice(i, 1)">delete</i>
+				</mat-chip>
+			</mat-chip-list> -->
+
+			<div *ngIf="recurso.status > 1">
+				<mat-form-field style="width: 550px; margin-right: 5px;">
+					<input matInput type="text" [(ngModel)]="recurso.motivo" name="motivo" placeholder="Motivo" autocomplete="off" required>
+				</mat-form-field>
+
+				<mat-form-field style="width: 150px; margin-right: 5px;">
+					<input matInput [matDatepicker]="picker" name="data" [(ngModel)]="recurso.data" placeholder="Data" required>
+				</mat-form-field>
+
+				<mat-datepicker-toggle matSuffix [for]="picker" style="margin-top: 20px;"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
 			</div>
-		</form>
-	</ui-card>
-</div>
+		</mat-card-content>
+	</mat-card>
+
+	<div class="ui-fab-container">
+		<button type="submit" mat-fab color="primary" [disabled]="!recursoForm.form.valid">
+			<i class="material-icons">{{ recursoForm.form.valid ? 'save' : 'block' }}</i>
+		</button>
+	</div>
+</form>

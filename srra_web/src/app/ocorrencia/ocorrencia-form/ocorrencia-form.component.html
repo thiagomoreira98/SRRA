@@ -1,59 +1,67 @@
-<div class="ui-s960">
-  <ui-card>
-    <ui-toolbar class="flat">
-      <button class="ui-button flat icon" routerLink="/ocorrencias" href="/ocorrencias" uiRipple>
-        <i class="material-icons">arrow_back</i>
-      </button>
-      <span class="title">{{ ocorrencia.nome }}</span>
-    </ui-toolbar>
+<form (ngSubmit)="onSubmit()" #ocorrenciaForm="ngForm">
+    <ui-card style="width: 600px; margin: auto;">
+        <ui-toolbar class="flat">
+            <button type="button" class="ui-button flat icon" routerLink="/ocorrencias" uiRipple>
+                <i class="material-icons">arrow_back</i>
+            </button>
+        </ui-toolbar>
 
-    <!--<pre>{{ ocorrencia | json }}</pre>-->
+        <ui-card-content>
+            <div style="display: inline-flex">
+                <ui-input-container style="max-width: 250px; width: 100%; margin-right: 10px;">
+                    <input type="text" #recursoDrop="ngModel" name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput required uiAutocomplete
+                        autocomplete="off" (loadMore)="filtro.pagina = filtro.pagina + 1; recursoDropdown();" [primary]="'nome'"
+                        [list]="recursos" [loading]="loading" [select]="selecionarIdRecurso.bind(this)" maxlength="100">
+                    <label>Recurso</label>
+                </ui-input-container>
 
-    <form (ngSubmit)="cadastrar()">
-      <ui-card-content>
-        <div class="ui-flex-container break-on-s960">
-          <ui-input-container>
-            <input type="number" [(ngModel)]="ocorrencia.codigo" name="codigo" uiInput>
-            <label>Codigo</label>
-          </ui-input-container>
-
-          <ui-input-container>
-            <select name="recurso" [(ngModel)]="ocorrencia.recurso" uiInput>
-              <option *ngFor="let recurso of recursos">{{ recurso.nome }}</option>
-            </select>
-            <label>Recurso</label>
-          </ui-input-container>
-        </div>
-
-        <div class="ui-flex-container break-on-s960">
-          <ui-input-container>
-            <input type="text" uiInput [(ngModel)]="ocorrencia.data" name="date" uiDatePicker="simple" uiMaskDate #date="ngModel">
-            <label>Date</label>
-            <div class="icon">
-              <button class="ui-button icon flat" uiDatePickerCaller="simple">
-                <i class="material-icons">today</i>
-              </button>
+                <ui-input-container style="max-width: 250px; width: 100%;">
+                    <input type="text" #docenteDrop="ngModel" name="docente" [(ngModel)]="ocorrencia.docente" uiInput required uiAutocomplete
+                        autocomplete="off" (loadMore)="filtro.pagina = filtro.pagina + 1; docenteDropdown();" [primary]="'nome'"
+                        [list]="docentes" [loading]="loading" [select]="selecionarIdDocente.bind(this)" maxlength="100">
+                    <label>Docente</label>
+                </ui-input-container>
             </div>
-          </ui-input-container>
 
-          <ui-input-container>
-            <select name="docente" [(ngModel)]="ocorrencia.docente" uiInput>
-              <option *ngFor="let docente of docentes">{{ docente.nome }}</option>
-            </select>
-            <label>Docente</label>
-          </ui-input-container>
+            <!-- <mat-form-field style="max-width: 300px; width: 100%;">
+                    <input matInput placeholder="Recurso" aria-label="Recurso" [matAutocomplete]="autoRecurso" [formControl]="recursoCtrl" name="recurso"
+                        [(ngModel)]="ocorrencia.recurso" required>
+                    <mat-autocomplete #autoRecurso="matAutocomplete">
+                        <mat-option *ngFor="let recurso of filteredRecursos | async" [value]="recurso.nome" (onSelectionChange)="changeRecurso(recurso)">
+                            <span>{{ recurso.nome }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
 
-          <ui-input-container>
-            <input type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" uiInput>
-            <label>Detalhes</label>
-          </ui-input-container>
-        </div>
-      </ui-card-content>
+                <mat-form-field style="max-width: 300px; width: 100%;">
+                    <input matInput placeholder="Docente" aria-label="Docente" [matAutocomplete]="autoDocente" [formControl]="docenteCtrl" name="docente"
+                        [(ngModel)]="ocorrencia.docente" required>
+                    <mat-autocomplete #autoDocente="matAutocomplete">
+                        <mat-option *ngFor="let docente of filteredDocentes | async" [value]="docente.nome" (onSelectionChange)="changeDocente(docente)">
+                            <span>{{ docente.nome }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field> -->
+            <!-- </div> -->
 
-      <div class="ui-button-container cover">
-        <button type="submit" class="ui-button raised primary" uiRipple>Salvar</button>
-        <button class="ui-button raised error" uiRipple routerLink="/home" href="/home">Cancelar</button>
-      </div>
-    </form>
-  </ui-card>
-</div>
+            <div class="ui-flex-container break-on-s960">
+                <mat-form-field style="max-width: 590px; width: 100%;">
+                    <input matInput type="text" [(ngModel)]="ocorrencia.detalhes" name="detalhes" placeholder="Detalhes" required>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field style="max-width: 150px; width: 100%;">
+                <input matInput [matDatepicker]="picker" name="data" [(ngModel)]="ocorrencia.data" placeholder="Data" maxlength="10" required>
+            </mat-form-field>
+
+            <mat-datepicker-toggle matSuffix [for]="picker" style="max-width: 40px;"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </ui-card-content>
+    </ui-card>
+
+    <div class="ui-fab-container">
+        <button type="submit" class="ui-button primary fab" uiRipple [disabled]="!ocorrenciaForm.form.valid">
+            <i class="material-icons">{{ ocorrenciaForm.form.valid ? 'save' : 'block' }}</i>
+        </button>
+    </div>
+</form>

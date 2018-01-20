@@ -1,32 +1,41 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule, MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatSelectModule, MatCardModule } from '@angular/material';
 
 import { SMNUIModule } from 'ng-smn-ui';
 import { AppRoutingModule } from '../app-routing.module'
 import { RecursoFormComponent } from './recurso-form/recurso-form.component';
 import { RecursoGridComponent } from './recurso-grid/recurso-grid.component';
-import { RecursoInfoComponent } from './recurso-info/recurso-info.component';
+import { RecursoFiltroComponent } from './recurso-filtro/recurso-filtro.component';
+
+import { RecursoService } from './recurso.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    SMNUIModule,
-    AppRoutingModule
-  ],
   declarations: [
     RecursoFormComponent,
     RecursoGridComponent,
-    RecursoInfoComponent
+    RecursoFiltroComponent,
   ],
-  exports: [
-    RecursoFormComponent,
-    RecursoGridComponent,
-    RecursoInfoComponent
+  imports: [
+    SMNUIModule,
+    AppRoutingModule,
+    HttpClientModule,
+    CommonModule,
+    SMNUIModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCardModule
   ],
+  providers: [ RecursoService ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class RecursoModule { }
