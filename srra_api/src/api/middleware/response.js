@@ -4,11 +4,11 @@ module.exports = (req, res, next) => {
         res.status(statusCode).json({ message: message });
     }
 
-    res.ok = (statusCode, data) => {
+    res.ok = (data) => {
         if (data.message)
-            return res.status(statusCode).json({ message: data.message });
+            return res.status(200).json({ message: data.message });
 
-        res.status(statusCode).json({ content: data });
+        res.status(200).json({ content: data });
     }
 
     next();

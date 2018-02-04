@@ -1,0 +1,53 @@
+<ui-card style="max-width: 700px; margin: auto;">
+    <ui-toolbar class="flat">
+        <button mat-icon-button routerLink="/reservas/filtro">
+            <i class="material-icons">arrow_back</i>
+        </button>
+    </ui-toolbar>
+
+    <ui-data-table>
+        <tbody>
+            <tr>
+                <th>Recurso</th>
+                <th>Docente</th>
+                <th>Data</th>
+                <th class="align-right"></th>
+            </tr>
+
+            <tr *ngFor="let reserva of reserva">
+                <td>{{ reserva.recurso }}</td>
+                <td>{{ reserva.docente }}</td>
+                <td>{{ reserva.data | date: ddMMyyyy }}</td>
+                <td class="align-right">
+                    <button class="ui-button flat icon" uiRipple [routerLink]="['/reserva/info', reserva.id]">
+                        <i class="material-icons">edit</i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan="4" class="align-right">
+                    <div class="ui-button-container align-right">
+                        <span class="pagination">
+                            {{ filtro.pagina }} - {{ totalPaginas }} - REGISTROS: {{ totalRegistros }}
+                        </span>
+                        <button class="ui-button flat icon" uiRipple (click)="voltarPagina()" [disabled]="filtro.pagina == 1">
+                            <i class="material-icons">keyboard_arrow_left</i>
+                        </button>
+                        <button class="ui-button flat icon" uiRipple (click)="proximaPagina()" [disabled]="filtro.pagina == totalPaginas">
+                            <i class="material-icons">keyboard_arrow_right</i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </ui-data-table>
+</ui-card>
+
+<div class="ui-fab-container">
+    <button mat-fab color="primary" routerLink="/reservas/nova">
+        <i class="material-icons">add</i>
+    </button>
+</div>

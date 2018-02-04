@@ -11,8 +11,8 @@
   "dependencies": {
     "body-parser": "^1.18.1",
     "cors": "^2.8.4",
+    "devbox-response": "^1.0.5",
     "express": "^4.15.4",
-    "smn-pg": "^2.1.4",
-    "devbox-response": "^1.0.5"
+    "smn-pg": "^2.1.4"
   }
 }

@@ -1,0 +1,32 @@
+<div class="pageLogin">
+    <ui-card>
+        <ui-card-content>
+            <ui-tabs-pages #tabsPages [tabs]="tabs">
+                <div class="page">
+                    <ui-card-content>
+                        <form #buscarUsuarioForm="ngForm" (ngSubmit)="buscarDadosUsuario(tabsPages)">
+                            <mat-form-field style="max-width: 300px; width: 100%;">
+                                <input matInput type="text" placeholder="E-mail" name="email" [(ngModel)]="login.email" required>
+                            </mat-form-field>
+                            <button class="ui-button raised full primary" uiRipple [disabled]="!login.email">PROXIMO</button>
+                        </form>
+                    </ui-card-content>
+                </div>
+                <div class="page">
+                    <ui-card-content>
+                        <div class="avatar">
+                            <!-- <p class="initial">{{ login.nome.charAt(0).toUpperCase() }}</p> -->
+                        </div>
+                        <div id="nomeLogin">{{ login.nome }}</div>
+                        <form #buscarUsuarioForm="ngForm" (ngSubmit)="fazerLogin()">
+                            <mat-form-field style="max-width: 300px; width: 100%;">
+                                <input matInput type="password" placeholder="Senha" name="senha" [(ngModel)]="login.senha" required>
+                            </mat-form-field>
+                            <button class="ui-button raised full primary" uiRipple [disabled]="!login.senha">ENTRAR</button>
+                        </form>
+                    </ui-card-content>
+                </div>
+            </ui-tabs-pages>
+        </ui-card-content>
+    </ui-card>
+</div>

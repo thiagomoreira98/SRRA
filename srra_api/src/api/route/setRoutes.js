@@ -1,11 +1,12 @@
-const getFiles = require('../../helpers/findRoutes');
+const getFiles = require('../../helpers/findFiles');
 
 function trycatch(controller) {
     return async (req, res) => {
         try {
             await controller(req, res);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
+        } 
+        catch (err) {
+            res.error(500, err.message);
         }
     }
 }

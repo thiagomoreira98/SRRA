@@ -2,100 +2,101 @@ CREATE SCHEMA seguranca;
 ALTER SCHEMA seguranca OWNER TO postgres;
 SET search_path TO pg_catalog,public,seguranca;
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE public.funcao(
+-------------------------------------------------------------------------------------------
+CREATE TABLE seguranca.grupo(
 	id serial NOT NULL,
 	nome varchar(20) NOT NULL,
-	CONSTRAINT pk_id_funcao PRIMARY KEY (id)
+	CONSTRAINT pk_id_grupo PRIMARY KEY (id)
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE seguranca.opcaoMenu(
+-------------------------------------------------------------------------------------------
+CREATE TABLE seguranca.opcaomenu(
 	id serial NOT NULL,
 	nome varchar(30) NOT NULL,
-	CONSTRAINT pk_id_opcaoMenu PRIMARY KEY (id)
+	CONSTRAINT "pk_id_opcaoMenu" PRIMARY KEY (id)
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE seguranca.opcaoMenuFuncao(
+-------------------------------------------------------------------------------------------
+CREATE TABLE seguranca.opcaomenugrupo(
 	id serial NOT NULL,
-	idFuncao smallint NOT NULL,
-	idOpcaoMenu smallint NOT NULL,
-	CONSTRAINT pk_id_opcaoMenuFuncao PRIMARY KEY (id),
-	CONSTRAINT fk_idFuncao_opcaoMenuFuncao FOREIGN KEY (idFuncao) REFERENCES public.funcao (id),
-	CONSTRAINT fk_idOpcaoMenu_opcaoMenuFuncao FOREIGN KEY (idOpcaoMenu) REFERENCES seguranca.opcaoMenu (id)
+	idgrupo smallint NOT NULL,
+	idopcaomenu smallint NOT NULL,
+	CONSTRAINT pk_id_opcaomenugrupo PRIMARY KEY (id),
+	CONSTRAINT fk_idgrupo_opcaomenugrupo FOREIGN KEY (idgrupo) REFERENCES seguranca.grupo (id),
+	CONSTRAINT fk_idopcaomenu_opcaomenugrupo FOREIGN KEY (idopcaomenu) REFERENCES seguranca.opcaomenu (id)
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE public.docente(
+-------------------------------------------------------------------------------------------
+CREATE TABLE seguranca.usuario(
 	id serial NOT NULL,
+	idgrupo smallint NOT NULL,
 	nome varchar(250) NOT NULL,
 	matricula varchar(20) NOT NULL,
 	cpf varchar(11) NOT NULL,
 	email varchar(250) NOT NULL,
-	senha varchar(12) NOT NULL,
-	idFuncao smallint NOT NULL,
-	CONSTRAINT pk_id_docente PRIMARY KEY (id),
-	CONSTRAINT fk_idFuncao_funcao FOREIGN KEY (idFuncao) REFERENCES public.funcao (id)
+	senha varchar(150) NOT NULL,
+	CONSTRAINT pk_id_usuario PRIMARY KEY (id),
+	CONSTRAINT fk_idgrupo_usuario FOREIGN KEY (idgrupo) REFERENCES seguranca.grupo (id)
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE public.tipoRecurso(
+-------------------------------------------------------------------------------------------
+CREATE TABLE public.tiporecurso(
 	id serial NOT NULL,
 	nome varchar(50) NOT NULL,
-	CONSTRAINT pk_id_tipoRecurso PRIMARY KEY (id)
+	CONSTRAINT pk_id_tiporecurso PRIMARY KEY (id)
+
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE public.statusRecurso(
+-------------------------------------------------------------------------------------------
+CREATE TABLE public.statusrecurso(
 	id serial NOT NULL,
 	nome varchar(20) NOT NULL,
-	CONSTRAINT pk_id_statusRecurso PRIMARY KEY (id)
+	CONSTRAINT "pk_id_statusRecurso" PRIMARY KEY (id)
+
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 CREATE TABLE public.recurso(
 	id serial NOT NULL,
-	idTipoRecurso smallint NOT NULL,
+	idtiporecurso smallint NOT NULL,
+	idstatusrecurso smallint NOT NULL,
 	nome varchar(50) NOT NULL,
 	descricao text NOT NULL,
-	dataMotivo date,
+	datamotivo timestamp with time zone,
 	motivo text,
-	idStatusRecurso smallint NOT NULL,
-	codigoPatrimonio integer,
 	CONSTRAINT pk_id_recurso PRIMARY KEY (id),
-	CONSTRAINT fk_idTipoRecurso_recurso FOREIGN KEY (idTipoRecurso) REFERENCES public.tipoRecurso (id),
-	CONSTRAINT fk_idStatusRecurso_recurso FOREIGN KEY (idStatusRecurso) REFERENCES public.statusRecurso (id)
+	CONSTRAINT fk_idtiporecurso_recurso FOREIGN KEY (idtiporecurso) REFERENCES public.tiporecurso (id),
+	CONSTRAINT fk_idstatusrecurso_recurso FOREIGN KEY (idstatusrecurso) REFERENCES public.statusrecurso (id)
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 CREATE TABLE public.ocorrencia(
 	id serial NOT NULL,
-	idRecurso integer NOT NULL,
-	idDocente integer NOT NULL,
-	data date NOT NULL,
+	idusuario integer NOT NULL,
+	idrecurso integer NOT NULL,
+	data timestamp with time zone NOT NULL,
 	detalhes text NOT NULL,
 	CONSTRAINT pk_id_ocorrencia PRIMARY KEY (id),
-	CONSTRAINT fk_idRecurso_ocorrencia FOREIGN KEY (idRecurso) REFERENCES public.recurso (id),
-	CONSTRAINT fk_idDocente_ocorrencia FOREIGN KEY (idDocente) REFERENCES public.docente (id)
+	CONSTRAINT fk_idrecurso_ocorrencia FOREIGN KEY (idrecurso) REFERENCES public.recurso (id),
+	CONSTRAINT fk_idusuario_ocorrencia FOREIGN KEY (idusuario) REFERENCES seguranca.usuario (id)
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
-CREATE TABLE public.statusReserva(
+-------------------------------------------------------------------------------------------
+CREATE TABLE public.statusreserva(
 	id serial NOT NULL,
 	nome varchar(20) NOT NULL,
-	CONSTRAINT pk_id_statusReserva PRIMARY KEY (id)
+	CONSTRAINT pk_id_statureserva PRIMARY KEY (id)
 );
 
----------------------------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 CREATE TABLE public.reserva(
 	id serial NOT NULL,
-	idRecurso integer NOT NULL,
-	idDocente integer NOT NULL,
+	idusuario integer NOT NULL,
+	idrecurso integer NOT NULL,
+	idstatusreserva smallint NOT NULL,
 	data date NOT NULL,
-	idStatusReserva smallint NOT NULL,
 	CONSTRAINT pk_id_reserva PRIMARY KEY (id),
-	CONSTRAINT fk_idRecurso_reserva FOREIGN KEY (idRecurso) REFERENCES public.recurso (id),
-	CONSTRAINT fk_idDocente_reserva FOREIGN KEY (idDocente) REFERENCES public.docente (id),
-	CONSTRAINT fk_idStatusReserva_reserva FOREIGN KEY (idStatusReserva) REFERENCES public.statusReserva (id)
+	CONSTRAINT fk_idrecurso_reserva FOREIGN KEY (idrecurso) REFERENCES public.recurso (id),
+	CONSTRAINT fk_idusuario_reserva FOREIGN KEY (idusuario) REFERENCES seguranca.usuario (id),
+	CONSTRAINT fk_idstatusreserva_reserva FOREIGN KEY (idstatusreserva) REFERENCES public.statusreserva (id)
 );
