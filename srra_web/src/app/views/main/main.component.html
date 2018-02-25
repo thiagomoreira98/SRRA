@@ -1,0 +1,52 @@
+<ui-toolbar class="fixed flat elevate-on-scroll primary" id="app-header">
+    <button (click)="menuOpen = true" class="ui-button flat icon" uiRipple>
+        <i class="material-icons">menu</i>
+    </button>
+    <div class="logo">
+        <!-- <img src="assets/images/logotipo-negativo.png" alt="Cronos logo" title="Cronos logo"> -->
+    </div>
+    <span class="title">{{title}}</span>
+    <div class="align-right">
+        <div class="avatar" [uiMenuTrigger]="menuUser" menu-align="right" theme-class="menu-user" [ngStyle]="{'background-image': user.imagem ? 'url(' + user.imagem + ')' : '',
+                         'background-color': user.imagem ? 'white' : user.cor,
+                         'color': isBright(user.cor) ? 'black': 'white'}">
+            <span *ngIf="user && !user.imagem && user.nome">{{user.nome.charAt(0)}}</span>
+        </div>
+    </div>
+</ui-toolbar>
+
+<!-- Add class 'persistent' para deixar o menu persistente, deve também descomentar o código no main.component -->
+<ui-nav-drawer [(open)]="menuOpen">
+    <ui-toolbar class="flat">
+        <button (click)="menuOpen = false" class="ui-button flat icon" uiRipple>
+            <i class="material-icons">menu</i>
+        </button>
+        <div class="logo">
+            <!-- <img src="assets/images/logotipo-menu.png" alt="Cronos logo" title="Cronos logo"> -->
+        </div>
+    </ui-toolbar>
+    <div class="ui-nav-drawer-overflow">
+        <div class="ui-list">
+            <a class="ui-list-item" uiRipple routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        </div>
+        <ui-list [list]="menu" [item-model]="menuConfig"></ui-list>
+    </div>
+</ui-nav-drawer>
+
+<router-outlet></router-outlet>
+
+<ui-menu #menuUser>
+    <header>
+        <div class="avatar" [uiMenuTrigger]="menuUser" menu-align="right" [ngStyle]="{'background-image': user.imagem ? 'url(' + user.imagem + ')' : '',
+                         'background-color': user.imagem ? 'white' : user.cor,
+                         'color': isBright(user.cor) ? 'black': 'white'}">
+            <span *ngIf="!user.imagem">{{user.nome?.charAt(0)}}</span>
+        </div>
+        <div class="primary-text">{{user.nome}}</div>
+    </header>
+    <div class="ui-menu-content size-3x">
+        <div class="ui-menu-item" uiRipple (click)="logoff()">
+            Sair
+        </div>
+    </div>
+</ui-menu>

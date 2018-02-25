@@ -1,0 +1,138 @@
+<div class="ui-s960">
+	<form #formUsuario="ngForm" class="ui-validate on-dirty on-submit" (submit)="onSubmit(formUsuario)">
+		<ui-card class="elevate-on-toolbar" [class.loading]="loading">
+			<div class="ui-progress" [class.hide]="!loading">
+				<div class="indeterminate"></div>
+			</div>
+			<ui-toolbar class="flat">
+				<button type="button" class="ui-button flat icon" type="button" uiRipple routerLink="/usuario">
+					<i class="material-icons">arrow_back</i>
+				</button>
+				<div class="align-right" *ngIf="!addingNew">
+					<button class="ui-button flat icon" type="button" uiRipple [disabled]="saving || deleting || loading" [uiMenuTrigger]="menuDelete"
+					 align="right">
+						<i class="material-icons" *ngIf="!deleting">delete</i>
+						<ui-progress-radial class="indeterminate" *ngIf="deleting"></ui-progress-radial>
+					</button>
+				</div>
+			</ui-toolbar>
+
+			<ui-card-content>
+				<div class="ui-flex-container break-on-s480">
+					<ui-input-container>
+						<input id="inputNome" #fieldNome="ngModel" type="text" [(ngModel)]="info.nome" uiInput name="nome" required uiMaxlength="250"
+						 autocomplete="off">
+						<label for="inputNome">Nome</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldNome.errors && fieldNome.dirty">
+								<div class="ui-message error" [hidden]="!fieldNome.pristine && !fieldNome.errors.required">
+									Insira um Nome do Usuario
+								</div>
+								<div class="ui-message counter error" [hidden]="!fieldNome.errors.uiMaxlength">
+									{{info.nome ? info.nome.length : 0}}/250
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+
+					<ui-input-container>
+						<ui-select #fieldGrupo="ngModel" name="grupo" [(ngModel)]="info.idGrupo" [options]="grupos" [chosen]="true" value="id" label="nome"
+						 uiInput id="inputGrupo" required></ui-select>
+						<label for="inputGrupo">
+							Grupo
+						</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldGrupo.errors && fieldGrupo.dirty">
+								<div class="ui-message error" [hidden]="!fieldGrupo.pristine && !fieldGrupo.errors.required">
+									Selecione um Grupo
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s480">
+					<ui-input-container>
+						<input id="inputCpf" #fieldCpf="ngModel" type="text" [(ngModel)]="info.cpf" uiInput uiMaskCpf name="cpf" required autocomplete="off">
+						<label for="inputCpf">CPF</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldCpf.errors && fieldCpf.dirty">
+								<div class="ui-message error" [hidden]="!fieldCpf.pristine && !fieldCpf.errors.required">
+									Insira o CPF do Usuario
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input id="inputMatricula" #fieldMatricula="ngModel" type="text" [(ngModel)]="info.matricula" uiInput name="matricula" required
+						 uiMaxlength="20" autocomplete="off">
+						<label for="inputMatricula">Matricula</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldMatricula.errors && fieldMatricula.dirty">
+								<div class="ui-message error" [hidden]="!fieldMatricula.pristine && !fieldMatricula.errors.required">
+									Insira o numero da matricula do Usuario
+								</div>
+								<div class="ui-message counter error" [hidden]="!fieldMatricula.errors.uiMaxlength">
+									{{info.nome ? info.nome.length : 0}}/20
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s480">
+					<ui-input-container>
+						<input id="inputEmail" #fieldEmail="ngModel" type="text" [(ngModel)]="info.email" uiInput name="email" required autocomplete="off"
+						 uiMaskLength="250">
+						<label for="inputEmail">E-mail</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldEmail.errors && fieldEmail.dirty">
+								<div class="ui-message error" [hidden]="!fieldEmail.pristine && !fieldEmail.errors.required">
+									Insira o email do Usuario
+								</div>
+								<div class="ui-message counter error" [hidden]="!fieldMatricula.errors.uiMaxlength">
+									{{info.email ? info.email.length : 0}}/250
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input id="inputSenha" #fieldSenha="ngModel" [type]="typeText ? 'text' : 'password'" [(ngModel)]="info.senha" uiInput name="senha"
+						 required autocomplete="off">
+						<label for="inputSenha">Senha</label>
+						<div class="suffix ui-button flat icon" (click)="typeText = !typeText" uiRipple>
+							<i class="material-icons light">{{ typeText ? 'visibility_off' : 'visibility' }}</i>
+						</div>
+						<div class="ui-messages">
+							<div *ngIf="fieldSenha.errors && fieldSenha.dirty">
+								<div class="ui-message error" [hidden]="!fieldSenha.pristine && !fieldSenha.errors.required">
+									Insira a senha do Usuario
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+			</ui-card-content>
+		</ui-card>
+		<div class="ui-fab-container">
+			<button type="submit" class="ui-button success fab" uiRipple [class.hide]="deleting || loading">
+				<ui-progress-radial class="indeterminate" *ngIf="saving"></ui-progress-radial>
+				<i class="material-icons">check</i>
+			</button>
+		</div>
+	</form>
+</div>
+
+<ui-menu #menuDelete>
+	<div class="ui-menu-content size-2x">
+		<ui-subheader>Deseja excluir?</ui-subheader>
+		<div class="ui-menu-item" uiRipple (click)="confirmDelete()">
+			Sim
+		</div>
+		<div class="ui-menu-item" uiRipple>
+			Não
+		</div>
+	</div>
+</ui-menu>

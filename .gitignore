@@ -1,12 +1,18 @@
-usuarioMongo
-
 srra_api/node_modules
+srra_api_seguranca/node_modules
 srra_web/node_modules
 
+srra_api/package-lock.json
+srra_api_seguranca/package-lock.json
+srra_web/package-lock.json
+
 srra_api/.vscode
+srra_api_seguranca/.vscode
 srra_web/.vscode
 srra_docs/.vscode
 
 srra_api/.idea
+srra_api_seguranca/.idea
 srra_web/.idea
+srra_api_docs/.idea
 

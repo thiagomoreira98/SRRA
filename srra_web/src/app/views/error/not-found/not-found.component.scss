@@ -1,0 +1,59 @@
+@import "~ng-smn-ui/core/variables";
+
+/deep/ app-root, :host {
+    height: 100%;
+}
+
+:host {
+    // background: url("/assets/images/not-found-background.png") center;
+    background-size: cover;
+    background-color: #EEEEEE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home {
+    position: fixed;
+    top: 16px;
+    left: 26px;
+
+    #button-home {
+        width: 38px;
+        height: 38px;
+        background: #00897b;
+        position: relative;
+        border-radius: 4px;
+
+        &::before {
+            content: "";
+            position: absolute;
+            right: 98%;
+            top: 2px;
+            width: 0;
+            height: 0;
+            border-top: 17px solid transparent;
+            border-right: 10px solid #00897b;
+            border-bottom: 17px solid transparent;
+        }
+
+        .material-icons {
+            color: white;
+            margin-top: 2px;
+            margin-right: 2px;
+            font-size: 28px;
+        }
+    }
+}
+
+.not-found-text{
+    font-size: 24px;
+    margin-bottom: 100px;
+    color: #9E9E9E;
+}
+
+@media screen and (max-width: 480px){
+    .not-found-text {
+        font-size: 22px;
+    }
+}

@@ -1,3 +1,5 @@
+CREATE EXTENSION pgcrypto;
+
 SELECT seguranca.excluirFuncao('seguranca', 'Criptografar');
 CREATE OR REPLACE FUNCTION seguranca.Criptografar(pBase integer)
 
@@ -39,7 +41,7 @@ CREATE OR REPLACE FUNCTION seguranca.Criptografar(pBase integer, pNaoExpira bool
 	Documentação
 	Arquivo fonte.....: Criptografia.sql
 	Objetivo..........: Criptografa numeros com base em chave informada
-	Autor.............: Vinicius Mussak
+	Autor.............: Thiago Moreira
  	Data..............: 03/03/2017
 	Ex................: SELECT Seguranca.Criptografar(1000009);
 	*/
@@ -71,7 +73,7 @@ CREATE OR REPLACE FUNCTION seguranca.Criptografar(pBase smallint)
 	Documentação
 	Arquivo fonte.....: Criptografia.sql
 	Objetivo..........: Criptografa numeros com base em chave informada
-	Autor.............: Vinicius Mussak
+	Autor.............: Thiago Moreira
  	Data..............: 03/03/2017
 	Ex................: SELECT Seguranca.Criptografar(1, 123::smallint);
 	*/
@@ -91,7 +93,7 @@ CREATE OR REPLACE FUNCTION seguranca.Descriptografar(pBase varchar(100))
 	Documentação
 	Arquivo fonte.....: Criptografia.sql
 	Objetivo..........: Descriptografa numeros com base em chave informada
-	Autor.............: Vinicius Mussak
+	Autor.............: Thiago Moreira
  	Data..............: 03/03/2017
     Ex................: SELECT Seguranca.Descriptografar('123');
 	*/
@@ -142,7 +144,7 @@ CREATE OR REPLACE FUNCTION seguranca.Descriptografar(pBase varchar(100), pNaoExp
 	Documentação
 	Arquivo fonte.....: Criptografia.sql
 	Objetivo..........: Descriptografa numeros com base em chave informada
-	Autor.............: Vinicius Mussak
+	Autor.............: Thiago Moreira
  	Data..............: 03/03/2017
     Ex................: SELECT seguranca.Descriptografar('123');
 	*/

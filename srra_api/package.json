@@ -13,6 +13,8 @@
     "cors": "^2.8.4",
     "devbox-response": "^1.0.5",
     "express": "^4.15.4",
-    "smn-pg": "^2.1.4"
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "smn-pg": "^3.0.5"
   }
 }

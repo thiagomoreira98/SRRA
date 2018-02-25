@@ -5,7 +5,8 @@
 
 export const environment = {
   production: false,
-  urlApi:"http://localhost:7001",
+  urlApi:"http://localhost:7002",
+  urlApiSeguranca: 'http://localhost:7001'
 };
 
 

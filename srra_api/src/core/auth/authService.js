@@ -1,9 +1,23 @@
-const crypto = require('../../helpers/encrypt/encrypt');
+const config = require('../../../config/config'),
+    asyncRequest = require('request-promise');
 
-async function criptografarSenha(senha) {
-    return crypto.encrypt(senha);
+async function autenticar(user, token) {
+
+    let options = {
+        url: `${config.seguranca.host}:${config.seguranca.port}/api/auth/refazer-login`,
+        method: 'GET',
+        headers: {
+            'Authentication': token
+        },
+        json: true
+    }
+
+    try {
+        return await asyncRequest(options);
+    }
+    catch(ex) {
+        throw ex;
+    }
 }
 
-module.exports = {
-    criptografarSenha
-}
+module.exports = autenticar;

@@ -5,8 +5,7 @@ CREATE OR REPLACE FUNCTION seguranca.buscarDadosUsuario(
 
     RETURNS TABLE(
         "id" VARCHAR,
-        "nome" seguranca.usuario.nome%TYPE,
-        "idGrupo" VARCHAR
+        "nome" seguranca.usuario.nome%TYPE
     )AS $$
 
     /*
@@ -24,10 +23,9 @@ CREATE OR REPLACE FUNCTION seguranca.buscarDadosUsuario(
         RETURN QUERY
 
 			SELECT  Seguranca.Criptografar(u.id) AS "id",
-                    u.nome,
-                    Seguranca.Criptografar(u.idGrupo) AS "grupo"
+                    u.nome
             FROM seguranca.usuario u
-            WHERE u.email LIKE pEmail;
+            WHERE u.email ILIKE pEmail;
 
     END;
 $$
@@ -41,9 +39,9 @@ CREATE OR REPLACE FUNCTION seguranca.fazerLogin(
 )
 
     RETURNS TABLE(
-        "id" VARCHAR,
-        "nome" seguranca.usuario.nome%TYPE,
-        "funcao" VARCHAR
+        "usuario" JSON,
+        "opcoesMenu" JSON,
+        "funcionalidades" JSON
     )AS $$
 
     /*
@@ -64,11 +62,33 @@ CREATE OR REPLACE FUNCTION seguranca.fazerLogin(
 
         RETURN QUERY
 
-			SELECT  Seguranca.Criptografar(u.id) AS "id",
-                    u.nome,
-                    Seguranca.Criptografar(u.idGrupo) AS "idGrupo"
+			SELECT  json_build_object(
+                        'id', seguranca.criptografar(u.id),
+                        'nome', u.nome,
+                        'idGrupo', seguranca.criptografar(u.idGrupo)
+                    ) as "usuario",
+                    (
+                        SELECT json_Agg(o) FROM (
+                            SELECT seguranca.criptografar(o.id) AS "id",
+                                    o.nome,
+                                    o.url,
+                                    o.idMae AS "idMae"
+                            FROM seguranca.opcaoMenu as o
+				                INNER JOIN seguranca.opcaoMenuGrupo as og
+					                ON og.idopcaoMenu = o.id
+                        ) o
+                    ) as "opcoesMenu",
+                    (
+                        SELECT json_Agg(o) FROM (
+                            SELECT seguranca.criptografar(f.id) AS "id",
+                                    f.nome
+                            FROM seguranca.funcionalidade as f
+				                INNER JOIN seguranca.grupoFuncionalidade as gf
+					                ON gf.idfuncionalidade = f.id
+                        ) o
+                    ) as "funcionalidades"
             FROM seguranca.usuario u
-            WHERE u.id = vId AND u.senha LIKE pSenha;
+            WHERE u.id = vId AND u.senha ILIKE pSenha;
 
     END;
 $$

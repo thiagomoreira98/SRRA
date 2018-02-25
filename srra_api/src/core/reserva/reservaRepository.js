@@ -1,4 +1,5 @@
-const pg = require('smn-pg')(global.config.pgSQL);
+const config = require('../../../config/config'),
+    pg = require('smn-pg')(config.pg);
 
 const procedures = {
     selecionar: 'public.selecionarReserva',

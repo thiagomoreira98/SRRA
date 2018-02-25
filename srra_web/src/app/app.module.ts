@@ -1,23 +1,24 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-
-import { SMNUIModule } from 'ng-smn-ui';
+import { SharedModule } from './shared.module';
+import { AuthModule } from './views/auth/auth.module';
+import { ErrorModule } from './views/error/error.module';
+import { MainModule } from './views/main/main.module';
 import { AppRoutingModule } from './app-routing.module';
-import { LoginModule } from './login/login.module';
-import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
-    SMNUIModule,
+    SharedModule,
     AppRoutingModule,
-    LoginModule,
-    CoreModule
+    AuthModule,
+    ErrorModule,
+    MainModule
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 

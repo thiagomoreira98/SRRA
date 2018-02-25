@@ -1,0 +1,76 @@
+<div class="ui-s480">
+    <ui-card class="elevate-on-toolbar">
+        <div class="ui-progress" [class.hide]="!loading">
+            <div class="indeterminate"></div>
+        </div>
+        <ui-toolbar class="flat">
+            <button type="button" class="ui-button flat icon" routerLink="/">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="align-right">
+                <ui-input-container>
+                    <input id="inputNome" #searchNomegrupo="ngModel" type="text" [(ngModel)]="filtro.nome" uiInput name="nome" required uiMaxlength="250"
+                        autocomplete="off" placeholder="Pesquisa" [persistPlaceholder]="true" (keyup)="search(searchNomegrupo.value)">
+                </ui-input-container>
+            </div>
+        </ui-toolbar>
+
+        <ui-data-table class="responsive">
+            <tbody>
+                <tr>
+                    <th>Nome</th>
+                    <th class="align-right"></th>
+                </tr>
+                <tr *ngFor="let grupo of grupos; let index = index" [routerLink]="['/grupo', grupo.id]">
+
+                    <td data-title="Nome">
+                        {{ grupo.nome }}
+                    </td>
+                    <td class="align-right">
+                        <button class="ui-button flat icon" uiRipple (click)="prepararExcluir($event, grupo)" [uiMenuTrigger]="menuDelete" align="right">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="!grupos || !grupos.length">
+                    <td colspan="4" style="text-align: center">{{'Nenhum grupo encontrado'}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="align-right">
+                        <div class="ui-button-container align-right">
+                            <span class="pagination">
+                                Pagina: {{ filtro.pagina }} de {{ totalPaginas ? totalPaginas : 1 }} -- Registros: {{ totalRegistros ? totalRegistros : 0 }}
+                            </span>
+                            <button class="ui-button flat icon" uiRipple [disabled]="filtro.pagina < 2" (click)="filtro.pagina = filtro.pagina - 1; getgrupos();">
+                                <i class="material-icons">keyboard_arrow_left</i>
+                            </button>
+                            <button class="ui-button flat icon" uiRipple [disabled]="filtro.pagina == totalPaginas || !totalRegistros" (click)="filtro.pagina = filtro.pagina + 1; getgrupos();">
+                                <i class="material-icons">keyboard_arrow_right</i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </ui-data-table>
+    </ui-card>
+
+    <div class="ui-fab-container">
+        <button class="ui-button accent fab" uiRipple routerLink="/grupo/novo">
+            <i class="material-icons">add</i>
+        </button>
+    </div>
+</div>
+
+<ui-menu #menuDelete>
+    <div class="ui-menu-content size-2x">
+        <ui-subheader>Deseja excluir?</ui-subheader>
+        <div class="ui-menu-item" uiRipple (click)="confirmDelete()">
+            Sim
+        </div>
+        <div class="ui-menu-item" uiRipple>
+            Não
+        </div>
+    </div>
+</ui-menu>

@@ -1,9 +1,10 @@
 SELECT seguranca.excluirFuncao('seguranca', 'selecionarUsuario');
-CREATE OR REPLACE FUNCTION seguranca.selecionarusuario(
+CREATE OR REPLACE FUNCTION seguranca.selecionarUsuario(
     pNome seguranca.usuario.nome%TYPE,
     pMatricula seguranca.usuario.matricula%TYPE,
     pCpf seguranca.usuario.cpf%TYPE,
-    pIdGrupo seguranca.usuario.idGrupo%TYPE,
+    pEmail seguranca.usuario.email%TYPE,
+    pIdGrupo VARCHAR,
     pPagina INTEGER,
     pQuantidade INTEGER
 )
@@ -20,28 +21,30 @@ CREATE OR REPLACE FUNCTION seguranca.selecionarusuario(
 		Autor.............: Thiago Moreira
 		Data..............: 05/01/2018
 		Ex................: 
-			SELECT * FROM seguranca.selecionarusuario(null, null, null, null, '1', '10');
+			SELECT * FROM seguranca.selecionarUsuario(null, null, null, null, null, '1', '10');
 	*/
 
     DECLARE vRegistros JSON;
 		vTotalRegistros INTEGER;
-        vPaginas REAL;
+        vIdGrupo INTEGER;
 
     BEGIN
+
+        vIdGrupo := seguranca.descriptografar(pIdGrupo)::INTEGER;
 
         vRegistros := json_agg(regs) FROM (
             SELECT  Seguranca.Criptografar(u.id) AS "id",
                     u.matricula,
                     u.nome,
-                    u.cpf,
                     g.nome AS "grupo"
-            FROM seguranca.usuario u
-                INNER JOIN seguranca.grupo g
+            FROM seguranca.usuario AS u
+                INNER JOIN seguranca.grupo AS g
                     ON u.idGrupo = g.id
             WHERE (pNome IS NULL OR u.nome ILIKE '%' || pNome || '%')
+                AND (pEmail IS NULL OR u.email ILIKE '%' || pEmail || '%')
 				AND (pMatricula IS NULL OR u.matricula = pMatricula)
                 AND (pCpf IS NULL OR u.cpf = pCpf)
-                AND (pIdGrupo IS NULL OR u.idGrupo = pIdGrupo)
+                AND (pIdGrupo IS NULL OR u.idGrupo = vIdGrupo)
             
             ORDER BY u.nome
             LIMIT pQuantidade OFFSET ((pPagina - 1) * pQuantidade)
@@ -53,9 +56,10 @@ CREATE OR REPLACE FUNCTION seguranca.selecionarusuario(
                 INNER JOIN seguranca.grupo AS g
                     ON u.idGrupo = g.id
             WHERE (pNome IS NULL OR u.nome ILIKE '%' || pNome || '%')
+                AND (pEmail IS NULL OR u.email ILIKE '%' || pEmail || '%')
 				AND (pMatricula IS NULL OR u.matricula = pMatricula)
                 AND (pCpf IS NULL OR u.cpf = pCpf)
-                AND (pIdGrupo IS NULL OR u.idGrupo = pIdGrupo)
+                AND (pIdGrupo IS NULL OR u.idGrupo = vIdGrupo)
 		);
 
         RETURN QUERY
@@ -66,7 +70,6 @@ CREATE OR REPLACE FUNCTION seguranca.selecionarusuario(
     END;
 $$
 LANGUAGE plpgsql;
-
 
 -----------------------------------------------------------------------------------------------------------
 SELECT seguranca.excluirFuncao('seguranca', 'buscarUsuario');
@@ -79,7 +82,7 @@ CREATE OR REPLACE FUNCTION seguranca.buscarUsuario(
         "nome" seguranca.usuario.nome%TYPE,
         "cpf" seguranca.usuario.cpf%TYPE,
         "matricula" seguranca.usuario.matricula%TYPE,
-        "grupo" VARCHAR,
+        "idGrupo" VARCHAR,
         "email" seguranca.usuario.email%TYPE,
         "senha" seguranca.usuario.senha%TYPE
     )AS $$
@@ -106,7 +109,7 @@ CREATE OR REPLACE FUNCTION seguranca.buscarUsuario(
                     u.nome,
                     u.cpf,
                     u.matricula,
-                    Seguranca.Criptografar(u.idGrupo) AS "grupo",
+                    Seguranca.Criptografar(u.idGrupo) AS "idGrupo",
                     u.email,
                     u.senha
             FROM seguranca.usuario u
@@ -213,8 +216,8 @@ LANGUAGE plpgsql;
 
 -----------------------------------------------------------------------------------------------------------
 SELECT seguranca.excluirFuncao('seguranca', 'deletarUsuario');
-CREATE OR REPLACE FUNCTION seguranca.deletarusuario(
-    pId seguranca.usuario.id%TYPE
+CREATE OR REPLACE FUNCTION seguranca.deletarUsuario(
+    pId VARCHAR
 )
 
     RETURNS VOID AS $$
@@ -226,7 +229,7 @@ CREATE OR REPLACE FUNCTION seguranca.deletarusuario(
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM seguranca.deletarusuario(1);
+			SELECT * FROM seguranca.deletarUsuario(1);
 	*/
 
     DECLARE vId INTEGER;
@@ -235,7 +238,7 @@ CREATE OR REPLACE FUNCTION seguranca.deletarusuario(
 
         vId := Seguranca.Descriptografar(pId)::INTEGER;
 
-        DELETE FROM seguranca.usuario WHERE id = vsId;
+        DELETE FROM seguranca.usuario WHERE id = vId;
 
     END;
 $$
