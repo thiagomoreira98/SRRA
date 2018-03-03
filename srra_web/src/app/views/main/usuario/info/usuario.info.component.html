@@ -1,4 +1,4 @@
-<div class="ui-s960">
+<div class="ui-s480">
 	<form #formUsuario="ngForm" class="ui-validate on-dirty on-submit" (submit)="onSubmit(formUsuario)">
 		<ui-card class="elevate-on-toolbar" [class.loading]="loading">
 			<div class="ui-progress" [class.hide]="!loading">
@@ -34,17 +34,20 @@
 							</div>
 						</div>
 					</ui-input-container>
+				</div>
 
+				<div class="ui-flex-container break-on-s480">
 					<ui-input-container>
-						<ui-select #fieldGrupo="ngModel" name="grupo" [(ngModel)]="info.idGrupo" [options]="grupos" [chosen]="true" value="id" label="nome"
-						 uiInput id="inputGrupo" required></ui-select>
-						<label for="inputGrupo">
-							Grupo
-						</label>
+						<input id="inputEmail" #fieldEmail="ngModel" type="text" [(ngModel)]="info.email" uiInput name="email" required autocomplete="off"
+						 uiMaskLength="250">
+						<label for="inputEmail">E-mail</label>
 						<div class="ui-messages">
-							<div *ngIf="fieldGrupo.errors && fieldGrupo.dirty">
-								<div class="ui-message error" [hidden]="!fieldGrupo.pristine && !fieldGrupo.errors.required">
-									Selecione um Grupo
+							<div *ngIf="fieldEmail.errors && fieldEmail.dirty">
+								<div class="ui-message error" [hidden]="!fieldEmail.pristine && !fieldEmail.errors.required">
+									Insira o email do Usuario
+								</div>
+								<div class="ui-message counter error" [hidden]="!fieldMatricula.errors.uiMaxlength">
+									{{info.email ? info.email.length : 0}}/250
 								</div>
 							</div>
 						</div>
@@ -65,16 +68,13 @@
 					</ui-input-container>
 
 					<ui-input-container>
-						<input id="inputMatricula" #fieldMatricula="ngModel" type="text" [(ngModel)]="info.matricula" uiInput name="matricula" required
-						 uiMaxlength="20" autocomplete="off">
+						<input id="inputMatricula" #fieldMatricula="ngModel" type="number" [(ngModel)]="info.matricula" uiInput name="matricula" required
+						 autocomplete="off">
 						<label for="inputMatricula">Matricula</label>
 						<div class="ui-messages">
 							<div *ngIf="fieldMatricula.errors && fieldMatricula.dirty">
 								<div class="ui-message error" [hidden]="!fieldMatricula.pristine && !fieldMatricula.errors.required">
 									Insira o numero da matricula do Usuario
-								</div>
-								<div class="ui-message counter error" [hidden]="!fieldMatricula.errors.uiMaxlength">
-									{{info.nome ? info.nome.length : 0}}/20
 								</div>
 							</div>
 						</div>
@@ -83,16 +83,15 @@
 
 				<div class="ui-flex-container break-on-s480">
 					<ui-input-container>
-						<input id="inputEmail" #fieldEmail="ngModel" type="text" [(ngModel)]="info.email" uiInput name="email" required autocomplete="off"
-						 uiMaskLength="250">
-						<label for="inputEmail">E-mail</label>
+						<ui-select #fieldGrupo="ngModel" name="grupo" [(ngModel)]="info.idGrupo" [options]="grupos" [chosen]="true" value="id" label="nome"
+						 uiInput id="inputGrupo" required></ui-select>
+						<label for="inputGrupo">
+							Grupo
+						</label>
 						<div class="ui-messages">
-							<div *ngIf="fieldEmail.errors && fieldEmail.dirty">
-								<div class="ui-message error" [hidden]="!fieldEmail.pristine && !fieldEmail.errors.required">
-									Insira o email do Usuario
-								</div>
-								<div class="ui-message counter error" [hidden]="!fieldMatricula.errors.uiMaxlength">
-									{{info.email ? info.email.length : 0}}/250
+							<div *ngIf="fieldGrupo.errors && fieldGrupo.dirty">
+								<div class="ui-message error" [hidden]="!fieldGrupo.pristine && !fieldGrupo.errors.required">
+									Selecione um Grupo
 								</div>
 							</div>
 						</div>

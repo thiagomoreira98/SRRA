@@ -32,10 +32,16 @@ async function deletar(req, res) {
     res.ok({ message: 'Removido com Sucesso.' });
 }
 
+async function selecionarStatus(req, res) {
+    let retorno = await repository.selecionarStatus();
+    res.ok(retorno);
+}
+
 module.exports = {
     selecionar,
     buscar,
     inserir,
     alterar,
-    deletar
+    deletar,
+    selecionarStatus
 }

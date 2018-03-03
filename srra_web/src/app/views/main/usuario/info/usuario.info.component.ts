@@ -33,7 +33,7 @@ export class UsuarioInfoComponent implements AfterViewInit, OnDestroy {
     if (this._route.snapshot.params['id']) {
       setTimeout(() => {
         this.addingNew = false;
-      });
+      }, 300);
       this.getInfo();
       this._toolbar.set('Alterar Usuario');
     } else {
@@ -41,7 +41,7 @@ export class UsuarioInfoComponent implements AfterViewInit, OnDestroy {
       setTimeout(() => {
         this.addingNew = true;
         this.loading = false;
-      })
+      }, 300)
     }
   }
 
@@ -61,7 +61,7 @@ export class UsuarioInfoComponent implements AfterViewInit, OnDestroy {
   }
 
   getGrupos() {
-    this._grupoService.selecionar(null).subscribe((data: any) => {
+    this._grupoService.selecionarDropdown().subscribe((data: any) => {
       this.grupos = data.content;
     }, (res: any) => {
       this.showSnackBar('Ocorreu um erro no servidor.');

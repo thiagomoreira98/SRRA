@@ -16,6 +16,8 @@ export class GrupoInfoComponent implements AfterViewInit, OnDestroy {
   saving: boolean;
   deleting: boolean;
   addingNew: boolean;
+  menuList: any;
+  itemModel: any;
 
   constructor(
     private _toolbar: UiToolbarService,
@@ -24,9 +26,12 @@ export class GrupoInfoComponent implements AfterViewInit, OnDestroy {
     private _router: Router
   ) { }
 
+  ngOnInit() {
+    this.getFuncionalidades();
+  }
+
   ngAfterViewInit() {
     this._toolbar.activateExtendedToolbar(480);
-    this.getFuncionalidades();
 
     if (this._route.snapshot.params['id']) {
       setTimeout(() => {
@@ -52,12 +57,9 @@ export class GrupoInfoComponent implements AfterViewInit, OnDestroy {
     this._service.buscar(this._route.snapshot.params['id']).subscribe((data: any) => {
       this.loading = true;
       this.info = data.content;
-
-      if (!this.info.funcionalidades) {
-        this.info.funcionalidades = [];
-      }
-
-      this.checkFuncionalidades();
+      setTimeout(() => {
+        this.checkFuncionalidades();
+      }, 200)
     }, (res: any) => {
       this.showSnackBar('Ocorreu um erro no servidor.');
     }, () => {
@@ -67,19 +69,15 @@ export class GrupoInfoComponent implements AfterViewInit, OnDestroy {
 
   getFuncionalidades() {
     this._service.selecionarFuncionalidades().subscribe((data: any) => {
-      this.loading = true;
       this.funcionalidades = data.content;
     }, (res: any) => {
       this.showSnackBar('Ocorreu um erro no servidor.');
-    }, () => {
-      this.addingNew = true;
-      this.loading = false;
     });
   }
 
   checkFuncionalidades() {
-    if (!this.info.funcionalidades.length) {
-      return;
+    if (!this.info.funcionalidades) {
+      return this.info.funcionalidades = [];
     }
 
     for (let i = 0; i < this.funcionalidades.length; i++) {
@@ -91,18 +89,9 @@ export class GrupoInfoComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  verifyFuncionalidades() {
-    for (let i = 0; i < this.funcionalidades.length; i++) {
-      if (this.funcionalidades[i].active) {
-        this.info.funcionalidades.push(this.funcionalidades[i]);
-      }
-    }
-  }
-
   onSubmit(form) {
-    console.log(this.info);
-    this.verifyFuncionalidades();
     this.saving = true;
+    this.info.funcionalidades = this.funcionalidades;
     if (this.info.id) {
       this._service.alterar(this.info).then((res: any) => {
         this.saving = false;
@@ -113,12 +102,11 @@ export class GrupoInfoComponent implements AfterViewInit, OnDestroy {
       });
     }
     else {
-      console.log('inserir');
       this._service.inserir(this.info).then((res: any) => {
         this.saving = false;
         this.showSnackBar(res.message);
         this.info = {
-          funcionalides: []
+          funcionalidades: []
         };
       }).catch((res: any) => {
         this.saving = false;

@@ -37,10 +37,11 @@ export class GrupoService {
 
   deletar(id: any) {
     console.log('aqui', id);
-    return this.http.delete(`${environment.urlApi}/api/grupo/${id}`, { headers: this.prepareHeaders() }).toPromise();
+    return this.http.delete(`${environment.urlApiSeguranca}/api/grupo/${id}`, { headers: this.prepareHeaders() }).toPromise();
   }
 
   selecionarFuncionalidades() {
     return this.http.get(`${environment.urlApiSeguranca}/api/grupo-funcionalidade`, { headers: this.prepareHeaders() });
   }
+
 }

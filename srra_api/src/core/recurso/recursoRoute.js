@@ -14,6 +14,18 @@ const routes = [
             { method: 'put', controller: ctrl.alterar },
             { method: 'delete', controller: ctrl.deletar }
         ]
+    },
+    {
+        url: '/api/status-recurso',
+        routes: [
+            { method: 'get', controller: ctrl.selecionarStatus }
+        ]
+    },
+    {
+        url: '/api/tipo-recurso',
+        routes: [
+            { method: 'get', controller: ctrl.selecionarTipo }
+        ]
     }
 ]
 

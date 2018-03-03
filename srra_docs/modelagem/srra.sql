@@ -28,10 +28,9 @@ CREATE TABLE seguranca.opcaomenu(
 );
 
 CREATE TABLE seguranca.opcaomenugrupo(
-	id serial NOT NULL,
 	idgrupo integer NOT NULL,
 	idopcaomenu integer NOT NULL,
-	CONSTRAINT pk_id_opcaomenugrupo PRIMARY KEY (id),
+	PRIMARY KEY (idgrupo, idopcaomenu),
 	CONSTRAINT fk_idgrupo_opcaomenugrupo FOREIGN KEY (idgrupo) REFERENCES seguranca.grupo (id),
 	CONSTRAINT fk_idopcaomenu_opcaomenugrupo FOREIGN KEY (idopcaomenu) REFERENCES seguranca.opcaomenu (id)
 );
@@ -43,10 +42,9 @@ CREATE TABLE seguranca.funcionalidade(
 );
 
 CREATE TABLE seguranca.grupofuncionalidade(
-	id serial NOT NULL,
 	idgrupo integer NOT NULL,
 	idfuncionalidade integer NOT NULL,
-	CONSTRAINT pk_id_grupofuncionalidade PRIMARY KEY (id),
+	PRIMARY KEY(idgrupo, idfuncionalidade)
 	CONSTRAINT fk_idgrupo_grupofuncionalidade FOREIGN KEY (idgrupo) REFERENCES seguranca.grupo (id),
 	CONSTRAINT fk_idfuncionalidade_grupofuncionalidade FOREIGN KEY (idfuncionalidade) REFERENCES seguranca.funcionalidade (id)
 );

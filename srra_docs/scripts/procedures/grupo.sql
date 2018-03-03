@@ -87,8 +87,8 @@ CREATE OR REPLACE FUNCTION seguranca.buscarGrupo(
                         SELECT seguranca.criptografar(f.id) AS "id",
                             f.nome
                         FROM seguranca.funcionalidade f
-                        INNER JOIN seguranca.grupoFuncionalidade gf
-                            ON gf.idFuncionalidade = f.id
+                            INNER JOIN seguranca.grupoFuncionalidade gf
+                                ON gf.idFuncionalidade = f.id
                         WHERE gf.idGrupo = vId
                     ) func
                 ) AS "funcionalidades"
@@ -128,7 +128,7 @@ CREATE OR REPLACE FUNCTION seguranca.inserirGrupo(
         )
         VALUES (
             pNome
-        );
+        )
 
         RETURNING id INTO vId;
 
@@ -139,6 +139,13 @@ CREATE OR REPLACE FUNCTION seguranca.inserirGrupo(
                 "id" VARCHAR
             );
 
+        INSERT INTO seguranca.opcaoMenuGrupo (idGrupo, idOpcaoMenu)
+            SELECT vId,
+                (SELECT id FROM seguranca.opcaoMenu WHERE nome ILIKE json.nome)
+            FROM json_to_recordset(pFuncionalidades) AS json(
+                "nome" VARCHAR
+            );
+
 	END;
 $$
 LANGUAGE plpgsql;
@@ -147,7 +154,8 @@ LANGUAGE plpgsql;
 SELECT seguranca.excluirFuncao('seguranca', 'alterarGrupo');
 CREATE OR REPLACE FUNCTION seguranca.alterarGrupo(
     pId VARCHAR,
-    pNome seguranca.usuario.nome%TYPE
+    pNome seguranca.usuario.nome%TYPE,
+    pFuncionalidades JSON
 )
 
     RETURNS VOID AS $$
@@ -159,7 +167,12 @@ CREATE OR REPLACE FUNCTION seguranca.alterarGrupo(
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM seguranca.alterarGrupo(1, "teste alterar grupo 1");
+			SELECT * FROM seguranca.alterarGrupo(1, 'Administrador',
+                '[
+                    { "nome": "Grupo", "id": "c20BGwjVIvs" },
+                    { "nome": "Usuario", "id": "sYv0-m8i8u8" }
+                ]'
+			);
 	*/
 
     DECLARE vId INTEGER;
@@ -174,6 +187,20 @@ CREATE OR REPLACE FUNCTION seguranca.alterarGrupo(
 
         DELETE FROM seguranca.grupoFuncionalidade gf WHERE gf.idGrupo = vId;
         DELETE FROM seguranca.opcaoMenuGrupo og WHERE og.idGrupo = vId;
+
+        INSERT INTO seguranca.grupoFuncionalidade (idGrupo, idFuncionalidade)
+            SELECT vId,
+                seguranca.descriptografar(func_json.id)::INTEGER
+            FROM json_to_recordset(pFuncionalidades) AS func_json(
+                "id" VARCHAR
+            );
+
+        INSERT INTO seguranca.opcaoMenuGrupo (idGrupo, idOpcaoMenu)
+            SELECT vId,
+                (SELECT id FROM seguranca.opcaoMenu WHERE nome ILIKE json.nome)
+            FROM json_to_recordset(pFuncionalidades) AS json(
+                "nome" VARCHAR
+            );
 
     END;
 $$
@@ -203,6 +230,8 @@ CREATE OR REPLACE FUNCTION seguranca.deletarGrupo(
 
         vId := Seguranca.Descriptografar(pId)::INTEGER;
 
+        DELETE FROM seguranca.grupoFuncionalidade gf WHERE gf.idGrupo = vId;
+        DELETE FROM seguranca.opcaoMenuGrupo og WHERE og.idGrupo = vId;
         DELETE FROM seguranca.grupo WHERE id = vId;
 
     END;

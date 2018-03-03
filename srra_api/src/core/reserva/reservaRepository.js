@@ -6,7 +6,8 @@ const procedures = {
     buscar: 'public.buscarReserva',
     inserir: 'public.inserirReserva',
     alterar: 'public.alterarReserva',
-    deletar: 'public.deletarReserva'
+    deletar: 'public.deletarReserva',
+    selecionarStatus: 'public.selecionarStatusReserva'
 }
 
 async function selecionar(filtro) {
@@ -49,10 +50,16 @@ async function deletar(id) {
         .asyncExecute(procedures.deletar);
 }
 
+async function selecionarStatus() {
+    return await pg.request()
+        .asyncExecute(procedures.selecionarStatus);
+}
+
 module.exports = {
     selecionar,
     buscar,
     inserir,
     alterar,
-    deletar
+    deletar,
+    selecionarStatus
 }

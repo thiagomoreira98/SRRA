@@ -44,6 +44,7 @@ async function alterar(id, grupo) {
     await pg.request()
         .input('pId', id)
         .input('pNome', grupo.nome)
+        .input('pFuncionalidades', JSON.stringify(grupo.funcionalidades))
         .asyncExecute(procedures.alterar);
 }
 

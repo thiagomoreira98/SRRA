@@ -8,6 +8,10 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
+  prepareHeaders() {
+    return new HttpHeaders({ 'Authentication': UserService.getCookie() });
+  }
+
   selecionar(filtro: any) {
     let params = new HttpParams();
 
@@ -15,24 +19,22 @@ export class UsuarioService {
       params = params.append(property, filtro[property]);
     }
 
-    let headers = new HttpHeaders({ 'Authentication': UserService.getCookie() });
-    console.log(headers);
-    return this.http.get(`${environment.urlApiSeguranca}/api/usuario`, { params: params, headers: headers });
+    return this.http.get(`${environment.urlApiSeguranca}/api/usuario`, { params: params, headers: this.prepareHeaders() });
   }
 
   buscar(id: any) {
-    return this.http.get(`${environment.urlApiSeguranca}/api/usuario/${id}`);
+    return this.http.get(`${environment.urlApiSeguranca}/api/usuario/${id}`, { headers: this.prepareHeaders() });
   }
 
   inserir(usuario: any) {
-    return this.http.post(`${environment.urlApiSeguranca}/api/usuario`, usuario).toPromise();
+    return this.http.post(`${environment.urlApiSeguranca}/api/usuario`, usuario, { headers: this.prepareHeaders() }).toPromise();
   }
 
   alterar(usuario: any) {
-    return this.http.put(`${environment.urlApiSeguranca}/api/usuario/${usuario.id}`, usuario).toPromise();
+    return this.http.put(`${environment.urlApiSeguranca}/api/usuario/${usuario.id}`, usuario, { headers: this.prepareHeaders() }).toPromise();
   }
 
   deletar(id: any) {
-    return this.http.delete(`${environment.urlApi}/api/usuario/${id}`).toPromise();
+    return this.http.delete(`${environment.urlApi}/api/usuario/${id}`, { headers: this.prepareHeaders() }).toPromise();
   }
 }

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.0" last-position="0,0" last-zoom="0.85"
+<dbmodel pgmodeler-ver="0.9.0" last-position="0,32" last-zoom="0.8"
 	 default-owner="postgres">
 <database name="srra">
 </database>
@@ -18,7 +18,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="grupo">
 	<schema name="seguranca"/>
 	<role name="postgres"/>
-	<position x="560" y="323"/>
+	<position x="560" y="320"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -186,7 +186,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="opcaomenu">
 	<schema name="seguranca"/>
 	<role name="postgres"/>
-	<position x="600" y="23"/>
+	<position x="600" y="20"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -201,14 +201,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="opcaomenugrupo">
 	<schema name="seguranca"/>
 	<role name="postgres"/>
-	<position x="560" y="163"/>
+	<position x="560" y="160"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
-	<column name="idgrupo" not-null="true">
+	<column name="idgrupo">
 		<type name="smallint" length="0"/>
 	</column>
-	<column name="idopcaomenu" not-null="true">
+	<column name="idopcaomenu">
 		<type name="smallint" length="0"/>
 	</column>
 	<constraint name="pk_id_opcaomenugrupo" type="pk-constr" table="seguranca.opcaomenugrupo">
@@ -219,7 +219,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="funcionalidade">
 	<schema name="seguranca"/>
 	<role name="postgres"/>
-	<position x="500" y="660"/>
+	<position x="140" y="600"/>
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
@@ -238,10 +238,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id" not-null="true">
 		<type name="serial" length="0"/>
 	</column>
-	<column name="idgrupo" not-null="true">
+	<column name="idgrupo">
 		<type name="integer" length="0"/>
 	</column>
-	<column name="idfuncionalidade" not-null="true">
+	<column name="idfuncionalidade">
 		<type name="integer" length="0"/>
 	</column>
 	<constraint name="pk_id_grupofuncionalidade" type="pk-constr" table="seguranca.grupofuncionalidade">
@@ -361,16 +361,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="public.statusreserva"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="&quot;rel_opcaoMenuFuncao_Funcao&quot;" type="relfk"
-	 src-table="seguranca.opcaomenugrupo"
-	 dst-table="seguranca.grupo"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="&quot;rel_opcaoMenuFuncao_OpcaoMenu&quot;" type="relfk"
-	 src-table="seguranca.opcaomenugrupo"
-	 dst-table="seguranca.opcaomenu"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_grupofuncionalidade_grupo" type="relfk"
 	 src-table="seguranca.grupofuncionalidade"
 	 dst-table="seguranca.grupo"
@@ -379,6 +369,16 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_grupofuncionalidade_funcionalidade" type="relfk"
 	 src-table="seguranca.grupofuncionalidade"
 	 dst-table="seguranca.funcionalidade"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_opcaomenugrupo_grupo" type="relfk"
+	 src-table="seguranca.opcaomenugrupo"
+	 dst-table="seguranca.grupo"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_opcaomenugrupo_opcaomenu" type="relfk"
+	 src-table="seguranca.opcaomenugrupo"
+	 dst-table="seguranca.opcaomenu"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
