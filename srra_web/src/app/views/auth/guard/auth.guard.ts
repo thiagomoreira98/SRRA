@@ -10,7 +10,10 @@ import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private router: Router, private loginService: LoginService) { }
+    constructor(
+        private router: Router,
+        private loginService: LoginService
+    ) { }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         let usuario = UserService.getUser();
@@ -32,9 +35,10 @@ export class AuthGuard implements CanActivate {
                 });
 
                 this.loginService.refazerLogin(headers).subscribe((res: any) => {
+                    this.verificarAcesso(res.content.opcoesMenu);
                     UserService.setToken(res.content.token);
                     UserService.setMenu(res.content.opcoesMenu);
-                    UserService.setUser(res.content.usuario);
+                    UserService.setUser(res.content);
                     resolve(true);
                 }), (res: any) => {
                     this.handleError(res);
@@ -89,5 +93,14 @@ export class AuthGuard implements CanActivate {
                 this.router.navigate(['/login']);
                 break;
         }
+    }
+
+    verificarAcesso(opcoes) {
+        for(let i = 0; i < opcoes.length; i++) {
+            if(opcoes[i].url.includes(window.location.pathname) || window.location.pathname == '/' || window.location.pathname == '/login')
+                return true;
+        }
+    
+        this.handleError({ _status: 403 });
     }
 }

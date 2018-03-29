@@ -2,23 +2,23 @@ const config = require('../../../config/config'),
     pg = require('smn-pg')(config.pg);
 
 const procedures = {
-    selecionar: 'public.selecionarRecurso',
-    buscar: 'public.buscarRecurso',
-    inserir: 'public.inserirRecurso',
-    alterar: 'public.alterarRecurso',
-    deletar: 'public.deletarRecurso',
-    selecionarStatus: 'public.selecionarStatusRecurso',
-    selecionarTipo: 'public.selecionarTipoRecurso'
+    selecionar: 'principal.selecionarRecurso',
+    buscar: 'principal.buscarRecurso',
+    inserir: 'principal.inserirRecurso',
+    alterar: 'principal.alterarRecurso',
+    deletar: 'principal.deletarRecurso',
+    selecionarStatus: 'principal.selecionarStatusRecurso',
+    selecionarTipo: 'principal.selecionarTipoRecurso'
 }
 
 async function selecionar(filtro) {
     return await pg.request()
-        .input('pNome', filtro.nome)
+        .input('pNome', filtro.nome == '' ? null : filtro.nome)
         .input('pCodigoPatrimonio', filtro.codigoPatrimonio)
-        .input('pIdStatusRecurso', filtro.status == 'Todos' ? null : filtro.status)
-        .input('pIdTipoRecurso', filtro.tipo == 'Todos' ? null : filtro.tipo)
-        .input('pPagina', filtro.pagina)
-        .input('pQuantidade', filtro.quantidade)
+        .input('pIdStatusRecurso', filtro.idStatus == '' ? null : filtro.idStatus)
+        .input('pIdTipoRecurso', filtro.idTipo == '' ? null : filtro.idTipo)
+        .input('pPagina', filtro.pagina || 1)
+        .input('pQuantidade', filtro.quantidade || 10)
         .asyncExecuteOne(procedures.selecionar);
 }
 
@@ -28,28 +28,32 @@ async function buscar(id) {
         .asyncExecuteOne(procedures.buscar);
 }
 
-async function inserir(recurso) {
+async function inserir(recurso, idUsuario) {
     await pg.request()
-        .input('pcodigoPatrimonio', recurso.codigoPatrimonio)
         .input('pNome', recurso.nome)
+        .input('pCodigoPatrimonio', recurso.codigoPatrimonio)
         .input('pDescricao', recurso.descricao)
-        .input('pIdStatusRecurso', recurso.status)
-        .input('pIdTipoRecurso', recurso.tipo)
+        .input('pIdStatusRecurso', recurso.idStatus)
+        .input('pIdTipoRecurso', recurso.idTipo)
         .input('pMotivo', recurso.motivo)
         .input('pDataMotivo', recurso.dataMotivo)
+        .input('pIdUsuarioCadastro', idUsuario)
+        .input('pDataCadastro', recurso.dataCadastro)
         .asyncExecute(procedures.inserir);
 }
 
-async function alterar(id, recurso) {
+async function alterar(id, recurso, idUsuario) {
     await pg.request()
         .input('pId', id)
         .input('pcodigoPatrimonio', recurso.codigoPatrimonio)
         .input('pNome', recurso.nome)
         .input('pDescricao', recurso.descricao)
-        .input('pIdStatusRecurso', recurso.status)
-        .input('pIdTipoRecurso', recurso.tipo)
+        .input('pIdStatusRecurso', recurso.idStatus)
+        .input('pIdTipoRecurso', recurso.idTipo)
         .input('pMotivo', recurso.motivo)
         .input('pDataMotivo', recurso.dataMotivo)
+        .input('pIdUsuarioAlteracao', idUsuario)
+        .input('pDataAlteracao', recurso.dataAlteracao)
         .asyncExecute(procedures.alterar);
 }
 

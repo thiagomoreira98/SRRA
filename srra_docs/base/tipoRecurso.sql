@@ -1,2 +1,2 @@
-INSERT INTO public.tipoRecurso VALUES(1, 'Laboratorio');
-INSERT INTO public.tipoRecurso VALUES(2, 'Equipamento');
+INSERT INTO principal.tipoRecurso VALUES(1, 'Laboratorio');
+INSERT INTO principal.tipoRecurso VALUES(2, 'Equipamento');

@@ -34,6 +34,7 @@ export class UserService {
 
     public static setUser(newUser) {
         user = newUser;
+        user.cor = '#009688';
     }
 
     public static setMenu(newMenu) {

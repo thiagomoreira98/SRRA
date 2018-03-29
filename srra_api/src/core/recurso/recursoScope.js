@@ -3,8 +3,8 @@ function verificar(req) {
 
     response
         .field(req.body.nome, 'Nome').isNotNull()
-        .field(req.body.status, 'Status').isNotNull()
-        .field(req.body.tipo, 'Tipo de Recurso').isNotNull();
+        .field(req.body.idStatus, 'Status').isNotNull()
+        .field(req.body.idTipo, 'Tipo').isNotNull();
 
     if (!response.isSuccess) {
         req.errors = response.get();

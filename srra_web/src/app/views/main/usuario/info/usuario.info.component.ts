@@ -95,16 +95,18 @@ export class UsuarioInfoComponent implements AfterViewInit, OnDestroy {
   }
 
   confirmDelete(): any {
-    this.deleting = true;
+    if (!this.deleting) {
+      this.deleting = true;
 
-    this._service.deletar(this.info.id).then((res: any) => {
-      this.deleting = false;
-      this._router.navigate(['/usuario'])
-      this.showSnackBar(res.message);
-    }).catch((res: any) => {
-      this.deleting = false;
-      this.showSnackBar('Ocorreu um erro no servidor.');
-    });
+      this._service.deletar(this.info.id).then((res: any) => {
+        this.deleting = false;
+        this._router.navigate(['/usuario'])
+        this.showSnackBar(res.message);
+      }).catch((res: any) => {
+        this.deleting = false;
+        this.showSnackBar('Ocorreu um erro no servidor.');
+      });
+    }
   }
 
   showSnackBar(message) {

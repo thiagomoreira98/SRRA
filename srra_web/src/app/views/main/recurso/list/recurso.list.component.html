@@ -1,0 +1,179 @@
+<div class="ui-s480">
+    <ui-card class="elevate-on-toolbar">
+        <div class="ui-progress" [class.hide]="!loading">
+            <div class="indeterminate"></div>
+        </div>
+        <ui-toolbar class="flat">
+            <button class="ui-button flat icon" routerLink="/">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="align-right">
+                <button class="ui-button flat icon" uiRipple (click)="filterOpen = !filterOpen">
+                    <i class="material-icons">filter_list</i>
+                </button>
+            </div>
+        </ui-toolbar>
+
+        <div *ngIf="filterOpen" style="overflow: hidden; padding: 0 16px;">
+            <form #searchForm="ngForm" name="searchForm" class="ui-validate on-dirty" [ngClass]="{'open': searchOpen}">
+                <div class="ui-flex-container break-on-s480">
+                    <ui-input-container>
+                        <input #searchFormNome="ngModel" type="text" name="nome" [(ngModel)]="filtro.nome" uiInput [persistPlaceholder]="true" placeholder="Nome"
+                            (keyup)="search(searchFormNome.value)">
+                    </ui-input-container>
+
+                    <ui-input-container>
+                        <input #searchFormCodigoPatrimonio="ngModel" type="text" name="CodigoPatrimonio" [(ngModel)]="filtro.codigoPatrimonio" uiInput
+                            [persistPlaceholder]="true" placeholder="Codigo Patrimonio" (keyup)="search(searchFormCodigoPatrimonio.value)">
+                    </ui-input-container>
+                </div>
+
+                <div class="ui-flex-container break-on-s480">
+                    <ui-input-container>
+                        <ui-select uiInput id="inputTipo" name="tipo" [(ngModel)]="filtro.idTipo" [options]="tipos" value="id" label="nome" (ngModelChange)="selecionar()">
+                        </ui-select>
+                        <label for="inputTipo">Tipo</label>
+                    </ui-input-container>
+
+                    <ui-input-container>
+                        <ui-select uiInput id="inputStatus" name="status" [(ngModel)]="filtro.idStatus" [options]="status" value="id" label="nome"
+                            (ngModelChange)="selecionar()">
+                        </ui-select>
+                        <label for="inputStatus">Status</label>
+                    </ui-input-container>
+                </div>
+            </form>
+        </div>
+
+        <ui-data-table>
+            <tbody>
+                <tr>
+                    <th style="text-align: center;">Status</th>
+                    <th>Nome</th>
+                    <th>Tipo de Recurso</th>
+                    <th class="align-right"></th>
+                </tr>
+
+                <tr id="tr-list" *ngFor="let recurso of recursos" [routerLink]="['/recurso', recurso.id]">
+                    <td style="text-align: center;">
+                        <span class="circle" [title]="recurso.status" [ngStyle]="{'color': recurso.status == 'Disponivel' ? '#00FF33' : recurso.status == 'Inativo' ? 'red' : 'yellow' }"></span>
+                        <!-- <button class="ui-button flat icon" uiRipple [title]="recurso.status" (click)="showDialog($event, recurso, dialogRecurso)">
+                            <i [ngStyle]="{'color': recurso.status == 'Disponivel' ? '#00FF33' : recurso.status == 'Inativo' ? 'red' : 'yellow' }" class="material-icons">bookmark</i>
+                        </button> -->
+                    </td>
+                    <td>{{ recurso.nome }}</td>
+                    <td>{{ recurso.tipo }}</td>
+                    <td class="align-right">
+                        <button class="ui-button flat icon" uiRipple (click)="prepararExcluir($event, recurso)" [uiMenuTrigger]="menuDelete" align="right">
+                            <i style="color: black;" class="material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="!recursos || !recursos.length">
+                    <td style="text-align: center;" colspan="4">Nenhum registro encontrado...</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="align-right">
+                        <div class="ui-button-container align-right">
+                            <span class="pagination">
+                                Página {{ filtro.pagina }} de {{ filtro.totalRegistros ? totalPaginas : 1 }} Registros: {{ totalRegistros }}
+                            </span>
+                            <button class="ui-button flat icon" uiRipple (click)="voltarPagina()" [disabled]="filtro.pagina == 1">
+                                <i class="material-icons">keyboard_arrow_left</i>
+                            </button>
+                            <button class="ui-button flat icon" uiRipple (click)="proximaPagina()" [disabled]="filtro.pagina == totalPaginas || !totalRegistros">
+                                <i class="material-icons">keyboard_arrow_right</i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </ui-data-table>
+    </ui-card>
+
+    <div class="ui-fab-container">
+        <button class="ui-button accent fab" uiRipple routerLink="/recurso/novo">
+            <i class="material-icons">add</i>
+        </button>
+    </div>
+</div>
+
+<ui-menu #menuDelete>
+    <div class="ui-menu-content size-2x">
+        <ui-subheader>Deseja excluir ?</ui-subheader>
+        <div class="ui-menu-item" uiRipple (click)="confirmDelete()">
+            Sim
+        </div>
+        <div class="ui-menu-item" uiRipple>
+            Não
+        </div>
+    </div>
+</ui-menu>
+
+<!-- <ui-dialog #dialogRecurso card-size="600">
+    <form class="ui-validate on-dirty on-submit" #recursoForm="ngForm" (submit)="onSubmit(recursoForm)">
+        <div class="ui-progress" [class.hide]="!saving">
+            <div class="indeterminate"></div>
+        </div>
+
+        <ui-card-title>{{ recursoDialog.nome }}</ui-card-title>
+        <ui-card-content>
+            <div class="ui-flex-container block-on-s480">
+                <ui-input-container>
+                    <ui-select uiInput #fieldStatusDialog="ngModel" id="inputStatusDialog" name="status2" [(ngModel)]="batata" [options]="status"
+                        value="id" label="nome" required>
+                    </ui-select>
+                    <label for="inputStatusDialog">Status</label>
+                    <div class="ui-messages">
+                        <div *ngIf="fieldStatusDialog.errors && fieldStatusDialog.dirty">
+                            <div class="ui-message error" [hidden]="!fieldStatusDialog.pristine && !fieldStatusDialog.errors.required">
+                                Selecione
+                            </div>
+                        </div>
+                    </div>
+                </ui-input-container>
+
+                <ui-input-container>
+                    <ui-option class="primary" *ngFor="let item of status; let i = index;">
+                        <input type="radio" name="item{{i}}" [(ngModel)]="recursoDialog.idStatus" [value]="item.id">
+                        <span>{{ item.nome }}</span>
+                    </ui-option>
+                </ui-input-container>
+
+                <ui-input-container style="max-width: 250px;">
+                    <input type="text" uiInput [(ngModel)]="recursoDialog.dataMotivo" name="data" [uiDatePicker]="dataMotivo" uiMaskDate #date="ngModel"
+                        required>
+                    <label>Data</label>
+                    <div class="icon">
+                        <button type="button" class="ui-button icon flat" [uiDatePickerCaller]="dataMotivo">
+                            <i class="material-icons">today</i>
+                        </button>
+                    </div>
+                </ui-input-container>
+            </div>
+
+            <div class="ui-flex-container block-on-s480">
+                <ui-input-container>
+                    <input id="inputMotivo" uiInput #fieldMotivo="ngModel" type="text" [(ngModel)]="recursoDialog.motivo" name="motivo" autocomplete="off"
+                        required>
+                    <label for="inputMotivo">Motivo</label>
+                    <div class="ui-messages">
+                        <div *ngIf="fieldMotivo.errors && fieldMotivo.dirty">
+                            <div class="ui-message error" [hidden]="!fieldMotivo.pristine && !fieldMotivo.errors.required">
+                                Informe um motivo
+                            </div>
+                        </div>
+                    </div>
+                </ui-input-container>
+            </div>
+        </ui-card-content>
+
+        <div class="ui-button-container cover">
+            <button class="ui-button raised success" uiRipple>SALVAR</button>
+            <button type="button" class="ui-button flat error" uiRipple (click)="dialogRecurso.close()">FECHAR</button>
+        </div>
+    </form>
+</ui-dialog> -->

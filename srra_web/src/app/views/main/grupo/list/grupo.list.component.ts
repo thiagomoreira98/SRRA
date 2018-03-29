@@ -1,8 +1,9 @@
-import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { UiSnackbar, UiToolbarService } from 'ng-smn-ui';
 import { GrupoService } from '../grupo.service';
+import { UserService } from '../../../../core/utils/user/user.service';
 
 @Component({
     selector: 'app-grupo-list',
@@ -15,6 +16,7 @@ export class GrupoListComponent implements OnInit, AfterViewInit, OnDestroy {
     totalPaginas: number;
     totalRegistros: number;
     loading: boolean;
+    deleting: boolean;
     filtro: any;
 
     private searchTerms = new Subject<string>();
@@ -25,7 +27,8 @@ export class GrupoListComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(
         private _toolbar: UiToolbarService,
         private _service: GrupoService,
-        private _route: ActivatedRoute
+        private _route: ActivatedRoute,
+        private changeDetectorRef: ChangeDetectorRef
     ) {
         this.searching = false;
         this.grupos = [];
@@ -63,11 +66,16 @@ export class GrupoListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     getGrupos() {
+        this.loading = true;
+        this.changeDetectorRef.detectChanges();
+
         this._service.selecionar(this.filtro.nome).subscribe((data: any) => {
             this.grupos = data.content.registros;
             this.totalRegistros = data.content.totalRegistros;
             this.totalPaginas = this.calcularTotalPaginas((this.totalRegistros / this.filtro.quantidade).toString());
+            this.loading = false;
         }, (res: any) => {
+            this.loading = false;
             this.showSnackBar('Ocorreu um erro no servidor.');
         });
     }
@@ -79,18 +87,34 @@ export class GrupoListComponent implements OnInit, AfterViewInit, OnDestroy {
         return parseInt(paginas);
     }
 
-    prepararExcluir(event, grupo) {
+    prepararExcluir(event, grupo, dialog) {
         event.stopPropagation();
         this.itemParaDeletar = grupo;
+        console.log(dialog);
+        dialog.show();
     }
 
-    confirmDelete(): any {
-        this._service.deletar(this.itemParaDeletar.id).then((res: any) => {
-            this.showSnackBar(res.message);
-            this.getGrupos();
-        }).catch((res: any) => {
-            this.showSnackBar('Ocorreu um erro no servidor.');
-        });
+    confirmDelete(dialog): any {
+        if (!this.deleting) {
+            this.deleting = true;
+
+            let user = UserService.getUser();
+            if (user.idGrupo == this.itemParaDeletar.id) {
+                this.deleting = false;
+                return this.showSnackBar('Você não pode remover o grupo, pois você pertence a ele.');
+            }
+
+            this._service.deletar(this.itemParaDeletar.id).then((res: any) => {
+                this.deleting = false;
+                this.showSnackBar(res.message);
+                this.getGrupos();
+                dialog.close();
+            }).catch((res: any) => {
+                dialog.close();
+                this.deleting = false;
+                this.showSnackBar('Ocorreu um erro no servidor.');
+            });
+        }
     }
 
     showSnackBar(message) {
@@ -102,7 +126,7 @@ export class GrupoListComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             actionText: 'Fechar',
             duration: 3000
-        })
+        });
     }
 
 }

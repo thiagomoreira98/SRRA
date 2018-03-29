@@ -1,9 +1,9 @@
-SELECT seguranca.excluirFuncao('public', 'selecionarStatusReserva');
-CREATE OR REPLACE FUNCTION public.selecionarStatusReserva()
+SELECT seguranca.excluirFuncao('principal', 'selecionarStatusReserva');
+CREATE OR REPLACE FUNCTION principal.selecionarStatusReserva()
 
     RETURNS TABLE(
-        id public.statusReserva.id%TYPE,
-        nome public.statusReserva.nome%TYPE
+        id principal.statusReserva.id%TYPE,
+        nome principal.statusReserva.nome%TYPE
     ) AS $$
 
     /*
@@ -13,13 +13,13 @@ CREATE OR REPLACE FUNCTION public.selecionarStatusReserva()
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM public.selecionarStatusReserva();
+			SELECT * FROM principal.selecionarStatusReserva();
 	*/
 
     BEGIN
 
         RETURN QUERY
-            SELECT * FROM public.statusReserva;
+            SELECT * FROM principal.statusReserva;
 
     END;
 $$

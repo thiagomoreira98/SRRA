@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-
-import { environment } from '../../../../environments/environment';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { UserService } from '../../../core/utils/user/user.service';
+import { environment } from './../../../../environments/environment';
 
 @Injectable()
 export class RecursoService {
 
   constructor(private http: HttpClient) { }
+
+  prepareHeaders() {
+    return new HttpHeaders({ 'Authentication': UserService.getCookie() });
+  }
 
   selecionar(filtro): any {
     let params = new HttpParams();
@@ -15,32 +19,32 @@ export class RecursoService {
       params = params.append(property, filtro[property]);
     }
 
-    return this.http.get(`${environment.urlApi}/api/recurso`, { params: params });
+    return this.http.get(`${environment.urlApi}/api/recurso`, { params: params, headers: this.prepareHeaders() });
   }
 
   buscar(id: any): any {
-    return this.http.get(`${environment.urlApi}/api/recurso/${id}`);
+    return this.http.get(`${environment.urlApi}/api/recurso/${id}`, { headers: this.prepareHeaders() });
   }
 
   inserir(recurso: any) {
-    return this.http.post(`${environment.urlApi}/api/recurso`, recurso).toPromise();
+    return this.http.post(`${environment.urlApi}/api/recurso`, recurso, { headers: this.prepareHeaders() }).toPromise();
   }
 
   alterar(recurso: any) {
-    return this.http.put(`${environment.urlApi}/api/recurso/${recurso.id}`, recurso).toPromise();
+    return this.http.put(`${environment.urlApi}/api/recurso/${recurso.id}`, recurso, { headers: this.prepareHeaders() }).toPromise();
   }
 
   deletar(id: any) {
-    return this.http.delete(`${environment.urlApi}/api/recurso/${id}`).toPromise();
+    return this.http.delete(`${environment.urlApi}/api/recurso/${id}`, { headers: this.prepareHeaders() }).toPromise();
   }
 
   //Tipo Recurso
-  selecionarTipoRecurso() {
-    return this.http.get(`${environment.urlApi}/api/tipo-recurso`);  
+  selecionarTipos() {
+    return this.http.get(`${environment.urlApi}/api/tipo-recurso`, { headers: this.prepareHeaders() });
   }
 
   //Status Recurso
-  selecionarStatusRecurso() {
-    return this.http.get(`${environment.urlApi}/api/status-recurso`);  
+  selecionarStatus() {
+    return this.http.get(`${environment.urlApi}/api/status-recurso`, { headers: this.prepareHeaders() });
   }
 }

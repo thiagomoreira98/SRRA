@@ -6,6 +6,7 @@ import { UserService } from "../../core/utils/user/user.service";
 import { HomeModule } from "./home/home.module";
 import { UsuarioModule } from './usuario/usuario.module';
 import { GrupoModule } from './grupo/grupo.module';
+import { RecursoModule } from './recurso/recurso.module';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import { GrupoModule } from './grupo/grupo.module';
         SharedModule,
         HomeModule,
         UsuarioModule,
-        GrupoModule
+        GrupoModule,
+        RecursoModule
     ],
     exports: [],
     declarations: [MainComponent],

@@ -9,8 +9,7 @@
 					<i class="material-icons">arrow_back</i>
 				</button>
 				<div class="align-right" *ngIf="!addingNew">
-					<button class="ui-button flat icon" type="button" uiRipple [disabled]="saving || deleting || loading" [uiMenuTrigger]="menuDelete"
-					 align="right">
+					<button class="ui-button flat icon" type="button" uiRipple [disabled]="saving || deleting || loading" (click)="grupoDialog.show(grupoDialog)">
 						<i class="material-icons" *ngIf="!deleting">delete</i>
 						<ui-progress-radial class="indeterminate" *ngIf="deleting"></ui-progress-radial>
 					</button>
@@ -35,24 +34,30 @@
 						</div>
 					</ui-input-container>
 				</div>
-
-				<br/>
-				<span>FUNCIONALIDADES</span>
-				<br/>
-				<br/>
-
-				<div class="ui-flex-container break-on-s480">
-					<ui-option-container class="v-space-4 b-space-16">
-						<ui-option style="margin-bottom: 15px;" class="primary" *ngFor="let func of funcionalidades; let i = index;">
-							<input type="checkbox" [(ngModel)]="func.active" name="func{{i}}">
-							<span>{{ func.nome }}</span>
-						</ui-option>
-					</ui-option-container>
-				</div>
 			</ui-card-content>
+
+			<span style="padding: 16px; user-select: none;">FUNCIONALIDADES</span>
+			<br/>
+
+			<ui-list [list]="[]">
+				<div *ngFor="let item of funcionalidades; let i = index;" style="background-color: rgba(0, 0, 0, 0.025)">
+					<div class="ui-list-item" uiRipple (click)="item.active = !item.active">
+						<div class="lines">
+							<div class="primary">
+								{{ item.nome }}
+							</div>
+						</div>
+						<div class="action">
+							<ui-option class="primary" style="pointer-events: none;">
+								<input type="checkbox" name="active{{i}}" [(ngModel)]="item.active">
+							</ui-option>
+						</div>
+					</div>
+				</div>
+			</ui-list>
 		</ui-card>
 		<div class="ui-fab-container">
-			<button class="ui-button success fab" uiRipple [class.hide]="deleting || loading">
+			<button class="ui-button accent fab" uiRipple [class.hide]="deleting || loading">
 				<ui-progress-radial class="indeterminate" *ngIf="saving"></ui-progress-radial>
 				<i class="material-icons">check</i>
 			</button>
@@ -60,14 +65,19 @@
 	</form>
 </div>
 
-<ui-menu #menuDelete>
-	<div class="ui-menu-content size-2x">
-		<ui-subheader>Deseja excluir?</ui-subheader>
-		<div class="ui-menu-item" uiRipple (click)="confirmDelete()">
-			Sim
-		</div>
-		<div class="ui-menu-item" uiRipple>
-			Não
-		</div>
+<ui-dialog #grupoDialog card-size="400">
+	<div class="ui-progress" [class.hide]="!deleting">
+		<div class="indeterminate"></div>
 	</div>
-</ui-menu>
+
+	<ui-card-title style="font-size: 21px;">Deseja excluir o grupo {{ info.nome }} ?</ui-card-title>
+	<ui-card-content>
+		<span>
+			Ao remover o grupo todos os usuarios relacionados a esse grupo também serão removidos.
+		</span>
+	</ui-card-content>
+	<div class="ui-button-container cover">
+		<button class="ui-button raised error" uiRipple (click)="confirmDelete(grupoDialog)">Sim</button>
+		<button class="ui-button raised primary" uiRipple (click)="grupoDialog.close()">Não</button>
+	</div>
+</ui-dialog>

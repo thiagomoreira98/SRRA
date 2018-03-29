@@ -1,6 +1,7 @@
 const repository = require('./usuarioRepository'),
     scope = require('./usuarioScope'),
-    crypto = require('../../helpers/encrypt');
+    crypto = require('../../helpers/encrypt'),
+    moment = require('moment');
 
 module.exports = {
     selecionar,
@@ -26,7 +27,8 @@ async function inserir(req, res) {
         return res.error(406, req.errors.errorMessages[0]);
 
     req.body.senha = await crypto.encrypt(req.body.senha);
-    await repository.inserir(req.body);
+    req.body.dataCadastro = moment().locale('pt-br').format();
+    await repository.inserir(req.body, req.user.id);
     res.ok({ message: 'Salvo com Sucesso.' });
 }
 
@@ -35,7 +37,8 @@ async function alterar(req, res) {
         return res.error(406, req.errors.errorMessages[0]);
 
     req.body.senha = await crypto.encrypt(req.body.senha);
-    await repository.alterar(req.params.id, req.body);
+    req.body.dataAlteracao = moment().locale('pt-br').format();
+    await repository.alterar(req.params.id, req.body, req.user.id);
     res.ok({ message: 'Salvo com Sucesso.' });
 }
 

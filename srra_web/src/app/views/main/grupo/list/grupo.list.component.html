@@ -27,21 +27,22 @@
                         {{ grupo.nome }}
                     </td>
                     <td class="align-right">
-                        <button class="ui-button flat icon" uiRipple (click)="prepararExcluir($event, grupo)" [uiMenuTrigger]="menuDelete" align="right">
-                            <i class="material-icons">delete</i>
+                        <button class="ui-button flat icon" uiRipple (click)="prepararExcluir($event, grupo, grupoDialog)">
+                            <i class="material-icons" style="color: black;">delete</i>
                         </button>
                     </td>
                 </tr>
                 <tr *ngIf="!grupos || !grupos.length">
-                    <td colspan="4" style="text-align: center">{{'Nenhum grupo encontrado'}}</td>
+                    <td colspan="2" style="text-align: center">{{'Nenhum grupo encontrado'}}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4" class="align-right">
+                    <td colspan="2" class="align-right">
                         <div class="ui-button-container align-right">
                             <span class="pagination">
-                                Pagina: {{ filtro.pagina }} de {{ totalPaginas ? totalPaginas : 1 }} -- Registros: {{ totalRegistros ? totalRegistros : 0 }}
+                                Pagina: {{ filtro.pagina }} de {{ totalPaginas ? totalPaginas : 1 }} -- Registros: {{ totalRegistros ? totalRegistros : 0
+                                }}
                             </span>
                             <button class="ui-button flat icon" uiRipple [disabled]="filtro.pagina < 2" (click)="filtro.pagina = filtro.pagina - 1; getgrupos();">
                                 <i class="material-icons">keyboard_arrow_left</i>
@@ -63,14 +64,19 @@
     </div>
 </div>
 
-<ui-menu #menuDelete>
-    <div class="ui-menu-content size-2x">
-        <ui-subheader>Deseja excluir?</ui-subheader>
-        <div class="ui-menu-item" uiRipple (click)="confirmDelete()">
-            Sim
-        </div>
-        <div class="ui-menu-item" uiRipple>
-            Não
-        </div>
+<ui-dialog #grupoDialog card-size="400">
+    <div class="ui-progress" [class.hide]="!deleting">
+        <div class="indeterminate"></div>
     </div>
-</ui-menu>
+
+    <ui-card-title style="font-size: 21px;">Deseja excluir o grupo {{ itemParaDeletar.nome }} ?</ui-card-title>
+    <ui-card-content>
+        <span>
+            Ao remover o grupo todos os usuarios relacionados a esse grupo também serão removidos.
+        </span>
+    </ui-card-content>
+    <div class="ui-button-container cover">
+        <button class="ui-button raised error" uiRipple (click)="confirmDelete(grupoDialog)">Sim</button>
+        <button class="ui-button raised primary" uiRipple (click)="grupoDialog.close()">Não</button>
+    </div>
+</ui-dialog>

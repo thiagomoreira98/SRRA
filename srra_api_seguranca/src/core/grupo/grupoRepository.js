@@ -33,18 +33,22 @@ async function buscar(id) {
         .asyncExecuteOne(procedures.buscar);
 }
 
-async function inserir(grupo) {
+async function inserir(grupo, idUsuario) {
     await pg.request()
         .input('pNome', grupo.nome)
         .input('pFuncionalidades', JSON.stringify(grupo.funcionalidades))
+        .input('pDataCadastro', grupo.dataCadastro)
+        .input('pIdUsuarioCadastro', idUsuario)
         .asyncExecute(procedures.inserir);
 }
 
-async function alterar(id, grupo) {
+async function alterar(id, grupo, idUsuario) {
     await pg.request()
         .input('pId', id)
         .input('pNome', grupo.nome)
         .input('pFuncionalidades', JSON.stringify(grupo.funcionalidades))
+        .input('pDataAlteracao', grupo.dataAlteracao)
+        .input('pIdUsuarioAlteracao', idUsuario)
         .asyncExecute(procedures.alterar);
 }
 

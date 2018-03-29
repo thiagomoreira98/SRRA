@@ -1,7 +1,7 @@
 const config = require('../../../config/config'),
     asyncRequest = require('request-promise');
 
-async function autenticar(user, token) {
+async function autenticar(token) {
 
     let options = {
         url: `${config.seguranca.host}:${config.seguranca.port}/api/auth/refazer-login`,
@@ -13,10 +13,11 @@ async function autenticar(user, token) {
     }
 
     try {
-        return await asyncRequest(options);
+        let retorno = await asyncRequest(options);
+        return retorno.content;
     }
     catch(ex) {
-        throw ex;
+        throw ex.error;
     }
 }
 

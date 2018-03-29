@@ -1,0 +1,139 @@
+<div class="ui-s480">
+	<form class="ui-validate on-dirty on-submit" #recursoForm="ngForm" (submit)="onSubmit(recursoForm)">
+		<ui-card class="elevate-on-toolbar">
+			<div class="ui-progress" [class.hide]="!loading">
+				<div class="indeterminate"></div>
+			</div>
+
+			<ui-toolbar class="flat">
+				<button type="button" class="ui-button flat icon" routerLink="/recurso">
+					<i class="material-icons">arrow_back</i>
+				</button>
+
+				<div class="align-right" *ngIf="!addingNew">
+					<button class="ui-button flat icon" type="button" uiRipple [disabled]="saving || deleting || loading" [uiMenuTrigger]="menuDelete"
+					 align="right">
+						<i class="material-icons" *ngIf="!deleting">delete</i>
+						<ui-progress-radial class="indeterminate" *ngIf="deleting"></ui-progress-radial>
+					</button>
+				</div>
+			</ui-toolbar>
+
+			<ui-card-content>
+				<div class="ui-flex-container block-on-s480">
+					<ui-input-container>
+						<input id="inputCodigoPatrimonio" uiInput #fieldCodigoPatrimonio="ngModel" type="number" [(ngModel)]="info.codigoPatrimonio"
+						 name="codigoPatrimonio" autocomplete="off">
+						<label for="inputCodigoPatrimonio">Código Patrimônio</label>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input id="inputNome" uiInput #fieldNome="ngModel" type="text" [(ngModel)]="info.nome" name="nome" autocomplete="off" required>
+						<label for="inputNome">Nome</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldNome.errors && fieldNome.dirty">
+								<div class="ui-message error" [hidden]="!fieldNome.pristine && !fieldNome.errors.required">
+									Informe um nome
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container block-on-s480">
+					<ui-input-container>
+						<ui-select uiInput #fieldTipo="ngModel" id="inputTipo" name="tipo" [(ngModel)]="info.idTipo" [options]="tipos" value="id"
+						 label="nome" required>
+						</ui-select>
+						<label for="inputTipo">Tipo</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldTipo.errors && fieldTipo.dirty">
+								<div class="ui-message error" [hidden]="!fieldTipo.pristine && !fieldTipo.errors.required">
+									Selecione
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+
+					<ui-input-container>
+						<ui-select uiInput #fieldStatus="ngModel" id="inputStatus" name="status" [(ngModel)]="info.idStatus" [options]="status" value="id"
+						 label="nome" (ngModelChange)="verifyStatus()" required>
+						</ui-select>
+						<label for="inputStatus">Status</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldStatus.errors && fieldStatus.dirty">
+								<div class="ui-message error" [hidden]="!fieldStatus.pristine && !fieldStatus.errors.required">
+									Selecione
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container block-on-s480">
+					<ui-input-container>
+						<input id="inputDescricao" uiInput #fieldDescricao="ngModel" type="text" [(ngModel)]="info.descricao" name="descricao" autocomplete="off"
+						 required>
+						<label for="inputDescricao">Descrição</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldDescricao.errors && fieldDescricao.dirty">
+								<div class="ui-message error" [hidden]="!fieldDescricao.pristine && !fieldDescricao.errors.required">
+									Informe uma descrição
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div *ngIf="info.idStatus != idStatusDisponivel && info.idStatus != null">
+					<div class="ui-flex-container block-on-s480">
+						<ui-input-container>
+							<input id="inputMotivo" uiInput #fieldMotivo="ngModel" type="text" [(ngModel)]="info.motivo" name="motivo" autocomplete="off"
+							 required>
+							<label for="inputMotivo">Motivo</label>
+							<div class="ui-messages">
+								<div *ngIf="fieldMotivo.errors && fieldMotivo.dirty">
+									<div class="ui-message error" [hidden]="!fieldMotivo.pristine && !fieldMotivo.errors.required">
+										Informe um motivo
+									</div>
+								</div>
+							</div>
+						</ui-input-container>
+					</div>
+
+					<div class="ui-flex-container block-on-s480">
+						<ui-input-container style="max-width: 200px;">
+							<input type="text" uiInput [(ngModel)]="info.dataMotivo" name="data" [uiDatePicker]="dataMotivo" uiMaskDate #date="ngModel"
+							 required>
+							<label>Data</label>
+							<div class="icon">
+								<button type="button" class="ui-button icon flat" [uiDatePickerCaller]="dataMotivo">
+									<i class="material-icons">today</i>
+								</button>
+							</div>
+						</ui-input-container>
+					</div>
+				</div>
+			</ui-card-content>
+		</ui-card>
+
+		<div class="ui-fab-container">
+			<button class="ui-button accent fab" uiRipple [class.hide]="deleting || loading">
+				<ui-progress-radial class="indeterminate" *ngIf="saving"></ui-progress-radial>
+				<i class="material-icons">check</i>
+			</button>
+		</div>
+	</form>
+</div>
+
+<ui-menu #menuDelete>
+	<div class="ui-menu-content size-2x">
+		<ui-subheader>Deseja excluir?</ui-subheader>
+		<div class="ui-menu-item" uiRipple (click)="confirmDelete()">
+			Sim
+		</div>
+		<div class="ui-menu-item" uiRipple>
+			Não
+		</div>
+	</div>
+</ui-menu>

@@ -1,4 +1,4 @@
-<div class="ui-s960">
+<div class="ui-s480">
     <ui-card class="elevate-on-toolbar">
         <div class="ui-progress" [class.hide]="!loading">
             <div class="indeterminate"></div>
@@ -8,7 +8,7 @@
                 <i class="material-icons">arrow_back</i>
             </button>
             <div class="align-right">
-                <button class="ui-button flat icon" uiRipple (click)="filterOpen = !filterOpen">
+                <button class="ui-button flat icon" uiRipple title="Filtrar" (click)="filterOpen = !filterOpen">
                     <i class="material-icons">filter_list</i>
                 </button>
             </div>
@@ -49,7 +49,7 @@
                 <ui-input-container>
                     <input id="inputEmail" #searchEmailUsuario="ngModel" type="text" [(ngModel)]="filtro.email" uiInput name="email"
                         required autocomplete="off" (keyup)="search(searchEmailUsuario.value)">
-                    <label for="inputEmail">Matricula</label>
+                    <label for="inputEmail">E-mail</label>
                 </ui-input-container>
             </div>
         </div>
@@ -57,35 +57,27 @@
         <ui-data-table class="responsive">
             <tbody>
                 <tr>
-                    <th>Matricula</th>
                     <th>Nome</th>
                     <th>Grupo</th>
                     <th class="align-right"></th>
                 </tr>
                 <tr *ngFor="let usuario of usuarios; let index = index" [routerLink]="['/usuario', usuario.id]">
 
-                    <td data-title="Matricula">
-                        {{ usuario.matricula }}
-                    </td>
-                    <td data-title="Nome">
-                        {{ usuario.nome }}
-                    </td>
-                    <td data-title="Grupo">
-                        {{ usuario.grupo }}
-                    </td>
+                    <td data-title="Nome">{{ usuario.nome }}</td>
+                    <td data-title="Grupo">{{ usuario.grupo }}</td>
                     <td class="align-right">
                         <button class="ui-button flat icon" uiRipple (click)="prepararExcluir($event, usuario)" [uiMenuTrigger]="menuDelete" align="right">
-                            <i class="material-icons">delete</i>
+                            <i class="material-icons" style="color: black;">delete</i>
                         </button>
                     </td>
                 </tr>
                 <tr *ngIf="!usuarios || !usuarios.length">
-                    <td colspan="4" style="text-align: center">{{'Nenhum usuario encontrado'}}</td>
+                    <td colspan="3" style="text-align: center">{{'Nenhum usuario encontrado'}}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4" class="align-right">
+                    <td colspan="3" class="align-right">
                         <div class="ui-button-container align-right">
                             <span class="pagination">
                                 Pagina: {{ filtro.pagina }} de {{ totalPaginas ? totalPaginas : 1 }} -- Registros: {{ totalRegistros ? totalRegistros : 0 }}
@@ -104,7 +96,7 @@
     </ui-card>
 
     <div class="ui-fab-container">
-        <button class="ui-button accent fab" uiRipple routerLink="/usuario/novo">
+        <button class="ui-button accent fab" uiRipple title="Adicionar Usuario" routerLink="/usuario/novo">
             <i class="material-icons">add</i>
         </button>
     </div>
@@ -112,7 +104,7 @@
 
 <ui-menu #menuDelete>
     <div class="ui-menu-content size-2x">
-        <ui-subheader>Deseja excluir?</ui-subheader>
+        <ui-subheader>Deseja excluir ?</ui-subheader>
         <div class="ui-menu-item" uiRipple (click)="confirmDelete()">
             Sim
         </div>

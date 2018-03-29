@@ -1,36 +1,20 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatSelectModule, MatCardModule } from '@angular/material';
-
+import { SharedModule } from '../../../shared.module';
 import { SMNUIModule } from 'ng-smn-ui';
-import { RecursoFormComponent } from './recurso-form/recurso-form.component';
-import { RecursoGridComponent } from './recurso-grid/recurso-grid.component';
-import { RecursoFiltroComponent } from './recurso-filtro/recurso-filtro.component';
-
+import { RecursoComponent } from './recurso.component';
+import { RecursoInfoComponent } from './info/recurso.info.component';
+import { RecursoListComponent } from './list/recurso.list.component';
 import { RecursoService } from './recurso.service';
 
 @NgModule({
   declarations: [
-    RecursoFormComponent,
-    RecursoGridComponent,
-    RecursoFiltroComponent,
+    RecursoListComponent,
+    RecursoInfoComponent,
+    RecursoComponent,
   ],
   imports: [
     SMNUIModule,
-    HttpClientModule,
-    CommonModule,
-    SMNUIModule,
-    HttpClientModule,
-    FormsModule,
-    MatButtonModule,
-    MatSnackBarModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatSelectModule,
-    MatCardModule
+    SharedModule
   ],
   providers: [ RecursoService ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

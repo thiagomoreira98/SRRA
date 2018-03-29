@@ -1,11 +1,11 @@
-SELECT seguranca.excluirFuncao('public', 'selecionarRecurso');
-CREATE OR REPLACE FUNCTION public.selecionarRecurso(
-    pNome public.recurso.nome%TYPE,
-    pCodigoPatrimonio public.recurso.codigoPatrimonio%TYPE,
-    pIdStatusRecurso public.recurso.idStatusRecurso%TYPE,
-    pIdTipoRecurso public.recurso.idTipoRecurso%TYPE,
-    pPagina INTEGER,
-    pQuantidade INTEGER
+SELECT seguranca.excluirFuncao('principal', 'selecionarRecurso');
+CREATE OR REPLACE FUNCTION principal.selecionarRecurso(
+    pNome principal.recurso.nome%TYPE,
+    pCodigoPatrimonio principal.recurso.codigoPatrimonio%TYPE,
+    pIdStatusRecurso VARCHAR,
+    pIdTipoRecurso VARCHAR,
+    pPagina SMALLINT,
+    pQuantidade SMALLINT
 )
 
     RETURNS TABLE(
@@ -20,29 +20,33 @@ CREATE OR REPLACE FUNCTION public.selecionarRecurso(
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM public.selecionarRecurso(null, null, null, null, '1', '10');
+			SELECT * FROM principal.selecionarRecurso(null, null, null, null, '1', '10');
 	*/
 
     DECLARE vRegistros JSON;
 		vTotalRegistros INTEGER;
+        vIdStatusRecurso INTEGER;
+        vIdTipoRecurso INTEGER;
 
     BEGIN
 
+        vIdStatusRecurso := seguranca.descriptografar(pIdStatusRecurso)::INTEGER;
+        vIdTipoRecurso := seguranca.descriptografar(pIdTipoRecurso)::INTEGER;
+
         vRegistros := json_agg(regs) FROM (
-            SELECT  r.id,
-                    r.codigoPatrimonio AS "codigoPatrimonio",
+            SELECT  seguranca.criptografar(r.id) as "id",
                     r.nome,
                     tr.nome AS "tipo",
                     sr.nome AS "status"
-            FROM public.recurso r
-                INNER JOIN public.statusRecurso sr
+            FROM principal.recurso r
+                INNER JOIN principal.statusRecurso sr
                     ON r.idStatusRecurso = sr.id
-                INNER JOIN public.tipoRecurso tr
+                INNER JOIN principal.tipoRecurso tr
                     ON r.idTipoRecurso = tr.id
             WHERE (pNome IS NULL OR r.nome ILIKE '%' || pNome || '%')
                 AND (pCodigoPatrimonio IS NULL OR r.codigoPatrimonio = pCodigoPatrimonio)
-		AND (pIdTipoRecurso IS NULL OR tr.id = pIdTipoRecurso)
-                AND (pIdStatusRecurso IS NULL OR sr.id = pIdStatusRecurso)
+		AND (pIdTipoRecurso IS NULL OR tr.id = vIdTipoRecurso)
+                AND (pIdStatusRecurso IS NULL OR sr.id = vIdStatusRecurso)
             
             ORDER BY r.nome
             LIMIT pQuantidade OFFSET ((pPagina - 1) * pQuantidade)
@@ -50,15 +54,15 @@ CREATE OR REPLACE FUNCTION public.selecionarRecurso(
 
         vTotalRegistros := (
 			SELECT COUNT(*) 
-            FROM public.recurso r
-                INNER JOIN public.statusRecurso sr
+            FROM principal.recurso r
+                INNER JOIN principal.statusRecurso sr
                     ON r.idStatusRecurso = sr.id
-                INNER JOIN public.tipoRecurso tr
+                INNER JOIN principal.tipoRecurso tr
                     ON r.idTipoRecurso = tr.id
             WHERE (pNome IS NULL OR r.nome ILIKE '%' || pNome || '%')
                 AND (pCodigoPatrimonio IS NULL OR r.codigoPatrimonio = pCodigoPatrimonio)
-		AND (pIdTipoRecurso IS NULL OR tr.id = pIdTipoRecurso)
-                AND (pIdStatusRecurso IS NULL OR sr.id = pIdStatusRecurso)
+		AND (pIdTipoRecurso IS NULL OR tr.id = vIdTipoRecurso)
+                AND (pIdStatusRecurso IS NULL OR sr.id = vIdStatusRecurso)
 		);
 
         RETURN QUERY
@@ -71,20 +75,20 @@ $$
 LANGUAGE plpgsql;
 
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'buscarRecurso');
-CREATE OR REPLACE FUNCTION public.buscarRecurso(
-    pId public.recurso.id%TYPE
+SELECT seguranca.excluirFuncao('principal', 'buscarRecurso');
+CREATE OR REPLACE FUNCTION principal.buscarRecurso(
+    pId VARCHAR
 )
 
     RETURNS TABLE(
-        "id" public.recurso.id%TYPE,
-        "codigoPatrimonio" public.recurso.codigoPatrimonio%TYPE,
-        "nome" public.recurso.nome%TYPE,
-        "descricao" public.recurso.descricao%TYPE,
-        "status" public.recurso.idStatusRecurso%TYPE,
-        "tipo" public.recurso.idTipoRecurso%TYPE,
-        "dataMotivo" public.recurso.dataMotivo%TYPE,
-        "motivo" public.recurso.motivo%TYPE
+        "id" VARCHAR,
+        "codigoPatrimonio" principal.recurso.codigoPatrimonio%TYPE,
+        "nome" principal.recurso.nome%TYPE,
+        "descricao" principal.recurso.descricao%TYPE,
+        "idStatus" VARCHAR,
+        "idTipo" VARCHAR,
+        "dataMotivo" principal.recurso.dataMotivo%TYPE,
+        "motivo" principal.recurso.motivo%TYPE
     )AS $$
 
     /*
@@ -94,38 +98,44 @@ CREATE OR REPLACE FUNCTION public.buscarRecurso(
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM public.buscarRecurso('1');
+			SELECT * FROM principal.buscarRecurso('1');
 	*/
+
+    DECLARE vId INTEGER;
 
     BEGIN
 
+        vId := seguranca.descriptografar(pId)::INTEGER;
+
         RETURN QUERY
 
-			SELECT  r.id,
-                    r.codigoPatrimonio,
+			SELECT  seguranca.criptografar(r.id) as "id",
+                    r.codigoPatrimonio as "codigoPatrimonio",
                     r.nome,
                     r.descricao,
-                    r.idStatusRecurso,
-                    r.idTipoRecurso,
-                    r.dataMotivo,
+                    seguranca.criptografar(r.idStatusRecurso) as "idStatus",
+                    seguranca.criptografar(r.idTipoRecurso) as "idTipo",
+                    r.dataMotivo as "dataMotivo",
                     r.motivo
-            FROM public.recurso r
-            WHERE r.id = pId;
+            FROM principal.recurso r
+            WHERE r.id = vId;
 
     END;
 $$
 LANGUAGE plpgsql;
 
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'inserirRecurso');
-CREATE OR REPLACE FUNCTION public.inserirRecurso(
-    pCodigoPatrimonio public.recurso.codigoPatrimonio%TYPE,
-    pNome public.recurso.nome%TYPE,
-    pDescricao public.recurso.descricao%TYPE,
-    pIdStatusRecurso public.recurso.idStatusRecurso%TYPE,
-    pIdTipoRecurso public.recurso.idTipoRecurso%TYPE,
-    pMotivo public.recurso.motivo%TYPE,
-    pDataMotivo public.recurso.dataMotivo%TYPE
+SELECT seguranca.excluirFuncao('principal', 'inserirRecurso');
+CREATE OR REPLACE FUNCTION principal.inserirRecurso(
+    pCodigoPatrimonio principal.recurso.codigoPatrimonio%TYPE,
+    pNome principal.recurso.nome%TYPE,
+    pDescricao principal.recurso.descricao%TYPE,
+    pIdStatusRecurso VARCHAR,
+    pIdTipoRecurso VARCHAR,
+    pMotivo principal.recurso.motivo%TYPE,
+    pDataMotivo principal.recurso.dataMotivo%TYPE,
+    pIdUsuarioCadastro VARCHAR,
+    pDataCadastro TIMESTAMP WITHOUT TIME ZONE
 )
 
     RETURNS VOID AS $$
@@ -137,44 +147,58 @@ CREATE OR REPLACE FUNCTION public.inserirRecurso(
 		Autor.............: Thiago Moreira
 		Data..............: 07/01/2018
 		Ex................: 
-			SELECT * FROM public.inserirRecurso(1, "recurso 1", "não contem extras", 1, 2, null, null);
+			SELECT * FROM principal.inserirRecurso(1, "recurso 1", "não contem extras", 1, 2, null, null);
 	*/
+    DECLARE vIdStatusRecurso INTEGER;
+        vIdTipoRecurso INTEGER;
+        vIdUsuarioCadastro INTEGER;
 
     BEGIN
 
-        INSERT INTO public.recurso (
+        vIdStatusRecurso := seguranca.descriptografar(pIdStatusRecurso)::INTEGER;
+        vIdTipoRecurso := seguranca.descriptografar(pIdTipoRecurso)::INTEGER;
+        vIdUsuarioCadastro := seguranca.descriptografar(pIdUsuarioCadastro)::INTEGER;
+
+        INSERT INTO principal.recurso (
             codigoPatrimonio,
             nome,
             descricao,
             idStatusRecurso,
             idTipoRecurso,
             motivo,
-            dataMotivo
+            dataMotivo,
+            idUsuarioCadastro,
+            dataCadastro
         )
         VALUES (
             pCodigoPatrimonio,
             pNome,
             pDescricao,
-            pIdStatusRecurso,
-            pIdTipoRecurso,
+            vIdStatusRecurso,
+            vIdTipoRecurso,
             pMotivo,
-            pDataMotivo
+            pDataMotivo,
+            vIdUsuarioCadastro,
+            pDataCadastro
         );
 
     END;
 $$
 LANGUAGE plpgsql;
+
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'alterarRecurso');
-CREATE OR REPLACE FUNCTION public.alterarRecurso(
-    pId public.recurso.id%TYPE,
-    pCodigoPatrimonio public.recurso.codigoPatrimonio%TYPE,
-    pNome public.recurso.nome%TYPE,
-    pDescricao public.recurso.descricao%TYPE,
-    pIdStatusRecurso public.recurso.idStatusRecurso%TYPE,
-    pIdTipoRecurso public.recurso.idTipoRecurso%TYPE,
-    pMotivo public.recurso.motivo%TYPE,
-    pDataMotivo public.recurso.dataMotivo%TYPE
+SELECT seguranca.excluirFuncao('principal', 'alterarRecurso');
+CREATE OR REPLACE FUNCTION principal.alterarRecurso(
+    pId VARCHAR,
+    pCodigoPatrimonio principal.recurso.codigoPatrimonio%TYPE,
+    pNome principal.recurso.nome%TYPE,
+    pDescricao principal.recurso.descricao%TYPE,
+    pIdStatusRecurso VARCHAR,
+    pIdTipoRecurso VARCHAR,
+    pMotivo principal.recurso.motivo%TYPE,
+    pDataMotivo principal.recurso.dataMotivo%TYPE,
+    pIdUsuarioAlteracao VARCHAR,
+    pDataAlteracao TIMESTAMP WITHOUT TIME ZONE
 )
 
     RETURNS VOID AS $$
@@ -186,28 +210,40 @@ CREATE OR REPLACE FUNCTION public.alterarRecurso(
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM public.alterarRecurso(1, "recurso alterar 1", "sofreu alteração", 1, 2, null, null);
+			SELECT * FROM principal.alterarRecurso(1, "recurso alterar 1", "sofreu alteração", 1, 2, null, null);
 	*/
+    DECLARE vId INTEGER; 
+        vIdStatusRecurso INTEGER;
+        vIdTipoRecurso INTEGER;
+        vIdUsuarioAlteracao INTEGER;
 
     BEGIN
 
-        UPDATE public.recurso SET
+        vId := seguranca.descriptografar(pId)::INTEGER;
+        vIdStatusRecurso := seguranca.descriptografar(pIdStatusRecurso)::INTEGER;
+        vIdTipoRecurso := seguranca.descriptografar(pIdTipoRecurso)::INTEGER;
+        vIdUsuarioAlteracao := seguranca.descriptografar(pIdUsuarioAlteracao)::INTEGER;
+
+        UPDATE principal.recurso SET
             codigoPatrimonio = pCodigoPatrimonio,
             nome = pNome,
             descricao = pDescricao,
-            idStatusRecurso = pIdStatusRecurso,
-            idTipoRecurso = pIdTipoRecurso,
+            idStatusRecurso = vIdStatusRecurso,
+            idTipoRecurso = vIdTipoRecurso,
             motivo = pMotivo,
-            dataMotivo = pDataMotivo
-        WHERE id = pId;
+            dataMotivo = pDataMotivo,
+            idUsuarioAlteracao = vIdUsuarioAlteracao,
+            dataAlteracao = pDataAlteracao
+        WHERE id = vId;
 
     END;
 $$
 LANGUAGE plpgsql;
+
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'deletarRecurso');
-CREATE OR REPLACE FUNCTION public.deletarRecurso(
-    pId public.recurso.id%TYPE
+SELECT seguranca.excluirFuncao('principal', 'deletarRecurso');
+CREATE OR REPLACE FUNCTION principal.deletarRecurso(
+    pId VARCHAR
 )
 
     RETURNS VOID AS $$
@@ -219,14 +255,75 @@ CREATE OR REPLACE FUNCTION public.deletarRecurso(
 		Autor.............: Thiago Moreira
 		Data..............: 06/01/2018
 		Ex................: 
-			SELECT * FROM public.deletarRecurso('1');
+			SELECT * FROM principal.deletarRecurso('1');
 	*/
+
+    DECLARE vId INTEGER;
 
     BEGIN
 
-        DELETE FROM public.recurso WHERE id = pId;
+        vId := seguranca.descriptografar(pId)::INTEGER;
+        DELETE FROM principal.recurso WHERE id = vId;
 
     END;
 $$
 LANGUAGE plpgsql;
 -----------------------------------------------------------------------------------------------------------
+SELECT seguranca.excluirFuncao('principal', 'selecionarStatusRecurso');
+CREATE OR REPLACE FUNCTION principal.selecionarStatusRecurso()
+
+    RETURNS TABLE(
+        id VARCHAR,
+        nome principal.statusRecurso.nome%TYPE
+    ) AS $$
+
+    /*
+		Documentação
+		Arquivo Fonte.....: funcao.sql
+		Objetivo..........: Selecionar status dos recursos
+		Autor.............: Thiago Moreira
+		Data..............: 06/01/2018
+		Ex................: 
+			SELECT * FROM principal.selecionarStatusRecurso();
+	*/
+
+    BEGIN
+
+        RETURN QUERY
+            SELECT seguranca.criptografar(sr.id) as "id",
+                    sr.nome 
+            FROM principal.statusRecurso sr;
+
+    END;
+$$
+LANGUAGE plpgsql;
+
+-----------------------------------------------------------------------------------------------------------
+SELECT seguranca.excluirFuncao('principal', 'selecionarTipoRecurso');
+CREATE OR REPLACE FUNCTION principal.selecionarTipoRecurso()
+
+    RETURNS TABLE(
+        id VARCHAR,
+        nome principal.tipoRecurso.nome%TYPE
+    ) AS $$
+
+    /*
+		Documentação
+		Arquivo Fonte.....: tipoRecurso.sql
+		Objetivo..........: Selecionar tipos de recurso
+		Autor.............: Thiago Moreira
+		Data..............: 06/01/2018
+		Ex................: 
+			SELECT * FROM principal.selecionarTipoRecurso();
+	*/
+
+    BEGIN
+
+        RETURN QUERY
+            SELECT seguranca.criptografar(tr.id) as "id",
+                    tr.nome
+            FROM principal.tipoRecurso tr;
+
+    END;
+$$
+LANGUAGE plpgsql;

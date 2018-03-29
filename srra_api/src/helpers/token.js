@@ -15,11 +15,6 @@ module.exports = async (req) => {
         senha: token[3]
     }
 
-    let retorno = await auth(req.headers.authentication);
-
-    req.user = retorno;
-    req.user.id = retorno.usuario.id;
-    req.user.idGrupo = retorno.usuario.idGrupo;
-    req.user.nome = retorno.usuario.nome;
+    req.user = await auth(req.headers.authentication);
     return req.user;
 }

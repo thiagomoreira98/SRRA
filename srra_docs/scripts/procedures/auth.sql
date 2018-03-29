@@ -76,7 +76,7 @@ CREATE OR REPLACE FUNCTION seguranca.fazerLogin(
                             FROM seguranca.opcaoMenu as o
 				                INNER JOIN seguranca.opcaoMenuGrupo as og
 					                ON og.idOpcaoMenu = o.id
-                            WHERE og.idGrupo = u.id
+                            WHERE og.idGrupo = u.idGrupo
                         ) o
                     ) as "opcoesMenu",
                     (

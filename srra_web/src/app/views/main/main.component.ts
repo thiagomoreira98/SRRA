@@ -3,7 +3,6 @@ import { Title } from "@angular/platform-browser";
 import { UiCookie, UiToolbarService, UiColor } from 'ng-smn-ui';
 import { UserService } from "../../core/utils/user/user.service";
 import { Router } from "@angular/router";
-// import { ApiService } from "../../core/api/api.service";
 
 @Component({
     selector: 'app-main',
@@ -21,7 +20,6 @@ export class MainComponent implements OnInit, AfterViewInit {
         private titleService: Title,
         private toolbarService: UiToolbarService,
         private router: Router,
-        // private api: ApiService
     ) {
 
         toolbarService.change.subscribe(title => {
@@ -40,8 +38,6 @@ export class MainComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.titleService.setTitle('Cronos');
-        this.toolbarService.set('');
         this.menuOpen = false;
 
         /**

@@ -35,7 +35,7 @@ async function buscar(id) {
         .asyncExecuteOne(procedures.buscar);
 }
 
-async function inserir(usuario) {
+async function inserir(usuario, idUsuario) {
     await pg.request()
         .input('pNome', usuario.nome)
         .input('pCpf', usuario.cpf)
@@ -43,10 +43,12 @@ async function inserir(usuario) {
         .input('pEmail', usuario.email)
         .input('pSenha', usuario.senha)
         .input('pIdGrupo', usuario.idGrupo)
+        .input('pDataCadastro', usuario.dataCadastro)
+        .input('pIdUsuarioCadastro', idUsuario)
         .asyncExecute(procedures.inserir);
 }
 
-async function alterar(id, usuario) {
+async function alterar(id, usuario, idUsuario) {
     await pg.request()
         .input('pId', id)
         .input('pNome', usuario.nome)
@@ -55,6 +57,8 @@ async function alterar(id, usuario) {
         .input('pEmail', usuario.email)
         .input('pSenha', usuario.senha)
         .input('pIdGrupo', usuario.idGrupo)
+        .input('pDataAlteracao', usuario.dataAlteracao)
+        .input('pIdUsuarioAlteracao', idUsuario)
         .asyncExecute(procedures.alterar);
 }
 

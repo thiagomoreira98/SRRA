@@ -103,7 +103,9 @@ LANGUAGE plpgsql;
 SELECT seguranca.excluirFuncao('seguranca', 'inserirGrupo');
 CREATE OR REPLACE FUNCTION seguranca.inserirGrupo(
     pNome seguranca.usuario.nome%TYPE,
-    pFuncionalidades JSON
+    pFuncionalidades JSON,
+    pIdUsuarioCadastro VARCHAR,
+    pDataCadastro TIMESTAMP WITHOUT TIME ZONE
 )
 
     RETURNS VOID AS $$
@@ -118,16 +120,22 @@ CREATE OR REPLACE FUNCTION seguranca.inserirGrupo(
 			SELECT * FROM seguranca.inserirGrupo("teste grupo 1", '[]');
 	*/
 
-    DECLARE 
-        vId INTEGER;
+    DECLARE vId INTEGER;
+        vIdUsuarioCadastro INTEGER;
 
     BEGIN
 
+        vIdUsuarioCadastro = seguranca.descriptografar(pIdUsuarioCadastro)::INTEGER;
+
         INSERT INTO seguranca.grupo (
-            nome
+            nome,
+            idUsuarioCadastro,
+            dataCadastro
         )
         VALUES (
-            pNome
+            pNome,
+            vIdUsuarioCadastro,
+            pDataCadastro
         )
 
         RETURNING id INTO vId;
@@ -155,7 +163,9 @@ SELECT seguranca.excluirFuncao('seguranca', 'alterarGrupo');
 CREATE OR REPLACE FUNCTION seguranca.alterarGrupo(
     pId VARCHAR,
     pNome seguranca.usuario.nome%TYPE,
-    pFuncionalidades JSON
+    pFuncionalidades JSON,
+    pIdUsuarioAlteracao VARCHAR,
+    pDataAlteracao TIMESTAMP WITHOUT TIME ZONE
 )
 
     RETURNS VOID AS $$
@@ -176,13 +186,17 @@ CREATE OR REPLACE FUNCTION seguranca.alterarGrupo(
 	*/
 
     DECLARE vId INTEGER;
+        vIdUsuarioAlteracao INTEGER;
 
     BEGIN
 
         vId := Seguranca.Descriptografar(pId)::INTEGER;
+        vIdUsuarioAlteracao = seguranca.descriptografar(pIdUsuarioAlteracao)::INTEGER;
 
         UPDATE seguranca.grupo SET
-            nome = pNome
+            nome = pNome,
+            idUsuarioAlteracao = vIdUsuarioAlteracao,
+            dataAlteracao = pDataAlteracao
         WHERE id = vId;
 
         DELETE FROM seguranca.grupoFuncionalidade gf WHERE gf.idGrupo = vId;
@@ -232,6 +246,7 @@ CREATE OR REPLACE FUNCTION seguranca.deletarGrupo(
 
         DELETE FROM seguranca.grupoFuncionalidade gf WHERE gf.idGrupo = vId;
         DELETE FROM seguranca.opcaoMenuGrupo og WHERE og.idGrupo = vId;
+        DELETE FROM seguranca.usuario u WHERE u.idGrupo = vId;
         DELETE FROM seguranca.grupo WHERE id = vId;
 
     END;

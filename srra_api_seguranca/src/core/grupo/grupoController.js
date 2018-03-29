@@ -1,6 +1,7 @@
 const repository = require('./grupoRepository'),
     service = require('./grupoService'),
-    scope = require('./grupoScope');
+    scope = require('./grupoScope'),
+    moment = require('moment');
 
 module.exports = {
     selecionar,
@@ -26,7 +27,8 @@ async function inserir(req, res) {
         return res.error(406, req.errors.errorMessages[0]);
 
     service.gerenciarFuncionalidades(req.body.funcionalidades);
-    await repository.inserir(req.body);
+    req.body.dataCadastro = moment().locale('pt-br').format();
+    await repository.inserir(req.body, req.user.id);
     res.ok({ message: 'Cadastrado com sucesso.' });
 }
 
@@ -35,7 +37,8 @@ async function alterar(req, res) {
         return res.error(406, req.errors.errorMessages[0]);
 
     service.gerenciarFuncionalidades(req.body.funcionalidades);
-    await repository.alterar(req.params.id, req.body);
+    req.body.dataAlteracao = moment().locale('pt-br').format();
+    await repository.alterar(req.params.id, req.body, req.user.id);
     res.ok({ message: 'Alterado com sucesso.' });
 }
 

@@ -1,7 +1,6 @@
 const repositorio = require('./authRepository'),
     crypto = require('../../helpers/encrypt'),
-    token = require('../../helpers/token'),
-    randomColor = require('../../helpers/color');
+    token = require('../../helpers/token');
 
 module.exports = {
     buscarDadosUsuario,
@@ -23,15 +22,13 @@ async function login(req, res) {
     let retorno = await repositorio.login(req.body);
 
     if (!retorno)
-        return res.error(404, 'Senha inválida.');
+        return res.error(400, 'Senha inválida.');
 
-    retorno.usuario.cor = await randomColor(Math.floor(1 + Math.random() * 9));
     retorno.token = await crypto.gerarToken(retorno.usuario, req.body.senha);
     res.ok(retorno);
 }
 
 async function refazerLogin(req, res) {
     let retorno = await token(req);
-    retorno.usuario.cor = await randomColor(Math.floor(1 + Math.random() * 9));
     res.ok(retorno);
 }

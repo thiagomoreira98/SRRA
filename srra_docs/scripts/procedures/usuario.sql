@@ -127,7 +127,9 @@ CREATE OR REPLACE FUNCTION seguranca.inserirUsuario(
     pMatricula seguranca.usuario.matricula%TYPE,
     pIdGrupo VARCHAR,
     pEmail seguranca.usuario.email%TYPE,
-    pSenha seguranca.usuario.senha%TYPE
+    pSenha seguranca.usuario.senha%TYPE,
+    pIdUsuarioCadastro VARCHAR,
+    pDataCadastro TIMESTAMP WITHOUT TIME ZONE
 )
 
     RETURNS VOID AS $$
@@ -143,10 +145,12 @@ CREATE OR REPLACE FUNCTION seguranca.inserirUsuario(
 	*/
 
     DECLARE vIdGrupo INTEGER;
+        vIdUsuarioCadastro INTEGER;
 
     BEGIN
 
         vIdGrupo := Seguranca.Descriptografar(pIdGrupo)::INTEGER;
+        vIdUsuarioCadastro = seguranca.descriptografar(pIdUsuarioCadastro)::INTEGER;
 
         INSERT INTO seguranca.usuario (
             nome,
@@ -154,7 +158,9 @@ CREATE OR REPLACE FUNCTION seguranca.inserirUsuario(
             matricula,
             idGrupo,
             email,
-            senha
+            senha,
+            idUsuarioCadastro,
+            dataCadastro
         )
         VALUES (
             pNome,
@@ -162,7 +168,9 @@ CREATE OR REPLACE FUNCTION seguranca.inserirUsuario(
             pMatricula,
             vIdGrupo,
             pEmail,
-            pSenha
+            pSenha,
+            vIdUsuarioCadastro,
+            pDataCadastro
         );
 
     END;
@@ -178,7 +186,9 @@ CREATE OR REPLACE FUNCTION seguranca.alterarusuario(
     pMatricula seguranca.usuario.matricula%TYPE,
     pIdGrupo VARCHAR,
     pEmail seguranca.usuario.email%TYPE,
-    pSenha seguranca.usuario.senha%TYPE
+    pSenha seguranca.usuario.senha%TYPE,
+    pIdUsuarioAlteracao VARCHAR,
+    pDataAlteracao TIMESTAMP WITHOUT TIME ZONE
 )
 
     RETURNS VOID AS $$
@@ -195,11 +205,13 @@ CREATE OR REPLACE FUNCTION seguranca.alterarusuario(
 
     DECLARE vId INTEGER;
         vIdGrupo INTEGER;
+        vIdUsuarioAlteracao INTEGER;
 
     BEGIN
 
         vId := Seguranca.Descriptografar(pId)::INTEGER;
         vIdGrupo := Seguranca.Descriptografar(pIdGrupo)::INTEGER;
+        vIdUsuarioAlteracao = seguranca.descriptografar(pIdUsuarioAlteracao)::INTEGER;
 
         UPDATE seguranca.usuario SET
             nome = pNome,
@@ -207,7 +219,9 @@ CREATE OR REPLACE FUNCTION seguranca.alterarusuario(
             matricula = pMatricula,
             idGrupo = vIdGrupo,
             email = pEmail,
-            senha = pSenha
+            senha = pSenha,
+            idUsuarioAlteracao = vIdUsuarioAlteracao,
+            dataAlteracao = pDataAlteracao
         WHERE id = vId;
 
     END;

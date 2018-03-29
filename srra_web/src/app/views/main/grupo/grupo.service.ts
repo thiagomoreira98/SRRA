@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-// import { UiCookie } from 'ng-smn-ui';
 import { UserService } from '../../../core/utils/user/user.service';
 import { environment } from './../../../../environments/environment';
 

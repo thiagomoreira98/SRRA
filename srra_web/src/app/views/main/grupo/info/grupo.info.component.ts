@@ -1,7 +1,8 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UiSnackbar, UiToolbarService } from 'ng-smn-ui';
+import { UiSnackbar, UiToolbarService, UiElement } from 'ng-smn-ui';
 import { GrupoService } from '../grupo.service';
+import { UserService } from '../../../../core/utils/user/user.service';
 
 @Component({
   selector: 'app-grupo-info',
@@ -23,7 +24,8 @@ export class GrupoInfoComponent implements AfterViewInit, OnDestroy {
     private _toolbar: UiToolbarService,
     private _service: GrupoService,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private _element: ElementRef
   ) { }
 
   ngOnInit() {
@@ -90,43 +92,70 @@ export class GrupoInfoComponent implements AfterViewInit, OnDestroy {
   }
 
   onSubmit(form) {
-    this.saving = true;
-    this.info.funcionalidades = this.funcionalidades;
-    if (this.info.id) {
-      this._service.alterar(this.info).then((res: any) => {
+    if (!this.saving) {
+
+      this.saving = true;
+
+      for (const control in form.controls) {
+        if (form.controls.hasOwnProperty(control)) {
+          form.controls[control].markAsTouched();
+          form.controls[control].markAsDirty();
+        }
+      }
+
+      if (!form.valid) {
+        UiElement.focus(this._element.nativeElement.querySelector('form .ng-invalid'));
         this.saving = false;
-        this.showSnackBar(res.message);
-      }).catch((res: any) => {
-        this.saving = false;
-        this.showSnackBar(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.');
-      });
-    }
-    else {
-      this._service.inserir(this.info).then((res: any) => {
-        this.saving = false;
-        this.showSnackBar(res.message);
-        this.info = {
-          funcionalidades: []
-        };
-      }).catch((res: any) => {
-        this.saving = false;
-        this.showSnackBar(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.');
-      });
+        return false;
+      }
+
+      this.info.funcionalidades = this.funcionalidades;
+
+      if (this.info.id) {
+        this._service.alterar(this.info).then((res: any) => {
+          this.saving = false;
+          this.showSnackBar(res.message);
+        }).catch((res: any) => {
+          this.saving = false;
+          this.showSnackBar(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.');
+        });
+      }
+      else {
+        this._service.inserir(this.info).then((res: any) => {
+          this.saving = false;
+          this.showSnackBar(res.message);
+          this.info = {
+            funcionalidades: []
+          };
+        }).catch((res: any) => {
+          this.saving = false;
+          this.showSnackBar(res.error.message ? res.error.message : 'Ocorreu um erro no servidor.');
+        });
+      }
     }
   }
 
-  confirmDelete(): any {
-    this.deleting = true;
+  confirmDelete(dialog): any {
+    if (!this.deleting) {
+        this.deleting = true;
 
-    this._service.deletar(this.info.id).then((res: any) => {
-      this.deleting = false;
-      this._router.navigate(['/grupo']);
-      this.showSnackBar(res.message);
-    }).catch((res: any) => {
-      this.deleting = false;
-      this.showSnackBar('Ocorreu um erro no servidor.');
-    });
-  }
+        let user = UserService.getUser();
+        if(user.idGrupo == this.info.id) {
+          this.deleting = false;
+          return this.showSnackBar('Você não pode remover o grupo, pois você pertence a ele.');
+        }
+        
+        this._service.deletar(this.info.id).then((res: any) => {
+            this.deleting = false;
+            this.showSnackBar(res.message);
+            dialog.close();
+        }).catch((res: any) => {
+            dialog.close();
+            this.deleting = false;
+            this.showSnackBar('Ocorreu um erro no servidor.');
+        });
+    }
+}
 
   showSnackBar(message) {
     UiSnackbar.hide();

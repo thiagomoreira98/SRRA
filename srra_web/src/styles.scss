@@ -1,9 +1,26 @@
 @import "~ng-smn-ui/core/core";
 @import "~ng-smn-ui/core/theme";
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-$primary: (color: 'indigo', hue: '500');
-$accent: (color: 'pink', hue: '400');
+// $primary: (color: 'indigo', hue: '500');
+// $accent: (color: 'pink', hue: '400');
+
+// $theme: ui-theme($primary, $accent);
+// $theme-dark: ui-theme($primary, $accent, true);
+
+// @include ui-core();
+
+// @include ui-build-theme($theme);
+
+// .dark {
+//     @include ui-build-theme($theme-dark);
+// }
+
+// .light {
+//     @include ui-build-theme($theme);
+// }
+
+$primary: (color: 'blue-grey', hue: '900');
+$accent: (color: 'teal', hue: '500');
 
 $theme: ui-theme($primary, $accent);
 $theme-dark: ui-theme($primary, $accent, true);
@@ -14,13 +31,4 @@ $theme-dark: ui-theme($primary, $accent, true);
 
 .dark {
     @include ui-build-theme($theme-dark);
-}
-
-.light {
-    @include ui-build-theme($theme);
-}
-
-body {
-    margin: 0;
-    overflow-x: hidden;
 }

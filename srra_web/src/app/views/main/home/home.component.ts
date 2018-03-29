@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UiToolbarService } from 'ng-smn-ui';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _toolbar: UiToolbarService
+  ) { }
 
   ngOnInit() {
-    // this.navComponent.setTitle('Home');
+    this._toolbar.set('Home');
   }
 
 }

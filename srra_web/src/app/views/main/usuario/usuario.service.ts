@@ -35,6 +35,6 @@ export class UsuarioService {
   }
 
   deletar(id: any) {
-    return this.http.delete(`${environment.urlApi}/api/usuario/${id}`, { headers: this.prepareHeaders() }).toPromise();
+    return this.http.delete(`${environment.urlApiSeguranca}/api/usuario/${id}`, { headers: this.prepareHeaders() }).toPromise();
   }
 }
