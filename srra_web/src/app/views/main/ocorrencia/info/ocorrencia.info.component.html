@@ -1,0 +1,38 @@
+<div class="ui-s480">
+	<form #formOcorrencia="ngForm" class="ui-validate on-dirty on-submit" (submit)="onSubmit(formOcorrencia)">
+		<ui-card class="elevate-on-toolbar" [class.loading]="loading">
+			<div class="ui-progress" [class.hide]="!loading">
+				<div class="indeterminate"></div>
+			</div>
+			<ui-toolbar class="flat">
+				<button type="button" class="ui-button flat icon" type="button" uiRipple routerLink="/ocorrencia">
+					<i class="material-icons">arrow_back</i>
+				</button>
+			</ui-toolbar>
+
+			<ui-card-content>
+				<div class="ui-flex-container break-on-s480">
+					<ui-input-container>
+						<ui-select uiInput #fieldDocente="ngModel" id="inputTipo" name="tipo" [(ngModel)]="info.idTipo" [options]="tipos" value="id"
+						 label="nome" required>
+						</ui-select>
+						<label for="inputTipo">Tipo</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldDocente.errors && fieldDocente.dirty">
+								<div class="ui-message error" [hidden]="!fieldDocente.pristine && !fieldDocente.errors.required">
+									Selecione
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+			</ui-card-content>
+		</ui-card>
+		<div class="ui-fab-container">
+			<button class="ui-button accent fab" uiRipple [class.hide]="deleting || loading">
+				<ui-progress-radial class="indeterminate" *ngIf="saving"></ui-progress-radial>
+				<i class="material-icons">check</i>
+			</button>
+		</div>
+	</form>
+</div>

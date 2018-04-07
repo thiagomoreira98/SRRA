@@ -7,6 +7,7 @@ import { HomeModule } from "./home/home.module";
 import { UsuarioModule } from './usuario/usuario.module';
 import { GrupoModule } from './grupo/grupo.module';
 import { RecursoModule } from './recurso/recurso.module';
+import { OcorrenciaModule } from './ocorrencia/ocorrencia.module';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { RecursoModule } from './recurso/recurso.module';
         HomeModule,
         UsuarioModule,
         GrupoModule,
-        RecursoModule
+        RecursoModule,
+        OcorrenciaModule
     ],
     exports: [],
     declarations: [MainComponent],

@@ -5,8 +5,7 @@ const procedures = {
     selecionar: 'public.selecionarOcorrencia',
     buscar: 'public.buscarOcorrencia',
     inserir: 'public.inserirOcorrencia',
-    alterar: 'public.alterarOcorrencia',
-    deletar: 'public.deletarOcorrencia'
+    alterar: 'public.alterarOcorrencia'
 }
 
 async function selecionar(filtro) {
@@ -45,16 +44,9 @@ async function alterar(id, ocorrencia) {
         .asyncExecute(procedures.alterar);
 }
 
-async function deletar(id) {
-    await pg.request()
-        .input('pId', id)
-        .asyncExecute(procedures.deletar);
-}
-
 module.exports = {
     selecionar,
     buscar,
     inserir,
-    alterar,
-    deletar
+    alterar
 }

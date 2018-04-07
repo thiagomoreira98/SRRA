@@ -27,15 +27,9 @@ async function alterar(req, res) {
     res.ok({ message: 'Salvo com Sucesso.' });
 }
 
-async function deletar(req, res) {
-    await repository.deletar(req.params.id);
-    res.ok({ message: 'Removido com Sucesso.' });
-}
-
 module.exports = {
     selecionar,
     buscar,
     inserir,
-    alterar,
-    deletar
+    alterar
 }

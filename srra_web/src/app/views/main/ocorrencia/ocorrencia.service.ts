@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-
-import { environment } from '../../../../environments/environment';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { UserService } from '../../../core/utils/user/user.service';
+import { environment } from './../../../../environments/environment';
 
 @Injectable()
 export class OcorrenciaService {
 
   constructor(private http: HttpClient) { }
+
+  prepareHeaders() {
+    return new HttpHeaders({ 'Authentication': UserService.getCookie() });
+  }
 
   selecionar(filtro) {
     let params = new HttpParams();
@@ -15,22 +19,19 @@ export class OcorrenciaService {
       params = params.append(property, filtro[property]);
     }
 
-    return this.http.get(`${environment.urlApi}/api/ocorrencia`, { params: params });
+    return this.http.get(`${environment.urlApi}/api/ocorrencia`, { params: params, headers: this.prepareHeaders() });
   }
 
   buscar(id: any) {
-    return this.http.get(`${environment.urlApi}/api/ocorrencia/${id}`);
+    return this.http.get(`${environment.urlApi}/api/ocorrencia/${id}`, { headers: this.prepareHeaders() });
   }
 
   inserir(ocorrencia: any) {
-    return this.http.post(`${environment.urlApi}/api/ocorrencia`, ocorrencia).toPromise();
+    return this.http.post(`${environment.urlApi}/api/ocorrencia`, ocorrencia, { headers: this.prepareHeaders() }).toPromise();
   }
 
-  alterar(ocorrencia: any) {
-    return this.http.put(`${environment.urlApi}/api/ocorrencia/${ocorrencia.id}`, ocorrencia).toPromise();
-  }
-
-  deletar(id: any) {
-    return this.http.delete(`${environment.urlApi}/api/ocorrencia/${id}`).toPromise();
+  //Status Ocorrencia
+  selecionarStatus() {
+    return this.http.get(`${environment.urlApi}/api/status-ocorrencia`, { headers: this.prepareHeaders() });
   }
 }

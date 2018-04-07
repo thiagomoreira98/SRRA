@@ -1,0 +1,102 @@
+<div class="ui-s480">
+    <ui-card class="elevate-on-toolbar">
+        <div class="ui-progress" [class.hide]="!loading">
+            <div class="indeterminate"></div>
+        </div>
+        <ui-toolbar class="flat">
+            <button class="ui-button flat icon" routerLink="/">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="align-right">
+                <button class="ui-button flat icon" uiRipple (click)="filterOpen = !filterOpen">
+                    <i class="material-icons">filter_list</i>
+                </button>
+            </div>
+        </ui-toolbar>
+
+        <div *ngIf="filterOpen" style="overflow: hidden; padding: 0 16px;">
+            <form #searchForm="ngForm" name="searchForm" class="ui-validate on-dirty" [ngClass]="{'open': searchOpen}">
+                <div class="ui-flex-container break-on-s480">
+                    <ui-input-container>
+                        <input #searchFormNome="ngModel" type="text" name="nome" [(ngModel)]="filtro.nome" uiInput [persistPlaceholder]="true" placeholder="Nome"
+                            (keyup)="search(searchFormNome.value)">
+                    </ui-input-container>
+
+                    <ui-input-container>
+                        <input #searchFormCodigoPatrimonio="ngModel" type="text" name="CodigoPatrimonio" [(ngModel)]="filtro.codigoPatrimonio" uiInput
+                            [persistPlaceholder]="true" placeholder="Codigo Patrimonio" (keyup)="search(searchFormCodigoPatrimonio.value)">
+                    </ui-input-container>
+                </div>
+
+                <div class="ui-flex-container break-on-s480">
+                    <ui-input-container>
+                        <ui-select uiInput id="inputTipo" name="tipo" [(ngModel)]="filtro.idTipo" [options]="tipos" value="id" label="nome" (ngModelChange)="selecionar()">
+                        </ui-select>
+                        <label for="inputTipo">Tipo</label>
+                    </ui-input-container>
+
+                    <ui-input-container>
+                        <ui-select uiInput id="inputStatus" name="status" [(ngModel)]="filtro.idStatus" [options]="status" value="id" label="nome"
+                            (ngModelChange)="selecionar()">
+                        </ui-select>
+                        <label for="inputStatus">Status</label>
+                    </ui-input-container>
+                </div>
+            </form>
+        </div>
+
+        <ui-data-table>
+            <tbody>
+                <tr>
+                    <th style="text-align: center;">Status</th>
+                    <th>Nome</th>
+                    <th>Tipo de Recurso</th>
+                    <th class="align-right"></th>
+                </tr>
+
+                <tr id="tr-list" *ngFor="let recurso of recursos" [routerLink]="['/recurso', recurso.id]">
+                    <td style="text-align: center;">
+                        <span class="circle" [title]="recurso.status" [ngStyle]="{'color': recurso.status == 'Disponivel' ? '#00FF33' : recurso.status == 'Inativo' ? 'red' : 'yellow' }"></span>
+                        <!-- <button class="ui-button flat icon" uiRipple [title]="recurso.status" (click)="showDialog($event, recurso, dialogRecurso)">
+                            <i [ngStyle]="{'color': recurso.status == 'Disponivel' ? '#00FF33' : recurso.status == 'Inativo' ? 'red' : 'yellow' }" class="material-icons">bookmark</i>
+                        </button> -->
+                    </td>
+                    <td>{{ recurso.nome }}</td>
+                    <td>{{ recurso.tipo }}</td>
+                    <td class="align-right">
+                        <button class="ui-button flat icon" uiRipple (click)="prepararExcluir($event, recurso)" [uiMenuTrigger]="menuDelete" align="right">
+                            <i style="color: black;" class="material-icons">delete</i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="!recursos || !recursos.length">
+                    <td style="text-align: center;" colspan="4">Nenhum registro encontrado...</td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <td colspan="4" class="align-right">
+                        <div class="ui-button-container align-right">
+                            <span class="pagination">
+                                Página {{ filtro.pagina }} de {{ filtro.totalRegistros ? totalPaginas : 1 }} Registros: {{ totalRegistros }}
+                            </span>
+                            <button class="ui-button flat icon" uiRipple (click)="voltarPagina()" [disabled]="filtro.pagina == 1">
+                                <i class="material-icons">keyboard_arrow_left</i>
+                            </button>
+                            <button class="ui-button flat icon" uiRipple (click)="proximaPagina()" [disabled]="filtro.pagina == totalPaginas || !totalRegistros">
+                                <i class="material-icons">keyboard_arrow_right</i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </ui-data-table>
+    </ui-card>
+
+    <div class="ui-fab-container">
+        <button class="ui-button accent fab" uiRipple routerLink="/ocorrencia/novo">
+            <i class="material-icons">add</i>
+        </button>
+    </div>
+</div>

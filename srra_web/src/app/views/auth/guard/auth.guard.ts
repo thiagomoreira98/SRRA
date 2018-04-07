@@ -69,9 +69,12 @@ export class AuthGuard implements CanActivate {
                     case 5:
                         text = 'Você está bloqueado à acessar neste horário';
                         break;
-                    default:
-                        text = 'Seu login expirou. Refaça o login novamente';
+                    case 6:
+                        text = 'Você está bloqueado à acessar neste horário';
                         break;
+                    default:
+                        this.router.navigate(['/login']);
+                        return;
                 }
 
                 UiSnackbar.show({
@@ -97,7 +100,7 @@ export class AuthGuard implements CanActivate {
 
     verificarAcesso(opcoes) {
         for(let i = 0; i < opcoes.length; i++) {
-            if(opcoes[i].url.includes(window.location.pathname) || window.location.pathname == '/' || window.location.pathname == '/login')
+            if(opcoes[i].url.includes(window.location.pathname) || window.location.pathname == '/' || window.location.pathname == '/login' || window.location.pathname == '' )
                 return true;
         }
     
