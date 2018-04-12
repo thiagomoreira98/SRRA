@@ -1,4 +1,4 @@
-function verificar(req) {
+function inserir(req) {
     let response = new global.responseScope(406);
 
     response
@@ -15,4 +15,6 @@ function verificar(req) {
     return true;
 }
 
-module.exports = verificar;
+module.exports = {
+    inserir
+};

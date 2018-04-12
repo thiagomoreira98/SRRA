@@ -1,9 +1,10 @@
-SELECT seguranca.excluirFuncao('public', 'selecionarOcorrencia');
-CREATE OR REPLACE FUNCTION public.selecionarOcorrencia(
-    pIdRecurso public.ocorrencia.idRecurso%TYPE,
-    pIdDocente public.ocorrencia.idDocente%TYPE,
-    pDataInicio public.ocorrencia.data%TYPE,
-    pDataFim public.ocorrencia.data%TYPE,
+SELECT seguranca.excluirFuncao('principal', 'selecionarOcorrencia');
+CREATE OR REPLACE FUNCTION principal.selecionarOcorrencia(
+    pIdRecurso VARCHAR,
+    pIdUsuario VARCHAR,
+    pIdStatus VARCHAR,
+    pDataInicio principal.ocorrencia.data%TYPE,
+    pDataFim principal.ocorrencia.data%TYPE,
     pPagina INTEGER,
     pQuantidade INTEGER
 )
@@ -18,29 +19,35 @@ CREATE OR REPLACE FUNCTION public.selecionarOcorrencia(
 		Arquivo Fonte.....: ocorrencia.sql
 		Objetivo..........: Selecionar ocorrencias
 		Autor.............: Thiago Moreira
-		Data..............: 15/01/2018
+		Data..............: 08/04/2018
 		Ex................: 
-			SELECT * FROM public.selecionarOcorrencia(null, null, null, null, '1', '10');
+			SELECT * FROM principal.selecionarOcorrencia(null, null, null, null, null, '1', '10');
 	*/
 
-    DECLARE vRegistros JSON;
+    DECLARE vIdRecurso INTEGER;
+        vIdUsuario INTEGER;
+        vIdStatus INTEGER;
+        vRegistros JSON;
 		vTotalRegistros INTEGER;
 
     BEGIN
 
+        vIdRecurso := seguranca.descriptografar(pIdRecurso)::INTEGER;
+        vIdUsuario := seguranca.descriptografar(pIdUsuario)::INTEGER;
+        vIdStatusOcorrencia := seguranca.descriptografar(pIdStatusOcorrencia)::INTEGER;
+
         vRegistros := json_agg(regs) FROM (
             SELECT  o.id,
-                    r.nome AS "recurso",
-                    d.nome AS "docente",
+                    so.nome as "status",
                     o.data,
-                    o.detalhes
-            FROM public.ocorrencia o
-                INNER JOIN public.recurso r
+                    r.nome AS "recurso"
+            FROM principal.ocorrencia o
+                INNER JOIN principal.recurso r
                     ON o.idRecurso = r.id
-                INNER JOIN public.docente d
-                    ON o.idDocente = d.id
-            WHERE (pIdRecurso IS NULL OR o.idRecurso = pIdRecurso)
-                AND (pIdDocente IS NULL OR o.idDocente = pIdDocente)
+                INNER JOIN principal.statusOcorrencia so
+                    ON o.idStatusOcorrencia = so.id
+            WHERE (pIdRecurso IS NULL OR o.idRecurso = vIdRecurso)
+                AND (pIdUsuario IS NULL OR o.idUsuario = vIdUsuario)
 		        AND (pDataInicio IS NULL OR o.data >= pDataInicio)
                 AND (pDataFim IS NULL OR o.data <= pDataFim)
             
@@ -50,19 +57,18 @@ CREATE OR REPLACE FUNCTION public.selecionarOcorrencia(
 
         vTotalRegistros := (
 			SELECT COUNT(*) 
-            FROM public.ocorrencia o
-                INNER JOIN public.recurso r
+            FROM principal.ocorrencia o
+                INNER JOIN principal.recurso r
                     ON o.idRecurso = r.id
-                INNER JOIN public.docente d
-                    ON o.idDocente = d.id
-            WHERE (pIdRecurso IS NULL OR o.idRecurso = pIdRecurso)
-                AND (pIdDocente IS NULL OR o.idDocente = pIdDocente)
+                INNER JOIN principal.statusOcorrencia so
+                    ON o.idStatusOcorrencia = so.id
+            WHERE (pIdRecurso IS NULL OR o.idRecurso = vIdRecurso)
+                AND (pIdUsuario IS NULL OR o.idUsuario = vIdUsuario)
 		        AND (pDataInicio IS NULL OR o.data >= pDataInicio)
                 AND (pDataFim IS NULL OR o.data <= pDataFim)
 		);
 
         RETURN QUERY
-
 			SELECT vRegistros AS registros,
 				vTotalRegistros AS totalRegistros;
 
@@ -71,17 +77,17 @@ $$
 LANGUAGE plpgsql;
 
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'buscarOcorrencia');
-CREATE OR REPLACE FUNCTION public.buscarOcorrencia(
-    pId public.ocorrencia.id%TYPE
+SELECT seguranca.excluirFuncao('principal', 'buscarOcorrencia');
+CREATE OR REPLACE FUNCTION principal.buscarOcorrencia(
+    pId principal.ocorrencia.id%TYPE
 )
 
     RETURNS TABLE(
-        "id" public.ocorrencia.id%TYPE,
-        "recurso" public.ocorrencia.idRecurso%TYPE,
-        "docente" public.ocorrencia.idDocente%TYPE,
-        "detalhes" public.ocorrencia.detalhes%TYPE,
-        "data" public.ocorrencia.data%TYPE
+        "id" principal.ocorrencia.id%TYPE,
+        "recurso" principal.ocorrencia.idRecurso%TYPE,
+        "usuario" principal.ocorrencia.idUsuario%TYPE,
+        "detalhes" principal.ocorrencia.detalhes%TYPE,
+        "data" principal.ocorrencia.data%TYPE
     )AS $$
 
     /*
@@ -91,7 +97,7 @@ CREATE OR REPLACE FUNCTION public.buscarOcorrencia(
 		Autor.............: Thiago Moreira
 		Data..............: 15/01/2018
 		Ex................: 
-			SELECT * FROM public.buscarOcorrencia('1');
+			SELECT * FROM principal.buscarOcorrencia('1');
 	*/
 
     BEGIN
@@ -100,10 +106,10 @@ CREATE OR REPLACE FUNCTION public.buscarOcorrencia(
 
 			SELECT  o.id,
                     o.idRecurso,
-                    o.idDocente,
+                    o.idUsuario,
                     o.detalhes,
                     o.data
-            FROM public.ocorrencia o
+            FROM principal.ocorrencia o
             WHERE o.id = pId;
 
     END;
@@ -111,12 +117,12 @@ $$
 LANGUAGE plpgsql;
 
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'inserirOcorrencia');
-CREATE OR REPLACE FUNCTION public.inserirOcorrencia(
-    pIdRecurso public.ocorrencia.idRecurso%TYPE,
-    pIdDocente public.ocorrencia.idDocente%TYPE,
-    pDetalhes public.ocorrencia.detalhes%TYPE,
-    pData public.ocorrencia.data%TYPE
+SELECT seguranca.excluirFuncao('principal', 'inserirOcorrencia');
+CREATE OR REPLACE FUNCTION principal.inserirOcorrencia(
+    pIdRecurso principal.ocorrencia.idRecurso%TYPE,
+    pidUsuario principal.ocorrencia.idUsuario%TYPE,
+    pDetalhes principal.ocorrencia.detalhes%TYPE,
+    pData principal.ocorrencia.data%TYPE
 )
 
     RETURNS VOID AS $$
@@ -128,20 +134,20 @@ CREATE OR REPLACE FUNCTION public.inserirOcorrencia(
 		Autor.............: Thiago Moreira
 		Data..............: 15/01/2018
 		Ex................: 
-			SELECT * FROM public.inserirOcorrencia(1, 1, "alguma ocorrencia", "2018-01-15");
+			SELECT * FROM principal.inserirOcorrencia(1, 1, "alguma ocorrencia", "2018-01-15");
 	*/
 
     BEGIN
 
-        INSERT INTO public.ocorrencia (
+        INSERT INTO principal.ocorrencia (
             idRecurso,
-            idDocente,
+            idUsuario,
             detalhes,
             data
         )
         VALUES (
             pIdRecurso,
-            pIdDocente,
+            pidUsuario,
             pDetalhes,
             pData
         );
@@ -150,13 +156,13 @@ CREATE OR REPLACE FUNCTION public.inserirOcorrencia(
 $$
 LANGUAGE plpgsql;
 -----------------------------------------------------------------------------------------------------------
-SELECT seguranca.excluirFuncao('public', 'alterarOcorrencia');
-CREATE OR REPLACE FUNCTION public.alterarOcorrencia(
-    pId public.ocorrencia.id%TYPE,
-    pIdRecurso public.ocorrencia.idRecurso%TYPE,
-    pIdDocente public.ocorrencia.idDocente%TYPE,
-    pDetalhes public.ocorrencia.detalhes%TYPE,
-    pData public.ocorrencia.data%TYPE
+SELECT seguranca.excluirFuncao('principal', 'alterarOcorrencia');
+CREATE OR REPLACE FUNCTION principal.alterarOcorrencia(
+    pId principal.ocorrencia.id%TYPE,
+    pIdRecurso principal.ocorrencia.idRecurso%TYPE,
+    pidUsuario principal.ocorrencia.idUsuario%TYPE,
+    pDetalhes principal.ocorrencia.detalhes%TYPE,
+    pData principal.ocorrencia.data%TYPE
 )
 
     RETURNS VOID AS $$
@@ -168,14 +174,14 @@ CREATE OR REPLACE FUNCTION public.alterarOcorrencia(
 		Autor.............: Thiago Moreira
 		Data..............: 15/01/2018
 		Ex................: 
-			SELECT * FROM public.alterarRecurso(1, 1, 1, "alguma alteração de ocorrencia", "2018-01-15");
+			SELECT * FROM principal.alterarRecurso(1, 1, 1, "alguma alteração de ocorrencia", "2018-01-15");
 	*/
 
     BEGIN
 
-        UPDATE public.ocorrencia SET
+        UPDATE principal.ocorrencia SET
             idRecurso = pIdRecurso,
-            idDocente = pIdDocente,
+            idUsuario = pidUsuario,
             detalhes = pDetalhes,
             data = pData
         WHERE id = pId;
@@ -184,3 +190,32 @@ CREATE OR REPLACE FUNCTION public.alterarOcorrencia(
 $$
 LANGUAGE plpgsql;
 -----------------------------------------------------------------------------------------------------------
+
+SELECT seguranca.excluirFuncao('principal', 'selecionarStatusOcorrencia');
+CREATE OR REPLACE FUNCTION principal.selecionarStatusOcorrencia()
+
+    RETURNS TABLE(
+        "id" VARCHAR,
+        "nome" principal.statusOcorrencia.nome%TYPE
+    )AS $$
+
+    /*
+		Documentação
+		Arquivo Fonte.....: ocorrencia.sql
+		Objetivo..........: Selecionar status das ocorrencias
+		Autor.............: Thiago Moreira
+		Data..............: 11/04/2018
+		Ex................:
+			SELECT * FROM principal.selecionarStatusOcorrencia();
+	*/
+
+    BEGIN
+
+        RETURN QUERY
+            SELECT seguranca.criptografar(s.id) as "id",
+                    s.nome
+            FROM principal.statusOcorrencia as s;
+
+    END;
+$$
+LANGUAGE plpgsql;

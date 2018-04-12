@@ -6,7 +6,8 @@ module.exports = {
     buscar,
     inserir,
     alterar,
-    deletar
+    deletar,
+    selecionarUsuarioDropdown
 }
 
 const procedures = {
@@ -14,7 +15,8 @@ const procedures = {
     buscar: 'seguranca.buscarUsuario',
     inserir: 'seguranca.inserirUsuario',
     alterar: 'seguranca.alterarUsuario',
-    deletar: 'seguranca.deletarUsuario'
+    deletar: 'seguranca.deletarUsuario',
+    selecionarUsuarioDropdown: 'seguranca.selecionarUsuarioDropdown'
 }
 
 async function selecionar(filtro) {
@@ -66,4 +68,9 @@ async function deletar(id) {
     await pg.request()
         .input('pId', id)
         .asyncExecute(procedures.deletar);
+}
+
+async function selecionarUsuarioDropdown() {
+    return await pg.request()
+        .asyncExecute(procedures.selecionarUsuarioDropdown);
 }

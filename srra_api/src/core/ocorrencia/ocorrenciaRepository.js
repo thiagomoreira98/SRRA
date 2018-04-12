@@ -2,10 +2,11 @@ const config = require('../../../config/config'),
     pg = require('smn-pg')(config.pg);
 
 const procedures = {
-    selecionar: 'public.selecionarOcorrencia',
-    buscar: 'public.buscarOcorrencia',
-    inserir: 'public.inserirOcorrencia',
-    alterar: 'public.alterarOcorrencia'
+    selecionar: 'principal.selecionarOcorrencia',
+    buscar: 'principal.buscarOcorrencia',
+    inserir: 'principal.inserirOcorrencia',
+    alterar: 'principal.alterarOcorrencia',
+    selecionarStatus: 'principal.selecionarStatusOcorrencia'
 }
 
 async function selecionar(filtro) {
@@ -44,9 +45,15 @@ async function alterar(id, ocorrencia) {
         .asyncExecute(procedures.alterar);
 }
 
+async function selecionarStatus() {
+    return await pg.request()
+        .asyncExecute(procedures.selecionarStatus);
+}
+
 module.exports = {
     selecionar,
     buscar,
     inserir,
-    alterar
+    alterar,
+    selecionarStatus
 }

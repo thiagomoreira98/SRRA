@@ -257,3 +257,33 @@ CREATE OR REPLACE FUNCTION seguranca.deletarUsuario(
     END;
 $$
 LANGUAGE plpgsql;
+
+-----------------------------------------------------------------------------------------------------------
+SELECT seguranca.excluirFuncao('seguranca', 'selecionarUsuarioDropdown');
+CREATE OR REPLACE FUNCTION seguranca.selecionarUsuarioDropdown()
+
+    RETURNS TABLE(
+        id VARCHAR,
+        nome seguranca.usuario.nome%TYPE
+    ) AS $$
+
+    /*
+		Documentação
+		Arquivo Fonte.....: usuario.sql
+		Objetivo..........: Selecionar usuarios dropdown
+		Autor.............: Thiago Moreira
+		Data..............: 11/04/2018
+		Ex................: 
+			SELECT * FROM seguranca.selecionarUsuarioDropdown();
+	*/
+
+    BEGIN
+
+        RETURN QUERY
+            SELECT seguranca.criptografar(u.id) as "id",
+                u.nome
+            FROM seguranca.usuario r
+
+    END;
+$$
+LANGUAGE plpgsql;

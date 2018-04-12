@@ -14,6 +14,12 @@ const routes = [
             { method: 'put', controller: ctrl.alterar },
             { method: 'delete', controller: ctrl.deletar }
         ]
+    },
+    {
+        url: '/api/usuario-dropdown',
+        routes: [
+            { method: 'get', controller: ctrl.selecionarUsuarioDropdown }
+        ]
     }
 ]
 

@@ -4,6 +4,8 @@ const express = require('express'),
     config = require('./config/config'),
     app = express();
 
+require('devbox-response');
+
 //middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

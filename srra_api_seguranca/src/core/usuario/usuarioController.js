@@ -8,7 +8,8 @@ module.exports = {
     buscar,
     inserir,
     alterar,
-    deletar
+    deletar,
+    selecionarUsuarioDropdown
 }
 
 async function selecionar(req, res) {
@@ -45,4 +46,9 @@ async function alterar(req, res) {
 async function deletar(req, res) {
     await repository.deletar(req.params.id);
     res.ok({ message: 'Removido com Sucesso.' });
+}
+
+async function selecionarUsuarioDropdown(req, res) {
+    let retorno = await repository.selecionarUsuarioDropdown();
+    res.ok(retorno);
 }

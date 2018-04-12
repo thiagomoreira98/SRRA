@@ -12,7 +12,7 @@ async function buscar(req, res) {
 }
 
 async function inserir(req, res) {
-    if (!scope(req))
+    if (!scope.inserir(req))
         return res.error(406, req.errors.errorMessages[0]);
 
     await repository.inserir(req.body);
@@ -27,9 +27,15 @@ async function alterar(req, res) {
     res.ok({ message: 'Salvo com Sucesso.' });
 }
 
+async function selecionarStatus(req, res) {
+    let retorno = await repository.selecionarStatus();
+    res.ok(retorno);
+}
+
 module.exports = {
     selecionar,
     buscar,
     inserir,
-    alterar
+    alterar,
+    selecionarStatus
 }

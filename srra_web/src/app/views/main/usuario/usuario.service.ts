@@ -37,4 +37,9 @@ export class UsuarioService {
   deletar(id: any) {
     return this.http.delete(`${environment.urlApiSeguranca}/api/usuario/${id}`, { headers: this.prepareHeaders() }).toPromise();
   }
+
+  //usuario Dropdown
+  selecionarUsuarioDropdown() {
+    return this.http.get(`${environment.urlApiSeguranca}/api/usuario-dropdown`, { headers: this.prepareHeaders() });
+  }
 }

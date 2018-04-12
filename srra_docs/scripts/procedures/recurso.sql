@@ -327,3 +327,34 @@ CREATE OR REPLACE FUNCTION principal.selecionarTipoRecurso()
     END;
 $$
 LANGUAGE plpgsql;
+
+-----------------------------------------------------------------------------------------------------------
+SELECT seguranca.excluirFuncao('principal', 'selecionarRecursoDropdown');
+CREATE OR REPLACE FUNCTION principal.selecionarRecursoDropdown()
+
+    RETURNS TABLE(
+        id VARCHAR,
+        nome principal.recurso.nome%TYPE
+    ) AS $$
+
+    /*
+		Documentação
+		Arquivo Fonte.....: tipoRecurso.sql
+		Objetivo..........: Selecionar recursos dropdown
+		Autor.............: Thiago Moreira
+		Data..............: 11/04/2018
+		Ex................: 
+			SELECT * FROM principal.selecionarRecursoDropdown();
+	*/
+
+    BEGIN
+
+        RETURN QUERY
+            SELECT seguranca.criptografar(r.id) as "id",
+                r.nome
+            FROM principal.recurso r
+            WHERE r.idTipoRecurso = (SELECT tr.id FROM tipoRecurso as tr WHERE tr.nome ILIKE 'Equipamento');
+
+    END;
+$$
+LANGUAGE plpgsql;

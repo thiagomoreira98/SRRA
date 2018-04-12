@@ -9,9 +9,9 @@ CREATE TABLE seguranca.grupo(
 	id SERIAL PRIMARY KEY,
 	nome VARCHAR(70) NOT NULL,
 	datacadastro TIMESTAMP WITH TIME ZONE,
-	idUsuariocadastro INTEGER,
+	idusuariocadastro INTEGER,
 	dataalteracao TIMESTAMP WITH TIME ZONE,
-	idUsuarioalteracao INTEGER
+	idusuarioalteracao INTEGER
 	--CONSTRAINT pk_grupo PRIMARY KEY (id)
 );
 
@@ -24,9 +24,9 @@ CREATE TABLE seguranca.usuario(
 	email VARCHAR(250) NOT NULL,
 	senha VARCHAR(100) NOT NULL,
 	datacadastro TIMESTAMP WITH TIME ZONE,
-	idUsuariocadastro INTEGER,
+	idusuariocadastro INTEGER,
 	dataalteracao TIMESTAMP WITH TIME ZONE,
-	idUsuarioalteracao INTEGER,
+	idusuarioalteracao INTEGER,
 	--CONSTRAINT pk_usuario PRIMARY KEY (id),
 	CONSTRAINT fk_idgrupo_usuario FOREIGN KEY (idgrupo) REFERENCES seguranca.grupo (id)
 );
@@ -85,12 +85,18 @@ CREATE TABLE principal.recurso(
 	datamotivo TIMESTAMP WITH TIME ZONE,
 	motivo TEXT,
 	datacadastro TIMESTAMP WITH TIME ZONE,
-	idUsuariocadastro INTEGER,
+	idusuariocadastro INTEGER,
 	dataalteracao TIMESTAMP WITH TIME ZONE,
-	idUsuarioalteracao INTEGER,
+	idusuarioalteracao INTEGER,
 	--CONSTRAINT pk_recurso PRIMARY KEY (id),
 	CONSTRAINT fk_idtiporecurso_recurso FOREIGN KEY (idtiporecurso) REFERENCES principal.tiporecurso (id),
 	CONSTRAINT fk_idstatusrecurso_recurso FOREIGN KEY (idstatusrecurso) REFERENCES principal.statusrecurso (id)
+);
+
+CREATE TABLE principal.statusocorrencia(
+	id SERIAL PRIMARY KEY,
+	nome VARCHAR(20) NOT NULL
+	--CONSTRAINT pk_statusocorrencia PRIMARY KEY (id)
 );
 
 CREATE TABLE principal.ocorrencia(
@@ -100,12 +106,14 @@ CREATE TABLE principal.ocorrencia(
 	data TIMESTAMP WITH TIME ZONE NOT NULL,
 	detalhes TEXT NOT NULL,
 	datacadastro TIMESTAMP WITH TIME ZONE,
-	idUsuariocadastro INTEGER,
+	idusuariocadastro INTEGER,
 	dataalteracao TIMESTAMP WITH TIME ZONE,
-	idUsuarioalteracao INTEGER,
+	idusuarioalteracao INTEGER,
+	idstatusocorrencia INTEGER,
 	--CONSTRAINT pk_ocorrencia PRIMARY KEY (id),
 	CONSTRAINT fk_idusuario_ocorrencia FOREIGN KEY (idusuario) REFERENCES seguranca.usuario (id),
-	CONSTRAINT fk_idrecurso_ocorrencia FOREIGN KEY (idrecurso) REFERENCES principal.recurso (id)
+	CONSTRAINT fk_idrecurso_ocorrencia FOREIGN KEY (idrecurso) REFERENCES principal.recurso (id),
+	CONSTRAINT fk_idstatusocorrencia_ocorrencia FOREIGN KEY (idstatusocorrencia) REFERENCES principal.statusocorrencia (id)
 );
 
 CREATE TABLE principal.statusreserva(

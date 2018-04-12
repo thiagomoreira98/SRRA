@@ -9,7 +9,7 @@ export const OCORRENCIA_ROUTES: Routes = [
         component: OcorrenciaComponent,
         children: [
             { path: '', component: OcorrenciaListComponent },
-            { path: 'novo', component: OcorrenciaInfoComponent },
+            { path: 'nova', component: OcorrenciaInfoComponent },
             { path: ':id', component: OcorrenciaInfoComponent }
         ]
     }

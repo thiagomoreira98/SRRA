@@ -3,6 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { UiSnackbar, UiToolbarService, UiElement } from 'ng-smn-ui';
 import { Subject } from 'rxjs/Subject';
 import { OcorrenciaService } from '../ocorrencia.service';
+import { RecursoService } from '../../recurso/recurso.service';
+import { UsuarioService } from '../../usuario/usuario.service';
 
 @Component({
   selector: 'app-ocorrencia.list',
@@ -18,6 +20,8 @@ export class OcorrenciaListComponent implements OnInit, AfterViewInit, OnDestroy
   loading: boolean;
   filtro: any;
   status: any;
+  recursos: any;
+  usuarios: any;
 
   private searchTerms = new Subject<string>();
   searchOpen: boolean;
@@ -27,6 +31,8 @@ export class OcorrenciaListComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(
     private _toolbar: UiToolbarService,
     private _service: OcorrenciaService,
+    private _usuarioService: UsuarioService,
+    private _recursoService: RecursoService,
     private _route: ActivatedRoute,
     private _change: ChangeDetectorRef,
     private _element: ElementRef
@@ -52,6 +58,8 @@ export class OcorrenciaListComponent implements OnInit, AfterViewInit, OnDestroy
       });
 
     this.selecionarStatus();
+    this.selecionarRecurso();
+    this.selecionarUsuario();
   }
 
   ngAfterViewInit() {
@@ -82,6 +90,24 @@ export class OcorrenciaListComponent implements OnInit, AfterViewInit, OnDestroy
         this.showSnackBar('Ocorreu um erro no servidor.');
       });
     }
+  }
+
+  selecionarRecurso() {
+    this._recursoService.selecionarRecursoDropdown().subscribe((data: any) => {
+      this.recursos = data.content;
+      this.recursos.push({ id: '', nome: 'Todos' });
+    }, (res: any) => {
+      this.showSnackBar('Ocorreu um erro no servidor.');
+    });
+  }
+
+  selecionarUsuario() {
+    this._usuarioService.selecionarUsuarioDropdown().subscribe((data: any) => {
+      this.usuarios = data.content;
+      this.usuarios.push({ id: '', nome: 'Todos' });
+    }, (res: any) => {
+      this.showSnackBar('Ocorreu um erro no servidor.');
+    });
   }
 
   selecionarStatus() {

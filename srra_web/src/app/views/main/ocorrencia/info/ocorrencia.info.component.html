@@ -13,14 +13,109 @@
 			<ui-card-content>
 				<div class="ui-flex-container break-on-s480">
 					<ui-input-container>
-						<ui-select uiInput #fieldDocente="ngModel" id="inputTipo" name="tipo" [(ngModel)]="info.idTipo" [options]="tipos" value="id"
-						 label="nome" required>
-						</ui-select>
-						<label for="inputTipo">Tipo</label>
+						<input #fieldData="ngModel" id="inputData" #searchFormData="ngModel" type="text" name="data" [(ngModel)]="info.data" uiInput
+						 [uiDatePicker]="data" uiMaskDate required>
+						<label for="inputData">Data</label>
+						<div class="icon">
+							<button type="button" class="ui-button icon flat" [uiDatePickerCaller]="data">
+								<i class="material-icons">today</i>
+							</button>
+						</div>
 						<div class="ui-messages">
-							<div *ngIf="fieldDocente.errors && fieldDocente.dirty">
-								<div class="ui-message error" [hidden]="!fieldDocente.pristine && !fieldDocente.errors.required">
+							<div *ngIf="fieldData.errors && fieldData.dirty">
+								<div class="ui-message error" [hidden]="!fieldData.pristine && !fieldData.errors.required">
+									Informe uma data
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+
+					<ui-input-container>
+						<input #fieldHora="ngModel" id="inputHora" type="text" name="hora" [(ngModel)]="info.hora" uiInput required>
+						<label for="inputHora">Hora</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldHora.errors && fieldHora.dirty">
+								<div class="ui-message error" [hidden]="!fieldHora.pristine && !fieldHora.errors.required">
+									Informe uma hora
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s480">
+					<ui-input-container>
+						<ui-select uiInput #fieldRecurso="ngModel" id="inputRecurso" name="recurso" [(ngModel)]="info.idRecurso" [options]="recursos"
+						 value="id" label="nome" required>
+						</ui-select>
+						<label for="inputRecurso">Recurso</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldRecurso.errors && fieldRecurso.dirty">
+								<div class="ui-message error" [hidden]="!fieldRecurso.pristine && !fieldRecurso.errors.required">
 									Selecione
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+
+					<ui-input-container>
+						<ui-select uiInput #fieldUsuario="ngModel" id="inputUsuario" name="usuario" [(ngModel)]="info.idUsuario" [options]="usuarios"
+						 value="id" label="nome" required>
+						</ui-select>
+						<label for="inputUsuario">Usuario</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldUsuario.errors && fieldUsuario.dirty">
+								<div class="ui-message error" [hidden]="!fieldUsuario.pristine && !fieldUsuario.errors.required">
+									Selecione
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s480">
+					<ui-input-container>
+						<input #fieldLocal="ngModel" id="inputLocal" type="text" name="local" [(ngModel)]="info.local" uiInput required>
+						<label for="inputLocal">Local</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldLocal.errors && fieldLocal.dirty">
+								<div class="ui-message error" [hidden]="!fieldLocal.pristine && !fieldLocal.errors.required">
+									Informe um local
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s480">
+					<ui-input-container>
+						<input #fieldDetalhes="ngModel" id="inputDetalhes" type="text" name="detalhes" [(ngModel)]="info.detalhes" uiInput required>
+						<label for="inputDetalhes">Detalhes</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldDetalhes.errors && fieldDetalhes.dirty">
+								<div class="ui-message error" [hidden]="!fieldDetalhes.pristine && !fieldDetalhes.errors.required">
+									Informe um local
+								</div>
+							</div>
+						</div>
+					</ui-input-container>
+				</div>
+
+				<div class="ui-flex-container break-on-s480">
+					<ui-option class="primary">
+						<input type="checkbox" name="recursoIndisponivel" [(ngModel)]="info.indisponivel" (change)="checkIndisponivel()">
+					</ui-option>
+					<label style="margin-left: 5px;">Recurso Indisponivel</label>
+				</div>
+
+				<div *ngIf="info.indisponivel" class="ui-flex-container break-on-s480">
+					<ui-input-container>
+						<input #fieldMotivo="ngModel" id="inputMotivo" type="text" name="motivo" [(ngModel)]="info.motivo" uiInput required>
+						<label for="inputMotivo">Motivo</label>
+						<div class="ui-messages">
+							<div *ngIf="fieldMotivo.errors && fieldMotivo.dirty">
+								<div class="ui-message error" [hidden]="!fieldMotivo.pristine && !fieldMotivo.errors.required">
+									Informe o motivo
 								</div>
 							</div>
 						</div>

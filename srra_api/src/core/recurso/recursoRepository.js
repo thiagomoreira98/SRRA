@@ -8,7 +8,8 @@ const procedures = {
     alterar: 'principal.alterarRecurso',
     deletar: 'principal.deletarRecurso',
     selecionarStatus: 'principal.selecionarStatusRecurso',
-    selecionarTipo: 'principal.selecionarTipoRecurso'
+    selecionarTipo: 'principal.selecionarTipoRecurso',
+    selecionarRecursoDropdown: 'principal.selecionarRecursoDropdown'
 }
 
 async function selecionar(filtro) {
@@ -73,6 +74,11 @@ async function selecionarTipo() {
         .asyncExecute(procedures.selecionarTipo);
 }
 
+async function selecionarRecursoDropdown() {
+    return await pg.request()
+        .asyncExecute(procedures.selecionarRecursoDropdown);
+}
+
 module.exports = {
     selecionar,
     buscar,
@@ -80,5 +86,6 @@ module.exports = {
     alterar,
     deletar,
     selecionarStatus,
-    selecionarTipo
+    selecionarTipo,
+    selecionarRecursoDropdown
 }

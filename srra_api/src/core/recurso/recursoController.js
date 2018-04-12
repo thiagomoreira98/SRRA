@@ -45,6 +45,11 @@ async function selecionarTipo(req, res) {
     res.ok(retorno);
 }
 
+async function selecionarRecursoDropdown(req, res) {
+    let retorno = await repository.selecionarRecursoDropdown();
+    res.ok(retorno);
+}
+
 module.exports = {
     selecionar,
     buscar,
@@ -52,5 +57,6 @@ module.exports = {
     alterar,
     deletar,
     selecionarStatus,
-    selecionarTipo
+    selecionarTipo,
+    selecionarRecursoDropdown
 }

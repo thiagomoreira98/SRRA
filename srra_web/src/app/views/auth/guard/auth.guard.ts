@@ -100,7 +100,7 @@ export class AuthGuard implements CanActivate {
 
     verificarAcesso(opcoes) {
         for(let i = 0; i < opcoes.length; i++) {
-            if(opcoes[i].url.includes(window.location.pathname) || window.location.pathname == '/' || window.location.pathname == '/login' || window.location.pathname == '' )
+            if(window.location.pathname.includes(opcoes[i].url) || window.location.pathname == '/' || window.location.pathname == '/login' || window.location.pathname == '' )
                 return true;
         }
     

@@ -1,7 +1,9 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UiSnackbar, UiToolbarService, UiElement } from 'ng-smn-ui';
 import { OcorrenciaService } from '../ocorrencia.service';
+import { RecursoService } from '../../recurso/recurso.service';
+import { UsuarioService } from '../../usuario/usuario.service';
 
 @Component({
   selector: 'app-ocorrencia.info',
@@ -10,49 +12,55 @@ import { OcorrenciaService } from '../ocorrencia.service';
 })
 export class OcorrenciaInfoComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  item: String;
   status: any = [];
   info: any = {};
-  loading: boolean;
   saving: boolean;
+  recursos: any = [];
+  usuarios: any = [];
 
   constructor(
     private _toolbar: UiToolbarService,
     private _service: OcorrenciaService,
+    private _usuarioService: UsuarioService,
+    private _recursoService: RecursoService,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _element: ElementRef,
-    private _change: ChangeDetectorRef
+    private _element: ElementRef
   ) { }
 
   ngOnInit() {
-    this.selecionarStatus();
+    this.selecionarRecurso();
+    this.selecionarUsuario();
   }
 
   ngAfterViewInit() {
     this._toolbar.activateExtendedToolbar(480);
-
     this._toolbar.set('Nova Ocorrencia');
-    setTimeout(() => {
-      this.loading = false;
-    }, 300);
   }
 
   ngOnDestroy() {
     this._toolbar.deactivateExtendedToolbar();
   }
 
-  getInfo() {
-    this.loading = true;
-    this._change.detectChanges();
-  }
-
-  selecionarStatus() {
-    this._service.selecionarStatus().subscribe((data: any) => {
-      this.status = data.content;
+  selecionarRecurso() {
+    this._recursoService.selecionarRecursoDropdown().subscribe((data: any) => {
+      this.recursos = data.content;
     }, (res: any) => {
       this.showSnackBar('Ocorreu um erro no servidor.');
     });
+  }
+
+  selecionarUsuario() {
+    this._usuarioService.selecionarUsuarioDropdown().subscribe((data: any) => {
+      this.usuarios = data.content;
+    }, (res: any) => {
+      this.showSnackBar('Ocorreu um erro no servidor.');
+    });
+  }
+
+  checkIndisponivel() {
+    if(!this.info.indisponivel) 
+      this.info.motivo = null;
   }
 
   onSubmit(form) {

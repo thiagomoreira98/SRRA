@@ -26,6 +26,12 @@ const routes = [
         routes: [
             { method: 'get', controller: ctrl.selecionarTipo }
         ]
+    },
+    {
+        url: '/api/recurso-dropdown',
+        routes: [
+            { method: 'get', controller: ctrl.selecionarRecursoDropdown }
+        ]
     }
 ]
 

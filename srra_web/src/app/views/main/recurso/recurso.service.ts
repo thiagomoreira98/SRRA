@@ -47,4 +47,9 @@ export class RecursoService {
   selecionarStatus() {
     return this.http.get(`${environment.urlApi}/api/status-recurso`, { headers: this.prepareHeaders() });
   }
+
+  //Recurso Dropdown
+  selecionarRecursoDropdown() {
+    return this.http.get(`${environment.urlApi}/api/recurso-dropdown`, { headers: this.prepareHeaders() });
+  }
 }
